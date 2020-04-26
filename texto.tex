@@ -1,0 +1,77 @@
+%dica: use a opção oneside se houver um limite (e.g., 20) de páginas
+\documentclass[embeddedlogo]{ufsc-thesis-rn46-2019}
+
+\usepackage[T1]{fontenc} % fontes
+\usepackage[utf8]{inputenc} % UTF-8
+\usepackage{lipsum} % Gerador de texto
+\usepackage{pdfpages} % Inclui PDF externo (ficha catalográfica)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Configurações da classe (dados do trabalho)                  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{pretextual/preambulo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Elementos pré-textuais                                       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\pretextual%
+\imprimircapa%
+\imprimirfolhaderosto*
+%\protect\incluirfichacatalografica{ficha.pdf}
+\imprimirfolhadecertificacao
+
+%\include{pretextual/dedicatoria}
+
+%\include{pretextual/agradecimentos}
+
+%\include{pretextual/epigrafe}
+
+\include{pretextual/resumo}
+
+%\include{pretextual/resumo-extendido}
+
+% \include{pretextual/abstract}
+
+\listoffigures*
+
+% Lista para ambiente algorithm
+% \listofalgorithms*
+
+% \begin{listadesimbolos}
+%   $\gets$   & Atribuição \\
+%   $\exists$   & Quantificação existencial \\
+%   $\rightarrow$   & Implicação \\
+%   $\wedge$   & E lógico \\
+%   $\vee$   & Ou lógico \\
+%   $\neg$   & Negação lógica \\
+%   $\mapsto$   & Mapeia para \\
+%   $\sqsubseteq$   & Subclasse (em ontologias) \\
+%   $\subseteq$   & Subconjunto: $\forall x\;.\; x \in A \rightarrow x \in B$ \\
+%   $\langle\ldots\rangle$ & Tupla \\
+%   $\forall$   & Quantificação universal \\
+%   mmmmm & Nenhum sentido, apenas estou aqui para demonstrar a largura máxima dessas colunas. Ao abrir o ambiente \texttt{listadesimbolos}, pode-se fornecer um argumento opcional indicando a largura da coluna da esquerda (o default é de 5em): \texttt{\textbackslash{}begin\{listadesimbolos\}[2cm] .... \textbackslash{}end\{listadesimbolos\}} \\
+% \end{listadesimbolos}
+
+\tableofcontents*%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Elementos Textuais                                              %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textual%
+\include{capitulos/cap1}
+\include{capitulos/cap2}
+\include{capitulos/cap3}
+\include{capitulos/cap4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Elementos pós-textuais                                       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\postextual
+\bibliography{bibliografia}
+
+\end{document}

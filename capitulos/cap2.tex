@@ -1,7 +1,7 @@
 \chapter{Fundamentação Teórica}
 \label{cap:fundamentacao}
 
-Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no processo, e sua representação através das variáveis \textit{Golden Car Parameters}. Por fim, é detalhado o modelo computacional de \textit{Deep Learning} a ser utilizado, com o intuito de reconhecer e classificar os padrões de percepção veicular.
+Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no processo, e sua representação através das variáveis \textit{Golden Car Parameters}. Por fim, são detalhados as técnicas de \textit{Machine Learning} utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular.
 
 \section{Sensoriamento}
 
@@ -29,6 +29,7 @@ A orientação dos dados é importante no processo de análise para que se possa
     \caption{Referenciais para os dados de aceleração.}
     \label{table:accelerometer_reference_frames}
     \centering
+    \small
     \begin{tabular}{clll}
         \toprule
         \textbf{Axis} & \textbf{Sensor} & \textbf{Veículo} & \textbf{Mundo} \\
@@ -47,6 +48,7 @@ A orientação dos dados é importante no processo de análise para que se possa
     \caption{Referenciais para os dados de taxa de rotação.}
     \label{table:gyroscope_reference_frames}
     \centering
+    \small
     \begin{tabular}{clll}
         \toprule
         \textbf{Axis} & \textbf{Sensor} & \textbf{Veículo} & \textbf{Mundo} \\
@@ -87,9 +89,9 @@ Os valores amostrados através dos sensores inerciais, embora não dependam de u
 
 \end{description}
 
-\subsection{Magnetômetro}
+% \subsection{Magnetômetro}
 
-O magnetômetro é um sensor auxiliar comumente embarcado com os sensores inerciais devido sua função. Este sensor mede o campo geomagnético ambiental (em $\mu$T) em seus três eixos físicos \cite{Sattar2018}. Sendo assim, é geralmente aplicado junto aos ângulos de Euler para dar orientação aos dados e empregado com os dados de aceleração para aproximar dados de localização e velocidade mais rapidamente, uma vez que a taxa de amostragem do GPS é pequena.
+% O magnetômetro é um sensor auxiliar comumente embarcado com os sensores inerciais devido sua função. Este sensor mede o campo geomagnético ambiental (em $\mu$T) em seus três eixos físicos \cite{Sattar2018}. Sendo assim, é geralmente aplicado junto aos ângulos de Euler para dar orientação aos dados e empregado com os dados de aceleração para aproximar dados de localização e velocidade mais rapidamente, uma vez que a taxa de amostragem do GPS é pequena.
 
 \subsection{GPS}
 
@@ -113,6 +115,7 @@ Através das diversas fórmulas que compõem o modelo, foram criados valores pad
     \caption{Os parâmetros Golden Car.}
     \label{table:golden_car_parameters}
     \centering
+    \small
     \begin{tabular}{clll}
         \toprule
         \textbf{Parâmetro} & \textbf{Valor} \\
@@ -129,13 +132,29 @@ Através das diversas fórmulas que compõem o modelo, foram criados valores pad
     \fonte{\cite{Loizos2008}}
 \end{table}
 
-\section{Deep Learning}
+\section{Técnicas Clássicas de Machine Learning}
+
+Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para classificação, regressão e previsão. Dentre as técnicas clássicas de clustering e aprendizado de máquina supervisionado, neste trabalho foram utilizadas as técnicas K-Means Clustering (KMC), K-Nearest Neighbors (KNN) e Support Vector Machines (SVM), detalhadas nas próximas subseções.
+
+\subsection{K-Means Clustering}
+
+O KMC consiste de uma técnica não supervisionada para clustering, que permite identificar agrupamentos de dados semelhantes. Neste método, cada dado é atribuído a um dos k clusters baseando-se em uma métrica de distância, como a Euclidiana, em relação à centroide do cluster. Iterativamente, a centroide de cada clusters é recalculada com base na média dos dados, e as distâncias novamente recalculadas, até que as centróides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+
+\subsection{K-Nearest Neighbors}
+
+O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os k vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus k vizinhos \cite{Khandelwal2018}.
+
+\subsection{Support Vector Machines}
+
+O SVM é uma técnica de aprendizado supervisionado aplicados em classificação, onde o algoritmo busca por um optimal hyperplane que separa as classes de dados. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro kernel, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+
+\section{Técnicas de Deep Learning}
 
 Com o desenvolvimento do aprendizado de máquina, especialmente a partir de 2006, surgiu nesta área um segmento denominado aprendizado profundo (\textit{Deep Learning}) \cite{Deng2014}. Até então, a extração características importantes que bem representassem os dados parametrizados à uma técnica de reconhecimento de padrões, constituía um problema central. Sendo assim, as técnicas existentes apresentavam a grande dificuldade de se extrair, em um pré-processamento, características de alto nível através de dados brutos \cite{Goodfellow2016}. 
 
 Com o desenvolvimento do \textit{Deep Learning}, esse problema foi solucionado, sendo introduzidas representações que são expressadas em termos de outras, construindo conceitos complexos através de conceitos simples \cite{Goodfellow2016}. Nessa abordagem, tornou-se possível construir modelos computacionais compostos de múltiplas camadas de processamento para aprender a representação dos dados com diversos níveis de abstração \cite{LeCun2015}. Sendo assim, o aprendizado profundo descobre uma estrutura complexa em grandes conjuntos de dados usando o algoritmo de retropropagação para calcular como alterar seus parâmetros internos, os quais são usados para calcular a representação em cada camada a partir da representação na camada anterior \cite{LeCun2015}.
 
-Com este novo paradigma, foram melhorados drasticamente o estado da arte em reconhecimento de fala, reconhecimento visual de objetos, detecção de objetos e muitos outros domínios \cite{LeCun2015}. Os diversos métodos presentes nessa categoria podem ser classificados entre redes profundas para aprendizado não supervisionado ou generativo, redes profundas para aprendizado supervisionado e redes profundas híbridas \cite{Deng2014}. Na categoria de redes profundas para aprendizado supervisionado existem as redes do tipo \textit{Long Short-Term Memory} (LSTM), utilizadas neste trabalho e discorridas na próxima seção.
+Com este novo paradigma, foram melhorados drasticamente o estado da arte em reconhecimento de fala, reconhecimento visual de objetos, detecção de objetos e muitos outros domínios \cite{LeCun2015}. Os diversos métodos presentes nessa categoria podem ser classificados entre redes profundas para aprendizado não supervisionado ou generativo, redes profundas para aprendizado supervisionado e redes profundas híbridas \cite{Deng2014}. Neste trabalho, foram utilizadas redes  profundas para aprendizado supervisionado do tipo \textit{Long Short-Term Memory} (LSTM) e \textit{Convolutional Neural Network} (CNN), assim como redes profundas híbridas CNN-LSTM, discorridas nas próximas seções.
 
 \subsection{Long Short-Term Memory}
 
@@ -158,3 +177,27 @@ Cada célula de memória de uma LSTM possuí três portas que controlam o fluxo 
    \includegraphics[width=1\textwidth]{figuras/fig2_3_1.png}
    \fonte{\cite{Nguyen2018}}
 \end{figure}
+
+\subsection{Convolutional Neural Network}
+
+A CNN é um tipo de rede neural capaz de extrair características diretamente dos sinais, através de convoluções \cite{Dixon2019}. Quando aplicada à classificação de séries temporais, a CNN tem duas vantagens em relação a outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possuí uma quantidade n de filtros aplicados com um kernel de tamanho m, conforme ilustra a \autoref{fig:cnn_convolution} e \autoref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de pooling e fully connected, que executam tarefas de classificação \cite{Wang2019}.
+
+\begin{figure}[h!]
+  \centering
+  \caption{Convolução em dados 1D.}
+   \label{fig:cnn_convolution}
+   \includegraphics[width=0.9\textwidth]{figuras/cnn_kernel.png}
+   \fonte{\cite{Verma2020}}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \caption{Convolução em dados 3D.}
+   \label{fig:cnn_convolution_3d}
+   \includegraphics[width=0.8\textwidth]{figuras/cnn_3d.png}
+   \fonte{\cite{Verma2020}}
+\end{figure}
+
+\subsection{CNN-LSTM}
+
+As redes do tipo CNN-LSTM-based constituem modelos híbridos que utilizam de ambas camadas de convolução e recorrência \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em janelas de dados, e cada janela em blocos menores. Sendo assim, cada bloco é processado por camadas de convolução que fazem a extração de características complexas \cite{Deep2019}. Em seguida, esses blocos são entregues as camadas de recorrência, para interpretar a sequência temporal das características.

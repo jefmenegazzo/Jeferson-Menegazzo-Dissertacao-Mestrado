@@ -1,10 +1,12 @@
 %dica: use a opção oneside se houver um limite (e.g., 20) de páginas
-\documentclass[embeddedlogo]{ufsc-thesis-rn46-2019}
+\documentclass[embeddedlogo, oneside]{ufsc-thesis-rn46-2019}
 
 \usepackage[T1]{fontenc} % fontes
 \usepackage[utf8]{inputenc} % UTF-8
 \usepackage{lipsum} % Gerador de texto
 \usepackage{pdfpages} % Inclui PDF externo (ficha catalográfica)
+\usepackage{booktabs}
+\usepackage{multirow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Configurações da classe (dados do trabalho)                  %%%
@@ -66,7 +68,8 @@
 \include{capitulos/cap2}
 \include{capitulos/cap3}
 \include{capitulos/cap4}
-
+\include{capitulos/cap5}
+\include{capitulos/cap6}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Elementos pós-textuais                                       %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

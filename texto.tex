@@ -1,10 +1,23 @@
-%dica: use a opção oneside se houver um limite (e.g., 20) de páginas
-\documentclass[embeddedlogo, oneside]{ufsc-thesis-rn46-2019}
+\documentclass[embeddedlogo]{ufsc-thesis-rn46-2019}
 
 \usepackage[T1]{fontenc} % fontes
 \usepackage[utf8]{inputenc} % UTF-8
 \usepackage{lipsum} % Gerador de texto
 \usepackage{pdfpages} % Inclui PDF externo (ficha catalográfica)
+
+% Usado para mostrar código
+\usepackage{minted}
+\newmintinline[mt]{latex}{fontsize=\normalsize}
+\newmintinline[mft]{latex}{fontsize=\footnotesize}
+\setminted{fontsize=\tiny,linenos,xleftmargin=2em}
+\setmintedinline{breaklines,breakbytokenanywhere}
+
+% Usado para mostrar comandos latex nesse guia:
+\newcommand{\lacmd}[1]{\texttt{\textbackslash{}#1}}
+\newcommand{\laenv}[1]{\texttt{\textbackslash{}begin\{#1\}...\textbackslash{}end\{#1\}}}
+\newcommand{\laenvi}[2]{\texttt{\textbackslash{}begin\{#1\}[#2]...\textbackslash{}end\{#1\}}}
+
+% Pacotes Jeferson Menegazzo
 \usepackage{booktabs}
 \usepackage{multirow}
 
@@ -20,48 +33,46 @@
 
 \begin{document}
 
+% Inicia parte pré-textual do documento capa, folha de rosto, folha de
+% aprovação, aprovação, resumo, lista de tabelas, lista de figuras, etc.
 \pretextual%
 \imprimircapa%
 \imprimirfolhaderosto*
-%\protect\incluirfichacatalografica{ficha.pdf}
+% Atenção! \cleardoublepages são inseridos automaticamente
+% Atenção! esse \protect é importante
+\protect\incluirfichacatalografica{ficha.pdf}
 \imprimirfolhadecertificacao
 
-%\include{pretextual/dedicatoria}
+% Listas de "coisas". O * no final faz com que as listas não sejam 
+% incluídas como entratas do sumário (\tableofcontents)
 
-%\include{pretextual/agradecimentos}
+\include{pretextual/dedicatoria}
 
-%\include{pretextual/epigrafe}
+\include{pretextual/agradecimentos}
+
+\include{pretextual/epigrafe}
 
 \include{pretextual/resumo}
 
 %\include{pretextual/resumo-extendido}
 
-% \include{pretextual/abstract}
+\include{pretextual/abstract}
 
-\listoffigures*
+\listoffigures* % O * evita que apareça no sumário
+
+\listoftables*
 
 % Lista para ambiente algorithm
 % \listofalgorithms*
 
-% \begin{listadesimbolos}
-%   $\gets$   & Atribuição \\
-%   $\exists$   & Quantificação existencial \\
-%   $\rightarrow$   & Implicação \\
-%   $\wedge$   & E lógico \\
-%   $\vee$   & Ou lógico \\
-%   $\neg$   & Negação lógica \\
-%   $\mapsto$   & Mapeia para \\
-%   $\sqsubseteq$   & Subclasse (em ontologias) \\
-%   $\subseteq$   & Subconjunto: $\forall x\;.\; x \in A \rightarrow x \in B$ \\
-%   $\langle\ldots\rangle$ & Tupla \\
-%   $\forall$   & Quantificação universal \\
-%   mmmmm & Nenhum sentido, apenas estou aqui para demonstrar a largura máxima dessas colunas. Ao abrir o ambiente \texttt{listadesimbolos}, pode-se fornecer um argumento opcional indicando a largura da coluna da esquerda (o default é de 5em): \texttt{\textbackslash{}begin\{listadesimbolos\}[2cm] .... \textbackslash{}end\{listadesimbolos\}} \\
-% \end{listadesimbolos}
+\include{pretextual/lista-de-siglas}
+
+\include{pretextual/lista-de-simbolos}
 
 \tableofcontents*%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Elementos Textuais                                              %%%
+%%% Corpo do texto                                               %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \textual%
 \include{capitulos/cap1}
@@ -70,6 +81,7 @@
 \include{capitulos/cap4}
 \include{capitulos/cap5}
 \include{capitulos/cap6}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Elementos pós-textuais                                       %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -78,3 +90,15 @@
 \bibliography{bibliografia}
 
 \end{document}
+
+% LocalWords:  pdf ufsc-thesis-rn abntex PPGCC Zambonin pull request GitHub PRs
+% LocalWords:  alexishuf Issues alpha drop-in template cls shell-escape ZIP Git
+% LocalWords:  UNIX-like Makefile git submodule shame on you Overleaf english
+% LocalWords:  overview Pós-Graduação Prof BU pdfpages bug BibTeX URLs at bst
+% LocalWords:  Available cite-alf url x-url brazil embeddedlogo auto-contido pt
+% LocalWords:  lmodern arial open-source Latin Modern nocapautoref ufsc-thesis
+% LocalWords:  working directory pdflatex tex dijkstra diffie Saleem Ullman rdf
+% LocalWords:  magic Distefano Abiteboul Forgy default Word captions userguide
+% LocalWords:  noplainurl noabntexcite begin dedicatoria end doc abstracts EQM
+% LocalWords:  corretude indentação oneside memoir feature SAD EQD bookmarks of
+% LocalWords:  nopretextualbookmark listoffigures table contents

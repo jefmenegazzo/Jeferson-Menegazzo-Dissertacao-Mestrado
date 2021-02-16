@@ -19,7 +19,7 @@
 \NeedsTeXFormat{LaTeX2e}
 
 % Prove acesso a classe 'ufsc-thesis'
-\ProvidesClass{ufsc-thesis-rn46-2019}[2020/02/28 v0.5 ufsc-thesis-rn46-2019]
+\ProvidesClass{ufsc-thesis-rn46-2019}[2020/09/30 v0.7 ufsc-thesis-rn46-2019]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Declarações e tratamento inicial de opções                     %%%
@@ -30,13 +30,15 @@
 \newif\ifufscthesis@eng
 \DeclareOption{english}{%
   \ufscthesis@engtrue%
-  \PassOptionsToPackage{english}{babel}%
   \PassOptionsToClass{\CurrentOption}{abntex2}%
 }
 
 % [brazil]
 % Por padrão, assume-se pt_BR, por isso a opção é ignorada
-\DeclareOption{brazil}{\OptionNotUsed}
+\DeclareOption{brazil}{%
+  \ufscthesis@engfalse%
+  \PassOptionsToClass{\CurrentOption}{abntex2}%
+}
 
 % [oneside]
 % Por padrão o documento será twosided, mas o usuário pode pedir isso
@@ -81,6 +83,25 @@
 \newif\ifufscthesis@embeddedlogo
 \DeclareOption{embeddedlogo}{%
   \ufscthesis@embeddedlogotrue%
+}
+\newif\ifufscthesis@detectos
+\ufscthesis@detectostrue
+
+% [windows]
+% Se presente, a implementação de embeddedlogo assume que o sistema é windows,
+% sem tentar detectar o SO.
+\newif\ifufscthesis@windows
+\DeclareOption{windows}{%
+  \ufscthesis@windowstrue%
+  \ufscthesis@detectosfalse%
+}
+
+% [unix]
+% Se presente, a implementação de embeddedlogo assume que o sistema é unix,
+% sem tentar detectar o SO.
+\DeclareOption{unix}{%
+  \ufscthesis@windowsfalse%
+  \ufscthesis@detectosfalse%
 }
 
 % [nocapautoref]
@@ -127,18 +148,6 @@
   \ufscthesis@nocleanheadertrue%
 }
 
-% [embeddedlogo]
-% Se ativa, essa opção usa um logo da UFSC de alta qualidade que está
-% embutido em base64 dentro do próprio arquivo .cls. Essa funcionalidade
-% faz com que o arquivo .cls seja stand-alone.
-% Esse desempacotamento depende de compilação com -shell-escape e de um
-% ambiente UNIX-like. Sem essa opção, você deve manter o ufsc.pdf
-% desse repositório para que seja incluído via \includegraphics{ufsc.pdf}
-\newif\ifufscthesis@embeddedlogo
-\DeclareOption{embeddedlogo}{%
-  \ufscthesis@embeddedlogotrue%
-}
-
 % [nopretextualbookmarks]
 % Se ativa essa opção impede o abnTeX de gerar bookmarks para
 % elementos pré-textuais. Bookmarks são o que dão origem às entradas
@@ -167,8 +176,20 @@
 % certamente causará problemas em outros pacotes utilizados no main file.
 % Se ainda assim for necessário, use essa opção. Note que coisas podem quebrar.
 \newif\ifufscthesis@nolatexextra
-\DeclareOption{nocleardoublepage}{%
+\DeclareOption{nolatexextra}{%
   \ufscthesis@nolatexextratrue%
+}
+
+% [nopdfinfo]
+% Se fornecida impede a geração de um comando
+%   \hypersetup{%
+%     pdftitle={Titulo fornecido em \titulo{...}},%
+%     pdfauthor={Autor dado com \autor{...}}%
+%   }
+% ao final do preambulo. Essa opção de classe impede isso.
+\newif\ifufscthesis@nopdfinfo
+\DeclareOption{nopdfinfo}{%
+  \ufscthesis@nopdfinfotrue%
 }
 
 
@@ -179,6 +200,23 @@
 
 % Faz a mágica acontecer
 \ProcessOptions\relax
+
+% Detecta windows (se detecção de SO está habilitada)
+\ifufscthesis@detectos
+  \IfFileExists{ifplatform.sty}{\RequirePackage{ifplatform}}{}
+  \ifwindows
+    \ufscthesis@windowstrue
+  \else
+    \ufscthesis@windowsfalse
+  \fi
+\fi
+
+% Determina comando usado para base64 --decode, a menos que já tenha sido definido
+\ifufscthesis@windows
+  \providecommand{\ufscthesis@decodecmd}{certutil --decode }
+\else
+  \providecommand{\ufscthesis@decodecmd}{base64 --decode }
+\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Carregar abnTeX2 e outros pacotes                              %%%
@@ -407,6 +445,26 @@
   \renewcommand{\ufscthesislistofalgorithmsname}{Lista de Algoritmos}%
 }
 
+% \autorefnames que costumeiramente não estão definidos
+% Como esses nomes podem eventualmente vir a ser definidos por pacotes, os
+% \providecommand iniciais devem ser feitos após todos os \usepackage's
+\AtEndPreamble{%
+  \providecommand{\listingautorefname}{Listagem}%
+  \providecommand{\algorithmautorefname}{Algoritmo}%
+  \providecommand{\subfigureautorefname}{\figureautorefname}%
+  \providecommand{\sublistingautorefname}{\listingautorefname}%
+  \providecommand{\subalgorithmautorefname}{\algorithmautorefname}%
+}
+\addto\captionsenglish{%
+  \def\listingautorefname{Listing}%
+  \def\algorithmautorefname{Algorithm}%
+}
+\addto\captionsbrazil{%
+  \def\listingautorefname{Listagem}%
+  \def\algorithmautorefname{Algoritmo}%
+}
+
+% Implement class option [nocapautoref]
 \ifufscthesis@nocapautoref\else
   \addto\captionsenglish{%
     \renewcommand{\chapterautorefname}{Chapter}%
@@ -474,6 +532,12 @@
 \providecommand{\imprimirprograma}{}
 \newcommand{\programa}[1]{\renewcommand{\imprimirprograma}{#1}}
 
+\providecommand{\imprimirtituloalt}{}
+\renewcommand{\titulo}[2][]{%
+  \renewcommand{\imprimirtituloalt}{\ifstrempty{#1}{#2}{#1}}%
+  \title{#2}
+}
+
 % \titulode{Doutor em Ciência da Computação}
 % Define o título ao qual o trabalho corresponde
 \newtoggle{ufscthesishastitulode}
@@ -500,7 +564,7 @@
 \newcommand{\dissertacao}[0]{\renewcommand{\imprimirtipotrabalho}{Disserta\c{c}\~{a}o}}
 \newcommand{\tcc}[0]{%
   \toggletrue{ufscthesistcc}%
-  \renewcommand{\imprimirtipotrabalho}{Trabalho de Conclus\~{a}o do Curso}%
+  \renewcommand{\imprimirtipotrabalho}{Trabalho de Conclus\~{a}o de Curso}%
 }
 
 % \nivel{<mestrado/doutorado/graduação>}
@@ -613,7 +677,7 @@
 \renewcommand{\imprimirpreambulo}{%
   \iftoggle{ufscthesistcc}%
   {%
-    \imprimirtipotrabalho~do Curso de Gradua\c{c}\~{a}o em %
+    \imprimirtipotrabalho~submetido~ao Curso de Gradua\c{c}\~{a}o em %
     \imprimircurso~do \imprimircentro~da Universidade Federal de Santa Catarina %
     como requisito para obten\c{c}\~{a}o do t\'{i}tulo de %
     \ufscthesis@titulode{}.%
@@ -671,6 +735,19 @@
   \renewcommand{\imprimirdataext}{#1}%
   \renewcommand{\imprimirano}{\ufscthesislastword{#1}}%
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Metadados do PDF                                               %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifufscthesis@nopdfinfo\else
+  \AtEndPreamble{%
+    \hypersetup{%
+      pdfauthor={\theauthor},%
+      pdftitle={\imprimirtituloalt}%
+    }%
+  }
+\fi
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -810,10 +887,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ifufscthesis@embeddedlogo
-  % 
   \newcommand{\ufscthesis@logo}{\jobname-logo.pdf}
   \AtBeginDocument{%
-    \immediate\write18{base64 --decode \jobname.64 > \jobname-logo.pdf}
+    \immediate\write18{\ufscthesis@decodecmd  \jobname.64 > \jobname-logo.pdf}
   }
 \else
   % Alguns caminhos possíveis onde o aluno poderia ter nos largado

@@ -1,245 +1,203 @@
-\chapter{Revisão da Literatura}
-\label{cap:revisao}
+\chapter{Fundamentação Teórica}
+\label{cap:fundamentacao}
 
-Com o intuito de estabelecer o estado-da-arte acerca dos métodos de percepção veicular baseados em sinais de sensores inerciais, foi conduzida uma Revisão Sistemática da Literatura (RSL) baseada nos procedimentos descritos em \cite{kitchenham2009} e \cite{biolchini2005}. Esta revisão foi publicada em sua forma completa em \cite{menegazzo2018}, com a compilação de dados extraídos dos estudos selecionados e  a descrição detalhada de cada trabalho em ordem cronológica de publicação. Nesta seção, é apresentada a sistemática aplicada na busca e seleção de estudos primários, assim como detalhadas as lacunas de pesquisa encontradas, e que se pretende explorar nesta pesquisa. 
+Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no processo, e sua representação através das variáveis \textit{Golden Car Parameters}. Por fim, são detalhados as técnicas de \textit{Machine Learning} utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular.
 
-\section{Escopo da Busca}
+\section{Sensoriamento}
 
-Na construção do protocolo que guiou a revisão sistemática, foram formuladas as seguintes \textbf{perguntas de pesquisa}:
+Nesta seção, são apresentados os sensores inerciais, os quais constituem fonte principal de dados do estudo. Em seguida, é discorrido sobre o sensor magnetômetro e GPS, uma vez que servem como sensores auxiliares, comumente utilizados em conjunto com os inerciais para prover informações adicionais. 
 
-\begin{enumerate}
-\item Quais os métodos aplicados no processamento de sinais de sensores inerciais para gerar percepção veicular?
-\item Quais são os padrões reconhecidos e suas classificações?
-\item Quais as variáveis utilizadas e os fatores de dependência do modelo?
-\item Quais sensores foram utilizados, suas características e configurações? Incluindo sensores não inerciais relacionados aos fatores de dependência.
-\item Como os sensores foram distribuídos e posicionados no veículo?
-\end{enumerate}
+\subsection{Sensores Inerciais}
 
-Com estas questões propostas, buscou-se identificar o contexto no qual a amostragem de sinais ocorreu, os sensores utilizados, suas configurações e colocação no veículo. Estas informações são muito importantes para verificar a sensibilidade dos sensores, taxas de amostragem, referenciais e condições gerais de análise. Nos dados amostrados, foram analisadas as etapas de processamento realizadas e quais métodos foram aplicados para pré-processamento de sinais, reorientação de eixos e reconhecimento de padrões. Adicionalmente aos métodos, foram identificados os padrões de percepção veicular, as variáveis dos modelos e seus fatores de dependência, os quais afetam diretamente a adaptabilidade e portabilidade da solução.
+Os sensores inerciais constituem dispositivos que produzem sinais através do princípio da inércia \cite{Braga2017}. Estes sensores compreendem acelerômetros e giroscópios, de um ou mais eixos \cite{Beeby2004}. O acelerômetro mede a força de aceleração (em $m/s^2$ ou g = 9.8 $m/s^2$), enquanto que o giroscópio afere a taxa de rotação (em graus/segundo ou radianos/segundo), ambos sem a necessidade de um referencial externo \cite{Groves2013}. Sendo assim, a partir de um quadro de referência ou posição inicial destes sensores, forças externas que atuam sobre eles causam acelerações e mudanças de orientação (rotação) em um ou mais de seus eixos \cite{Kempe2011}. Neste estudo, essas forças são constituídas pela tração do veículo e pelas interações com o ambiente no qual ele trafega.
 
-\section{Definições da Busca}
+\subsubsection{Referenciais}
 
-Após definir o objeto de pesquisa e o escopo da revisão, foram selecionadas as fontes nas quais os estudos primários foram buscados. A seleção das fontes seguiu os critérios de estar disponível na Internet, ser banco de dados científicos da área e possuir mecanismos avançados de busca baseados na composição lógica de palavras-chave e restrições de campos de documentos. Portanto, três fontes foram selecionadas, detalhadas em Tabela \ref{tabela:definicao_pesquisa}.
+Os sensores inerciais não requerem nenhum referencial externo. Sendo assim, possuem seu próprio referencial, onde o sistema de coordenadas no qual os dados são amostrados é definido em relação a si próprios. No entanto, a análise dos dados com o objetivo de produzir percepção veicular deve ser realizada no referencial do veículo, como mostra a Figura \ref{fig:quadros_referencia}. Para isso, é necessário reorientar os eixos, mapeando os dados brutos de um sistema para outro.
 
-Para obter estudos primários a partir das bases de dados científicas definidas, foram construídas inicialmente as \textit{strings} de busca, com base nas palavras-chave obtidas nos estudos de controle. Essas \textit{strings} foram modeladas de acordo com as características de cada fonte. Posteriormente, as \textit{strings} foram submetidas ao respectivo mecanismo de busca e seus resultados analisados por meio de uma estratégia de seleção. No processo de seleção, foram aceitos para a revisão os trabalhos que atenderam a todos os critérios de inclusão e a nenhum dos critérios de exclusão, detalhados na Tabela \ref{tabela:definicao_pesquisa}.
+\begin{figure}[h!]
+  \centering
+  \caption{Referenciais: (a) Referencial do sensor. (b) Referencial do sensor interno a dispositivos móveis. (c) Referencial da Terra. (d) Referencial do veículo.}
+   \label{fig:quadros_referencia}
+   \includegraphics[width=1\textwidth]{figuras/fig2.png}
+   \fonte{O autor.}
+\end{figure}
+
+A orientação dos dados é importante no processo de análise para que se possa utilizar os valores de acordo com o tipo de percepção a ser realizada. Sendo assim, baseando-se no referencial do veículo, os padrões de percepção de ambiente são mais evidentes na aceleração do eixo Z e na taxa de rotação do eixo Y. Já quanto aos padrões de propriocepção, mostram-se mais evidentes nos dados de aceleração nos eixos X e Y e nas taxas de rotação dos eixos X e Z. Para uma padronização de nomenclatura neste trabalho, serão usados os termos definidos nas Tabelas \ref{table:accelerometer_reference_frames} e \ref{table:gyroscope_reference_frames} para se referir aos dados em relação a cada um dos referenciais.
 
 \begin{table}[h!]
-    \caption{Definições da busca.}
-    \label{tabela:definicao_pesquisa}
-    \begin{tabular}{l}
+    \caption{Referenciais para os dados de aceleração.}
+    \label{table:accelerometer_reference_frames}
+    \centering
+    \small
+    \begin{tabular}{clll}
         \toprule
-        \textbf{Fontes} \\
+        \textbf{Axis} & \textbf{Sensor} & \textbf{Veículo} & \textbf{Mundo} \\
         \toprule
-        1. IEEE Xplore Digital Library \\
-        2. ACM Digital Library \\
-        3. Science Direct \\
-        \toprule
-        \textbf{Critérios de Inclusão}\\
-        \toprule
-        1. Artigos publicados e disponíveis integralmente em bases de dados científicas digitais.\\
-        2. Trabalhos recentes publicados nos últimos sete anos (2013-2019).\\ 
-        3. Artigos publicados no idioma inglês.\\
-        4. Artigos que reconhecem algum padrão de percepção veicular em sinais de sensores \\ inerciais.\\
-        \toprule
-        \textbf{Critérios de Exclusão}\\
-        \toprule
-        1. Artigos que não estão disponíveis integralmente nas fontes pesquisadas.\\
-        2. Artigos que não foram publicados nos últimos sete anos (2013-2019).\\
-        3. Artigos que não usam sensores inerciais para reconhecimento de padrões.\\
-        4. Artigos que não usam sensores inerciais com três eixos.\\
-        5. Artigos que não realizam reconhecimento da percepção veicular. \\
-        6. Artigos de sensoriamento inercial para veículos de qualquer tração que não sejam \\ mecânicos. \\
-        7. Artigos que usam tecnologias intrusivas ou ativas.\\
-        8. Artigos em outros idiomas, não incluídos no protocolo.\\
+        X & Aceleração em X & Aceleração Lateral & Aceleração Leste \\
+        \midrule
+        Y & Aceleração em Y & Aceleração Longitudinal & Aceleração Norte \\
+        \midrule
+        Z & Aceleração em Z & Aceleração Vertical & Aceleração Vertical (Mundo) \\
         \bottomrule
     \end{tabular}
     \fonte{O autor.}
 \end{table}
 
-\section{Execução da Busca}
-
-Com as definições estabelecidas, foram realizadas buscas por estudos primários nas três fontes selecionadas. Devido à limitação de número de termos nos mecanismos de busca, foram realizadas duas buscas, uma para percepção veicular de ambiente e outra para propriocepção veicular. As \textit{strings} de busca construídas e seus filtros definidos são detalhados nas Tabelas \ref{tabela:percepcao_ambiente_busca} e \ref{tabela:propriocepcao_busca}.
-
 \begin{table}[h!]
-    \caption{\textit{Strings} de busca para percepção veicular de ambiente.}
-    \label{tabela:percepcao_ambiente_busca}
+    \caption{Referenciais para os dados de taxa de rotação.}
+    \label{table:gyroscope_reference_frames}
     \centering
-    \begin{tabular}{l l}
-        
+    \small
+    \begin{tabular}{clll}
         \toprule
-        \textbf{Fonte} & IEEE Xplore Digital Library \\
+        \textbf{Axis} & \textbf{Sensor} & \textbf{Veículo} & \textbf{Mundo} \\
+        \toprule
+        X & Taxa de Rotação Pitch & Taxa de Rotação Lateral & N/A \\
         \midrule
-        \textbf{String} & ((Road \textbf{OR} Pavement \textbf{OR} Pothole \textbf{OR} Hole \textbf{OR} \\ \textbf{de Busca} & Bump \textbf{OR} "Speed Breaker")  \textbf{AND} (Accelerometer \\ & \textbf{OR} Gyroscope \textbf{OR} "Inertial Sensor")) \\
+        Y & Taxa de Rotação Roll & Taxa de Rotação Longitudinal & N/A \\
         \midrule
-        \textbf{Filtros} & Range: 2013-2019. Search metadata only. \\
-        \bottomrule
-        
-        \\
-        
-        \toprule
-        \textbf{Fonte} & ACM Digital Library \\
-        \midrule
-        \textbf{String} & ((Road \textbf{OR} Pavement \textbf{OR} Pothole \textbf{OR} Bump \textbf{OR} \\ \textbf{de Busca} & "Speed Breaker") \textbf{AND} (Accelerometer \textbf{OR} Gyroscope \\ & \textbf{OR} "Inertial Sensor")) \\
-        \midrule
-        \textbf{Filtros} & Range: 2013-2019. Search in titles and abstracts. \\ 
-        \bottomrule
-        
-        \\
-        
-        \toprule
-        \textbf{Fonte} & Science Direct \\
-        \midrule
-        \textbf{String} & ((Road \textbf{OR} Pavement \textbf{OR} Pothole \textbf{OR} Hole \textbf{OR} \\ \textbf{de Busca} & Bump \textbf{OR} "Speed Breaker") \textbf{AND} (Accelerometer \\ & \textbf{OR} Gyroscope \textbf{OR} "Inertial Sensor")) \\
-        \midrule
-        \textbf{Filtros} & Range: 2013-2019. Search in title, abstract and keywords. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\begin{table}[h!]
-    \caption{\textit{Strings} de busca para propriocepção veicular.}
-    \label{tabela:propriocepcao_busca}
-    \centering
-    \begin{tabular}{l l}
-        
-        \toprule
-        \textbf{Source} & IEEE Xplore Digital Library \\
-        \toprule
-        \textbf{Search} & (Driving Events \textbf{OR} Driving Patterns \textbf{OR} Driving Style \textbf{OR} \\ \textbf{String} & Drive Behaviour) \textbf{AND} (Accelerometer \textbf{OR} Gyroscope \textbf{OR} \\ & “Inertial Sensor”) \\
-        \toprule
-        \textbf{Filters} & Range: 2013-2019. Search metadata only. \\
-        \bottomrule
-        
-        \\
-        
-        \toprule
-        \textbf{Source} & ACM Digital Library \\
-        \toprule
-        \textbf{Search} & ("Driving Events" \textbf{OR} "Driving Patterns" \textbf{OR} "Driving Style" \\ \textbf{String} & \textbf{OR} "Drive Behaviour")  \textbf{AND} (Accelerometer \textbf{OR} Gyroscope \\ & \textbf{OR} "Inertial Sensor") \\
-        \toprule
-        \textbf{Filters} & Range: 2013-2019. Search in titles and abstracts. \\
-        \bottomrule
-         
-         \\
-         
-        \toprule
-        \textbf{Source} & Science Direct \\
-        \toprule
-        \textbf{Search} & (Driving Events \textbf{OR} Driving Patterns \textbf{OR} Driving Style \textbf{OR} \\ \textbf{String} & Drive Behaviour) \textbf{AND} (Accelerometer \textbf{OR} Gyroscope \textbf{OR} \\ & “Inertial Sensor”) \\
-        \toprule
-        \textbf{Filters} & Range: 2013-2019. Search in title, abstract and keywords. \\
-        \bottomrule
-        
-    \end{tabular}
-\end{table}
-
-\section{Resultados e Discussão}
-
-A busca por percepção de ambiente resultou em 737 artigos e a propriocepção em 239 artigos. Após análise dos estudos de acordo com os critérios estabelecidos, 66 artigos sobre percepção de ambiente e 25 sobre propriocepção foram selecionados para esta revisão, conforme detalhado na Tabela \ref{tabela:resultados_sumarizados_busca}. Com a produção da RSL, diversas lacunas de pesquisa foram encontradas \cite{menegazzo2018}. Nesta seção, são apresentadas e discutidas somente aquelas relacionadas ao escopo deste trabalho. 
-
-\begin{table}[h]
-    \caption{Summarized Search Results.}
-    \label{tabela:resultados_sumarizados_busca}
-    \centering
-    \begin{tabular}{l c c c c}
-        \toprule
-        & \multicolumn{2}{l}{\textbf{Percepção de Ambiente}} & \multicolumn{2}{l}{\textbf{Propriocepção}} \\
-        \toprule
-        & Recuperado & Selecionado & Recuperado & Selecionado \\
-        \toprule
-        \textbf{IEEE} & 619 & 51 & 196 & 21 \\
-        \midrule
-        \textbf{ACM} & 32 & 6 & 6 & 1 \\
-        \midrule
-        \textbf{Science Direct} & 86 & 9 & 37 & 3 \\
-        \toprule
-        Total & 737 & 66 & 239 & 25 \\
+        Z & Taxa de Rotação Yaw & Taxa de Rotação Vertical & N/A \\
         \bottomrule
     \end{tabular}
     \fonte{O autor.}
 \end{table}
 
-Os estudos selecionados para revisão foram analisados em três etapas, sendo elas a amostragem de dados, pré-processamento e processamento. Na primeira etapa, a coleta de dados nos estudos analisados foi realizada em diferentes contextos, de acordo com o tipo de percepção que se pretendia produzir. Esses contextos envolviam estradas com diferentes pavimentos, estados de conservação, condições climáticas, irregularidades, obstáculos e modos de condução. A utilização de sensores inerciais para gerar percepção veicular se deu na proporção de 70\% utilizando apenas acelerômetro, 27\% utilizando acelerômetro e giroscópio, e 3\% utilizando apenas giroscópio. Neste sentido, a grande utilização de acelerômetro ocorre não por um critério de qualidade, mas em função de ser mais facilmente encontrado em dispositivos móveis que o giroscópio. Contudo, é necessário avaliar qual sensor fornece dados melhores para prover percepção, e se a combinação de ambos pode melhorar os resultados dos modelos propostos.
+Para a reorientação dos eixos, duas estratégias foram identificadas nos estudos revisados: o posicionamento controlado e o mapeamento através de fórmulas baseadas nos ângulos de Euler. O posicionamento controlado consiste em uma técnica simples, onde sensor é colocado no veículo de forma que os eixos nos referenciais coincidam, ou seja, os eixos do sensor ficam alinhados com os eixos do veículo. Portanto, não é necessário aplicar pré-processamento para reorientação. Essa técnica é usada tanto para os dados do acelerômetro e do giroscópio. 
 
-Os trabalhos foram agrupados de acordo com a plataforma utilizada. Aproximadamente 83\% dos estudos utilizou sensores inerciais embarcados em dispositivos móveis como \textit{smartphones} e \textit{tablets}, enquanto que apenas 17\% utilizaram anexado aos veículos. No uso de sensores em dispositivos móveis, as soluções propostas são mais vulneráveis a erros, pois os dispositivos não permanecem fixos o tempo todo, dependem de uma reorientação dos eixos e, geralmente, possuem sensores menos robustos. Em geral, essa abordagem tem sido utilizada em sistemas de \textit{mobile crowdsensing}, onde os dados produzidos localmente são enviados para um servidor remoto, que recebe percepções veiculares de várias fontes. Após o pós-processamento para melhorar a confiabilidade dos dados, as percepções retornam aos usuários em aplicativos de assistência ao motorista. Por sua vez, o uso de sensores anexados à veículos foi combinado com o utilização de \textit{Single-Board Computer} (SBC), como as placas de prototipagem Raspberry Pi, ou microcontrolador, como o Arduino, visando principalmente resultados locais com maior precisão e acurácia, sem a necessidade de processamento remoto ou dados de outras fontes.
+Os ângulos de Euler, por sua vez, aplicados apenas aos dados de aceleração, fornecem um meio de representar a orientação espacial tridimensional de qualquer referencial como uma composição de três rotações elementares. A orientação de referência pode ser tomada como uma orientação inicial a partir da qual o sistema de coordenadas gira para alcançar sua orientação real \cite{Singh2017}. Assim, essas fórmulas reorientam os dados brutos usando os ângulos fornecidos. Estes dois métodos são detalhados e analisados comparados no Capítulo \ref{cap:revisao}, em conjunto com as demais análises da literatura. 
 
-Os sensores foram colocados no veículo de acordo com a plataforma utilizada. Sensores inerciais em dispositivos móveis foram colocados dentro da cabine geralmente na \textit{dashboard}, bancos, próximo ao câmbio de marchas ou fixado com suporte no pára-brisas. Sensores embarcados no veículo foram colocados na \textit{dashboard}, no chassis, dentro da roda, próximo e abaixo da suspensão e próximo e acima da suspensão. A Figura \ref{fig:sensor_placement_ocurrence} detalha os colocações encontradas. Devido à economia de recursos, especialmente a bateria, os dados dos sensores de dispositivos móveis foram coletados a uma taxa de amostragem na faixa de Hz, enquanto aqueles embutidos no veículo utilizaram uma amostragem maior, na faixa de KHz. Os estudos também utilizaram fontes de dados auxiliares, como magnetômetros, GPS e \textit{On-Board Diagnostic} II (OBD-II).
+\subsubsection{Fatores de Dependência}
 
-\begin{figure}[h!]
-  \centering
-  \caption{Colocação dos sensores no veículo.}
-   \label{fig:sensor_placement_ocurrence}
-   \includegraphics[width=1\textwidth]{figuras/fig3_1.png}
-   \fonte{O Autor.}
-\end{figure}
+Os valores amostrados através dos sensores inerciais, embora não dependam de um referencial externo para sua produção, são afetados por propriedades externas e internas aos sensores. Essas propriedades constituem fatores de dependência, que influenciam diretamente a amplitude e dispersão dos valores medidos. Através da tanto da análise da literatura, quando de experimentos exploratórios conduzidos, foi possível observar a existência de fatores de dependência classificados na forma de quatro propriedades, discutidas a abaixo. Para que uma solução desenvolvida possa ser adaptativa na forma que está sendo proposta, é necessário que o modelo considere todas estas propriedades no seu desenvolvimento.
 
-Neste contexto, a etapa de coleta de dados apresenta diversas lacunas. Como detalhado anteriormente, se faz necessário analisar a combinação dos dados de ambos os sensores inerciais, e não apenas o mais popular. Em seguida, é necessário buscar taxas de amostragem que não sejam arbitrárias, que permitam a identificação das percepções de forma acurada, utilizando o mínimo necessário de recursos computacionais. Em relação ao colocação dos sensores, como existem fatores de dependência relacionados aos dados do sensor, sua captura em diferentes locais do veículo implica diferentes valores observados para um mesmo evento. Não foram encontrados estudos que correlacionem os sinais em diferentes partes do veículo, a fim de verificar uma possível variação na confiabilidade do reconhecimento devido à colocação do sensor, nem estudos que utilizem dados em mais de uma extremidade do eixo veicular com o intuito de verificar melhoria nos resultados. Por fim, a maior lacuna reside em não haver disponível publicamente bases de dados destes sensores, para se realizar novas pesquisas ou comparar métodos propostos. Além disso, para serem realmente úteis, bases disponíveis para estudos futuros devem seguir toda uma metodologia de colocação de sensores, tanto em relação ao alinhamento como em qual parte do veículo, etapas geralmente pouco exploradas pelos estudos.
+\begin{description}
+	
+	\item [Propriedades Sensoriais:] 
+	
+	Quatro fatores de dependência estão relacionados às configurações e características dos sensores, sendo eles a orientação \cite{Kumar2017}, resolução, faixa de medição e taxa de amostragem. A orientação do sensor, conforme discutido na seção anterior, afeta a amostragem de dados no sistema de coordenadas correto. Portanto, o sensor deve ser colocado de forma a ficar alinhado com o sistema de coordenadas do veículo ou ter uma reorientação de eixos para esse referencial. Isso implica na confiabilidade dos dados existentes em cada eixo de análise, pois cada um deles visa atingir certa percepção veicular.
 
-Na etapa subsequente, os dados brutos coletados foram pré-processados para serem parametrizados a técnica que reconhece e/ou classifica os padrões de percepção. O pré-processamento foi subdividido em três fases, de acordo com sua finalidade. No primeiro, pré-processamento de sinais, foram aplicados métodos na remoção de ruído, suavização de sinal, segmentação e extração de características. No segundo, foram aplicados métodos para a reorientação de eixos. Finalmente, na terceira fase, foram aplicados métodos para georreferenciamento dos dados.
+	O segundo e o terceiro fator estão fortemente correlacionados. A resolução é definida de acordo com a faixa de medição escolhida para o sensor. Portanto, é necessário que o sensor tenha uma faixa de medição adequada para poder amostrar os dados sem saturar, ou seja, que a faixa de medição do sensor não seja menor que os valores possíveis a serem monitorados. A resolução, estabelecida a partir da faixa de valores a serem analisados, fornece o quão próximo o valor medido é comparado ao valor real, no processo de quantização. Assim, devido à limitação do número de bits representado pelos sensores, quanto maior a faixa de medição, menor a resolução.
+	
+	Por fim, a taxa de amostragem descreve a frequência da amostragem de dados por segundo. A escolha desse valor deve levar em consideração não apenas o custo computacional de armazenamento e processamento dos dados amostrados, mas também se, a uma determinada velocidade, será possível obter amostras suficientes para realizar as percepções. Dessa forma, quando o veículo está em alta velocidade, percepções transientes, como buracos, precisam de uma taxa de amostragem satisfatória, para que seja possível adquirir alguma amostra desse evento.
+	
+	\item [Propriedades Veiculares:] em relação às mecânicas veiculares, o principal fator de dependência é o sistema de suspensão veicular \cite{Kumar2017, Wickramarathne2018}. O sistema de suspensão do veículo, com o objetivo de amortecer os impactos causados pela superfície da pista, faz com que os valores absolutos sejam reduzidos quando medidos acima da suspensão, como ocorre quando os sensores são embarcados em dispositivos móveis. Portanto, os valores amostrados nos sensores anexados no veículo abaixo da suspensão não apresentam essa interferência, embora ainda recebam um pequeno amortecimento causado pelo pneu. Sendo assim, para realizar as percepções em diferentes veículos, deve-se considerar que cada um possui um sistema de suspensão diferente, sendo mais ou menos eficiente.
 
-As técnicas aplicadas no pré-processamento dos sinais, mostradas na Figura \ref{fig:signal_preprocessing} foram utilizadas principalmente no domínio do tempo, embora outros domínios como frequência e tempo-frequência também tenham sido explorados. Abordagens estatísticas como Gaussian \cite{Pooja2017}, Skewness \cite{Alqudah2016}, Kurtosis \cite{Alqudah2016}, Median \cite{Alqudah2016,Li2016}, Root Mean Square (RMS) \cite{Jang2015,Li2018,Sharma2015}, Moving Average/Average \cite{Alqudah2016,Andria2016,Bose2018,Li2016, Pholprasit2015,Savera2016,Singh2017}, Moving Variance/Variance \cite{Alqudah2016,Andria2016} e Standard Deviation \cite{Andria2016,BelloSalau2018,Hou2017,Lima2016,Pholprasit2015,Prapulla2017} foram utilizados no domínio do tempo para suavizar os sinais e extrair características dos dados de vibração. Cerca de 60\% dos estudos analisados utilizaram estes métodos estatísticos.
+	\item [Propriedades Ambientais:] estas propriedades não abordadas em trabalhos relacionados, não são tão evidentes, embora necessitem ser consideradas na modelagem da adaptação. Seus fatores de dependência se relacionam com questões climáticas, como superfície de pista com água ou de pouco atrito, que levam a aquaplanagem e derrapagem. Sendo assim, são percepções que implicam na percepção de outras, ou seja, percepções que dependem de percepções. O mesmo ocorre com a variabilidade de superfície, onde a identificação de eventos transientes como buracos e lombadas dependem diretamente do tipo de pavimento que existe na pista, e se existe. Da mesma forma, o dinamismo do estado de conservação de um tipo de pavimento deve ser considerado para detectá-lo corretamente.
 
-\begin{figure}[h!]
-  \centering
-  \caption{Métodos utilizados no pré-processamento de sinais.}
-   \label{fig:signal_preprocessing}
-   \includegraphics[width=1\textwidth]{figuras/fig3_2.png}
-   \fonte{O Autor.}
-\end{figure}
+	\item [Propriedades de Condução:] as propriedades de condução, intrinsecamente relacionadas as propriedades veiculares, dizem respeito as ações de quem controla o veículo. Nesse sentido, o principal fator de dependência a ser considerado é a velocidade longitudinal \cite{Brunauer2016, Douangphachanh2013, Gueta2017, Kumar2017, Lima2016, M.2017, Nalavde2015, Singh2017}. A velocidade do veículo possui duas implicações. Uma vez que as curvas são feitas em todos os eixos do sistema de coordenadas do veículo, ocorre a produção do componente de força centrífuga. Portanto, as acelerações medidas dependem diretamente da velocidade aplicada. A segunda implicação da velocidade está na distribuição no tempo dos valores amostrados. Em velocidades mais baixas, mais amostras do evento são coletadas e, com o veículo em velocidades diferentes, diferentes quantidades de amostras são obtidas.
 
-No domínio da frequência, os filtros Infinite Impulse Response \cite{Wu2018} e Butterworth \cite{Hou2017,Niskanen2015,Pitonak2016,Souza2018,Wu2013} foram utilizados na remoção de componentes dos sinais. Já a Fast Fourier Transform (FFT) \cite{Allouch2017,Douangphachanh2013,Douangphachanh2014} e Wavelets \cite{BelloSalau2018,Eftekhari2018,El-Wakeel2018,Gueta2017,Singh2017,Wang2018} foram utilizadas na remoção de ruídos e extração de características. A segmentação dos dados foi realizada em quadros deslizantes em função do tempo \cite{Wang2018}, número de amostras \cite{Singh2017} ou distância \cite{Li2018}.
+\end{description}
 
-Após o pré-processamento de sinais, alguns estudos utilizaram a reorientação de eixos entre os sistemas de coordenadas, mapeando os dados do referencial do sensor para o referencial do veículo. Entre os que utilizaram, a maioria empregou fórmulas baseadas nos ângulos de Euler \cite{Li2018, Orhan2013, Singh2017, Vittorio2014, Vlahogianni2017}. Os ângulos foram calculados de diferentes maneiras. Em \cite{Singh2017, Orhan2013, Vittorio2014} o referencial inicial foi estabelecido como estado estacionário ($x=0m/s^2$, $y=0m/s^2$ e $z=9.81m/s^2$), a partir dos qual os ângulos de mapeamento foram calculados. Em \cite{Li2018} foi utilizado como estado inicial os valores do acelerômetro, medindo os ângulos continuamente. \cite{Singh2018} usou como estado inicial as médias individuais dos valores de aceleração nos três eixos, dos últimos 15 segundos, quando a magnitude total estava próxima de $9.8 \pm 0.2 m/s^2$. Todos eles empregaram como orientação final os valores atuais de aceleração.
+% \subsection{Magnetômetro}
 
-As três formas apresentadas para o cálculo dos ângulos de Euler possuem limitações pontuais. Na primeira, devido a utilização de uma orientação inicial que não é atualizada continuamente, os valores em locais com inclinação do solo podem apresentar erros. Isso se deve ao fato de que nesses locais a força da aceleração gravitacional se distribui entre os eixos, não sendo isolada no eixo de aceleração vertical. Na segunda técnica, embora os ângulos sejam atualizados, o valor da gravidade não é isolada e pode levar a erros uma vez que não é o único componente de força presente nos eixos. Na terceira técnica, devido à tentativa de identificar um possível estado estacionário durante o curso do veículo para defini-lo como um novo estado inicial, implica que os trajetos de alta vibração não satisfaçam as condições e não atualizem os ângulos, acumulando erros. 
+% O magnetômetro é um sensor auxiliar comumente embarcado com os sensores inerciais devido sua função. Este sensor mede o campo geomagnético ambiental (em $\mu$T) em seus três eixos físicos \cite{Sattar2018}. Sendo assim, é geralmente aplicado junto aos ângulos de Euler para dar orientação aos dados e empregado com os dados de aceleração para aproximar dados de localização e velocidade mais rapidamente, uma vez que a taxa de amostragem do GPS é pequena.
 
-Todos os métodos apresentados de cálculo de ângulos de Euler para reorientação de eixos são baseadas na localização da força de aceleração gravitacional. Sendo assim, a partir de um estado estacionário inicial, sua orientação final também deve ser estacionária e não relativa os dados atuais de aceleração. Ainda baseadas na gravidade, as técnicas reorientam o eixo Z perpendicular ao solo, apontando para o céu, ao invés de serem perpendiculares ao veículo. Logo, os dados são reorientados para o referencial do mundo real e não no do veículo, sendo que estes somente sobrepõe o eixo Z em casos de trajeto plano. Este tipo de reorientação é útil apenas quando utilizado em dispositivos móveis e sistemas de \textit{crowdsourcing}, produzindo apenas percepção de ambiente. Para propriocepção, mesmo adicionando orientação com o magnetômetro, o referencial do mundo real não permite identificar os eventos de condução, sendo necessário estar no referencial do veículo. Portanto, a abordagem de posicionamento controlado, embora simples, com a fixação dos sensores e alinhamento de eixos apresenta menor possibilidade de erros, permitindo percepção de ambiente e propriocepção.
+\subsection{GPS}
 
-Ainda na etapa de pré-processamento, uma vez que a taxa de amostragem de dados dos sensores inerciais é muito mais rápida que a amostragem de dados de localização (1Hz), são necessárias técnicas para estimar a localização e velocidade antes da próxima amostra do GPS. Para isso, apenas \cite{Li2018} utilizou um tratamento, aplicando interpolação linear com os dados de aceleração para obter dados de localização com mais frequência. Contudo, o mesmo não foi feito com a velocidade. O desenvolvimento de um método com este intuito é de extrema importância uma vez que a velocidade constitui um fator de dependência e deve ser a mais próxima da real possível. Da mesma forma, estimar os pontos de localização auxilia a mitigar pontos cegos, dentre outros problemas.
+O Sistema de Posicionamento Global (\textit{Global Positioning System} - GPS) consiste de um sistema de satélites que orbitam o planeta, auxiliando receptores em terra a determinar sua localização \cite{Milette2012}. Sendo assim, além dos dados geodésicos de latitude e longitude, o receptor GPS também afere sua velocidade. Embora preciso, este sistema possui uma taxa de amostragem baixa em relação aos demais sensores, cerca de 1Hz.
 
-\begin{figure}[h!]
-  \centering
-  \caption{Técnicas para reconhecimento e/ou classificação de padrões.}
-   \label{fig:techniques_occurrence}
-   \includegraphics[width=0.95\textwidth]{figuras/fig3_3.png}
-   \fonte{O autor.}
-\end{figure}
+\section{Quarter Car}
 
-Para reconhecer e classificar os padrões nos dados pré-processados dos sensores inerciais, várias técnicas foram propostas, conforme detalhado na Figura \ref{fig:techniques_occurrence}. Essas técnicas foram classificadas de acordo com sua abordagem.  Embora alguns trabalhos apresentem técnicas com abordagens mais elaboradas, como métodos de alinhamento de séries temporais, aprendizado de máquina e modelos com conhecimento especialista, quase metade deles utiliza técnicas extremamente simples, como limiares e funções lineares. Abordagens mais recentes, como o \textit{Deep Learning}, foram encontradas em apenas um estudo, o qual se limita a um tipo de percepção. Os resultados dos métodos não foram comparados na revisão, devido a poucos apresentarem resultados numéricos, bem como pelo uso de uma diversidade de cenários e técnicas não adaptativas, não permitindo uma comparação direta.
-
-Através da análise dos estudos, observou-se um foco maior na simples e imediata aplicabilidade do que no fornecimento de dados mais precisos e acurados com certo grau de adaptabilidade. Sendo assim, a maioria dos trabalhos se concentra na aplicabilidade direta, e a adaptabilidade das soluções apresentadas é mínima, sendo o principal obstáculo para seu amplo uso em cenários do mundo real. Relacionada aos fatores de dependência, a adaptabilidade raramente é mencionada nos trabalhos. Alguns estudos agregaram em seus modelos o fator de velocidade ou o modelo \textit{Quarter Car} \cite{Tomiyama2016}, contudo nenhum deles trata todos os fatores de dependência, para produzir diversos tipos de percepção. \cite{Singh2017} argumenta que não é possível cobrir todas as condições através do aprendizado de máquina e dos modelos de limiares existentes. No entanto, a adaptabilidade deve ser investigada do ponto de vista das três etapas apresentadas, especialmente integrando os dados às novas e robustas técnicas de aprendizado de máquina. Outro ponto a ser explorado no sentido da adaptabilidade e ainda não observado nos estudos é a integração dos dados de percepção, uma vez que todos são inter relacionados, seja de percepção de ambiente ou propriocepção.
-
-Finalmente, vários tipos de dados de percepção foram identificados pelos estudos analisados nesta revisão. Além da classificação entre a percepção do ambiente e a propriocepção, as percepções também foram classificadas quanto ao momento de detecção, sendo eventos transientes aqueles detectados momentaneamente, e eventos persistentes aqueles que ocorrem a todo o momento. Sendo assim, na percepção do ambiente, são considerados eventos transientes obstáculos na estrada e anomalias de superfície, e eventos persistentes a identificação do tipo de pavimento, os índices de irregularidade e os níveis de qualidade. Na propriocepção, eventos transientes são eventos de condução e eventos persistentes são relacionados ao perfil do comportamento de condução. As figuras \ref{fig:environment_perception_occurrence} e \ref{fig:proprioception_occurrence} detalham as percepções encontradas.
+O modelo matemático \textit{Quarter Car} (QC) descreve as variáveis da dinâmica veicular, conforme ilustra a Figura \ref{fig:quarter_car}. O modelo QC possui propriedades relacionadas a roda, suspensão e amortecimento. A propriedade de massa suspensa do veículo (Ms), fica acima da suspensão e representa um quarto da massa veicular. A propriedade de massa não suspensa (Mu), abaixo da suspensão, inclui a massa de uma roda e do sistema de suspensão conectado a ela. Entre as massas, existe a suspensão feita da mola (Ks) e de um amortecedor (C), que suporta a massa suspensa. Uma vez que a massa não suspensa está em contato direto com a superfície da pista, existe a rigidez do pneu (Kt) e a capacidade de absorção do pneu (Ct) impactando nos valores de força \cite{Yafeai2019}.
 
 \begin{figure}[h!]
   \centering
-  \caption{Percepções de ambiente encontradas nos estudos analisados.}
-   \label{fig:environment_perception_occurrence}
-   \includegraphics[width=0.95\textwidth]{figuras/fig3_4.png}
-   \fonte{O autor.}
+  \caption{O modelo Quarter Car.}
+   \label{fig:quarter_car}
+   \includegraphics[width=0.6\textwidth]{figuras/fig2_2.png}
+   \fonte{\cite{Loizos2008}}
+\end{figure}
+
+Através das diversas fórmulas que compõem o modelo, foram criados valores padrões para estas propriedades, denominados \textit{Golden Car Parameters} \cite{Loizos2008}, conforme detalha a Tabela \ref{table:golden_car_parameters}.
+
+\begin{table}[h!]
+    \caption{Os parâmetros Golden Car.}
+    \label{table:golden_car_parameters}
+    \centering
+    \small
+    \begin{tabular}{clll}
+        \toprule
+        \textbf{Parâmetro} & \textbf{Valor} \\
+        \toprule
+        Ks/Ms & 63,3 \\
+        \midrule
+        Kt/Ms & 653 \\
+        \midrule
+        Cs/Ms & 6 \\
+        \midrule
+        Mu/Ms & 0,15 \\
+        \bottomrule
+    \end{tabular}
+    \fonte{\cite{Loizos2008}}
+\end{table}
+
+\section{Técnicas Clássicas de Machine Learning}
+
+Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para classificação, regressão e previsão. Dentre as técnicas clássicas de clustering e aprendizado de máquina supervisionado, neste trabalho foram utilizadas as técnicas K-Means Clustering (KMC), K-Nearest Neighbors (KNN) e Support Vector Machines (SVM), detalhadas nas próximas subseções.
+
+\subsection{K-Means Clustering}
+
+O KMC consiste de uma técnica não supervisionada para clustering, que permite identificar agrupamentos de dados semelhantes. Neste método, cada dado é atribuído a um dos k clusters baseando-se em uma métrica de distância, como a Euclidiana, em relação à centroide do cluster. Iterativamente, a centroide de cada clusters é recalculada com base na média dos dados, e as distâncias novamente recalculadas, até que as centróides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+
+\subsection{K-Nearest Neighbors}
+
+O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os k vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus k vizinhos \cite{Khandelwal2018}.
+
+\subsection{Support Vector Machines}
+
+O SVM é uma técnica de aprendizado supervisionado aplicados em classificação, onde o algoritmo busca por um optimal hyperplane que separa as classes de dados. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro kernel, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+
+\section{Técnicas de Deep Learning}
+
+Com o desenvolvimento do aprendizado de máquina, especialmente a partir de 2006, surgiu nesta área um segmento denominado aprendizado profundo (\textit{Deep Learning}) \cite{Deng2014}. Até então, a extração características importantes que bem representassem os dados parametrizados à uma técnica de reconhecimento de padrões, constituía um problema central. Sendo assim, as técnicas existentes apresentavam a grande dificuldade de se extrair, em um pré-processamento, características de alto nível através de dados brutos \cite{Goodfellow2016}. 
+
+Com o desenvolvimento do \textit{Deep Learning}, esse problema foi solucionado, sendo introduzidas representações que são expressadas em termos de outras, construindo conceitos complexos através de conceitos simples \cite{Goodfellow2016}. Nessa abordagem, tornou-se possível construir modelos computacionais compostos de múltiplas camadas de processamento para aprender a representação dos dados com diversos níveis de abstração \cite{LeCun2015}. Sendo assim, o aprendizado profundo descobre uma estrutura complexa em grandes conjuntos de dados usando o algoritmo de retropropagação para calcular como alterar seus parâmetros internos, os quais são usados para calcular a representação em cada camada a partir da representação na camada anterior \cite{LeCun2015}.
+
+Com este novo paradigma, foram melhorados drasticamente o estado da arte em reconhecimento de fala, reconhecimento visual de objetos, detecção de objetos e muitos outros domínios \cite{LeCun2015}. Os diversos métodos presentes nessa categoria podem ser classificados entre redes profundas para aprendizado não supervisionado ou generativo, redes profundas para aprendizado supervisionado e redes profundas híbridas \cite{Deng2014}. Neste trabalho, foram utilizadas redes  profundas para aprendizado supervisionado do tipo \textit{Long Short-Term Memory} (LSTM) e \textit{Convolutional Neural Network} (CNN), assim como redes profundas híbridas CNN-LSTM, discorridas nas próximas seções.
+
+\subsection{Long Short-Term Memory}
+
+A \textit{Long Short-Term Memory} (LSTM) constitui um tipo de Rede Neural Recorrente (\textit{Recurrent Neural Network} - RNN) considerada ideal para predição e classificação de séries temporais, substituindo muitas abordagens tradicionais por \textit{Deep Learning} \cite{Zaccone2017}. Nesta abordagem, introduzindo o conceito de célula de memória e auto-loops conforme a Figura \ref{fig:cell_lstm}, a rede pode manter valores por um período curto ou longo, como uma função de suas entradas. Assim, a célula consegue se lembrar daquilo que é importante, e não apenas do último valor computado \cite{Jones2017}.
+
+\begin{figure}[h!]
+  \centering
+  \caption{Célula de memória da LSTM com auto-loop.}
+   \label{fig:cell_lstm}
+   \includegraphics[width=1\textwidth]{figuras/fig2_3.png}
+   \fonte{\cite{Junior2019}}
+\end{figure}
+
+Cada célula de memória de uma LSTM possuí três portas que controlam o fluxo de informações para dentro e fora da célula. Estas são a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Nguyen2018}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula.\cite{Jones2017}
+
+\begin{figure}[h!]
+  \centering
+  \caption{Portas da célula de memória da LSTM.}
+   \label{fig:cell_lstm_gates}
+   \includegraphics[width=1\textwidth]{figuras/fig2_3_1.png}
+   \fonte{\cite{Nguyen2018}}
+\end{figure}
+
+\subsection{Convolutional Neural Network}
+
+A CNN é um tipo de rede neural capaz de extrair características diretamente dos sinais, através de convoluções \cite{Dixon2019}. Quando aplicada à classificação de séries temporais, a CNN tem duas vantagens em relação a outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possuí uma quantidade n de filtros aplicados com um kernel de tamanho m, conforme ilustra a \autoref{fig:cnn_convolution} e \autoref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de pooling e fully connected, que executam tarefas de classificação \cite{Wang2019}.
+
+\begin{figure}[h!]
+  \centering
+  \caption{Convolução em dados 1D.}
+   \label{fig:cnn_convolution}
+   \includegraphics[width=0.9\textwidth]{figuras/cnn_kernel.png}
+   \fonte{\cite{Verma2020}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \caption{Propriocepções encontradas nos estudos analisados.}
-   \label{fig:proprioception_occurrence}
-   \includegraphics[width=0.95\textwidth]{figuras/fig3_5.png}
-   \fonte{O autor.}
+  \caption{Convolução em dados 3D.}
+   \label{fig:cnn_convolution_3d}
+   \includegraphics[width=0.8\textwidth]{figuras/cnn_3d.png}
+   \fonte{\cite{Verma2020}}
 \end{figure}
 
+\subsection{CNN-LSTM}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+As redes do tipo CNN-LSTM-based constituem modelos híbridos que utilizam de ambas camadas de convolução e recorrência \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em janelas de dados, e cada janela em blocos menores. Sendo assim, cada bloco é processado por camadas de convolução que fazem a extração de características complexas \cite{Deep2019}. Em seguida, esses blocos são entregues as camadas de recorrência, para interpretar a sequência temporal das características.

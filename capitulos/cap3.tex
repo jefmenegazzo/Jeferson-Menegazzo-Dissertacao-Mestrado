@@ -1,7 +1,7 @@
 \chapter{Fundamentação Teórica}
 \label{cap:fundamentacao}
 
-Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no processo, e sua representação através das variáveis \textit{Golden Car Parameters}. Por fim, são detalhados as técnicas de \textit{Machine Learning} utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular.
+Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no sistema de suspensão. Em seguida, são detalhados as técnicas de IA utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular, dentre técnicas \textit{Machine Learning} clássico e \textit{Deep Learning}. Por fim, são apresentadas as métricas de avaliação adotadas.
 
 \section{Sensoriamento}
 
@@ -9,23 +9,23 @@ Nesta seção, são apresentados os sensores inerciais, os quais constituem font
 
 \subsection{Sensores Inerciais}
 
-Os sensores inerciais constituem dispositivos que produzem sinais através do princípio da inércia \cite{Braga2017}. Estes sensores compreendem acelerômetros e giroscópios, de um ou mais eixos \cite{Beeby2004}. O acelerômetro mede a força de aceleração (em $m/s^2$ ou g = 9.8 $m/s^2$), enquanto que o giroscópio afere a taxa de rotação (em graus/segundo ou radianos/segundo), ambos sem a necessidade de um referencial externo \cite{Groves2013}. Sendo assim, a partir de um quadro de referência ou posição inicial destes sensores, forças externas que atuam sobre eles causam acelerações e mudanças de orientação (rotação) em um ou mais de seus eixos \cite{Kempe2011}. Em síntese, são sensores que necessitam de movimento para produção de dados. Neste estudo, essas forças são constituídas pela tração do veículo e pelas interações com o ambiente no qual ele trafega.
+Os sensores inerciais constituem dispositivos que produzem sinais através do princípio da inércia \cite{Braga2017}. Estes sensores compreendem acelerômetros e giroscópios, de um ou mais eixos \cite{Beeby2004}. O acelerômetro mede a força de aceleração (em $m/s^2$ ou g = 9.8 $m/s^2$), enquanto que o giroscópio afere a taxa de rotação (em graus/segundo ou radianos/segundo), ambos sem a necessidade de um referencial externo \cite{Groves2013}. Sendo assim, a partir de um quadro de referência ou posição inicial destes sensores, forças externas que atuam sobre eles causam acelerações e mudanças de orientação (rotação) em um ou mais de seus eixos \cite{Kempe2011}. Em síntese, são sensores que necessitam de movimento para produção de dados. Neste estudo, estes movimentos são resultantes das forças produzidas pela tração do veículo e pelas interações com o ambiente no qual ele trafega.
 
 \subsubsection{Referenciais}
 
-Os sensores inerciais não requerem nenhum referencial externo. Sendo assim, possuem seu próprio referencial, onde o sistema de coordenadas no qual os dados são amostrados é definido em relação a si próprios. No entanto, a análise dos dados com o objetivo de produzir percepção veicular deve ser realizada no referencial do veículo, como mostra a Figura \ref{fig:quadros_referencia}. Para isso, é necessário reorientar os eixos, mapeando os dados brutos de um sistema para outro.
+Os sensores inerciais não requerem nenhum referencial externo. Sendo assim, possuem seu próprio referencial, onde o sistema de coordenadas no qual os dados são amostrados é definido em relação a si próprios. No entanto, a análise dos dados com o objetivo de produzir percepção veicular deve ser realizada no referencial do veículo, como mostra a \autoref{fig:quadros_referencia}. Para isso, é necessário reorientar os eixos, mapeando os dados brutos de um sistema para outro.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \caption{Referenciais: (a) Referencial do sensor. (b) Referencial do sensor interno a dispositivos móveis. (c) Referencial da Terra. (d) Referencial do veículo.}
    \label{fig:quadros_referencia}
-   \includegraphics[width=1\textwidth]{figuras/fig2.png}
-   \fonte{O autor.}
+   \includegraphics[width=1\textwidth]{figuras/fig_3.png}
+   \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-A orientação dos dados é importante no processo de análise para que se possa utilizar os valores de acordo com o tipo de percepção a ser realizada. Sendo assim, baseando-se no referencial do veículo, os padrões de percepção de ambiente são mais evidentes na aceleração do eixo Z e na taxa de rotação do eixo Y. Já quanto aos padrões de propriocepção, mostram-se mais evidentes nos dados de aceleração nos eixos X e Y e nas taxas de rotação dos eixos X e Z. Para uma padronização de nomenclatura neste trabalho, serão usados os termos definidos nas Tabelas \ref{table:accelerometer_reference_frames} e \ref{table:gyroscope_reference_frames} para se referir aos dados em relação a cada um dos referenciais.
+A orientação dos dados é importante no processo de análise para que se possa utilizar os valores de acordo com o tipo de percepção a ser realizada. Sendo assim, baseando-se no referencial do veículo, os padrões de percepção de ambiente são geralmente mais evidentes na aceleração do eixo Z e na taxa de rotação dos eixos X e Y. Já quanto aos padrões de propriocepção, mostram-se mais evidentes nos dados de aceleração nos eixos X e Y e na taxa de rotação do eixo Z. Para uma padronização de nomenclatura neste trabalho, serão usados os termos definidos nas Tabelas \ref{table:accelerometer_reference_frames} e \ref{table:gyroscope_reference_frames} para se referir aos dados em relação a cada um dos referenciais.
 
-\begin{table}[h!]
+\begin{table}[h]
     \caption{Referenciais para os dados de aceleração.}
     \label{table:accelerometer_reference_frames}
     \centering
@@ -41,10 +41,10 @@ A orientação dos dados é importante no processo de análise para que se possa
         Z & Aceleração em Z & Aceleração Vertical & Aceleração Vertical (Mundo) \\
         \bottomrule
     \end{tabular}
-    \fonte{O autor.}
+    \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[h]
     \caption{Referenciais para os dados de taxa de rotação.}
     \label{table:gyroscope_reference_frames}
     \centering
@@ -60,7 +60,7 @@ A orientação dos dados é importante no processo de análise para que se possa
         Z & Taxa de Rotação Yaw & Taxa de Rotação Vertical & N/A \\
         \bottomrule
     \end{tabular}
-    \fonte{O autor.}
+    \fonte{Desenvolvido pelo autor.}
 \end{table}
 
 Para a reorientação dos eixos, duas estratégias foram identificadas nos estudos revisados: o posicionamento controlado e o mapeamento através de fórmulas baseadas nos ângulos de Euler. O posicionamento controlado consiste em uma técnica simples, onde sensor é colocado no veículo de forma que os eixos nos referenciais coincidam, ou seja, os eixos do sensor ficam alinhados com os eixos do veículo. Portanto, não é necessário aplicar pré-processamento para reorientação. Essa técnica é usada tanto para os dados do acelerômetro e do giroscópio. 
@@ -69,135 +69,227 @@ Os ângulos de Euler, por sua vez, aplicados apenas aos dados de aceleração, f
 
 \subsubsection{Fatores de Dependência}
 
-Os valores amostrados através dos sensores inerciais, embora não dependam de um referencial externo para sua produção, são afetados por propriedades externas e internas aos sensores. Essas propriedades constituem fatores de dependência, que influenciam diretamente a amplitude e dispersão dos valores medidos. Através da tanto da análise da literatura, quando de experimentos exploratórios conduzidos, foi possível observar a existência de fatores de dependência classificados na forma de quatro propriedades, discutidas a abaixo. Para que uma solução desenvolvida possa ser adaptativa na forma que está sendo proposta, é necessário que o modelo considere todas estas propriedades no seu desenvolvimento.
+Os valores amostrados através dos sensores inerciais, embora não dependam de um referencial externo para sua produção, são afetados por propriedades externas e internas aos sensores. Essas propriedades constituem fatores de dependência, que influenciam diretamente a corretudo, amplitude e dispersão dos valores medidos. Através da tanto da análise da literatura, quando de experimentos exploratórios conduzidos, foi possível observar a existência de fatores de dependência, classificados na forma de quatro propriedades relacionadas às variações contextuais discutidas abaixo. Para que uma solução desenvolvida possa ser adaptativa na forma que está sendo proposta, é necessário que o modelo considere todas estas propriedades no seu desenvolvimento.
 
 \begin{description}
 	
 	\item [Propriedades Sensoriais:] 
 	
-	Quatro fatores de dependência estão relacionados às configurações e características dos sensores, sendo eles a orientação \cite{Kumar2017}, resolução, faixa de medição e taxa de amostragem. A orientação do sensor, conforme discutido na seção anterior, afeta a amostragem de dados no sistema de coordenadas correto. Portanto, o sensor deve ser colocado de forma a ficar alinhado com o sistema de coordenadas do veículo ou ter uma reorientação de eixos para esse referencial. Isso implica na confiabilidade dos dados existentes em cada eixo de análise, pois cada um deles visa atingir certa percepção veicular.
+	Quatro fatores de dependência estão relacionados às configurações e características dos sensores, sendo eles a orientação \cite{Kumar2017,Alam2020}, resolução, faixa de medição e taxa de amostragem. A orientação do sensor, conforme discutido na seção anterior, afeta a amostragem de dados no sistema de coordenadas correto. Portanto, o sensor deve ser colocado de forma a ficar alinhado com o sistema de coordenadas do veículo ou ter uma reorientação de eixos para esse referencial. Isso implica na confiabilidade dos dados existentes em cada eixo de análise, pois cada um deles visa atingir certa percepção veicular.
 
-	O segundo e o terceiro fator estão fortemente correlacionados. A resolução é definida de acordo com a faixa de medição escolhida para o sensor. Portanto, é necessário que o sensor tenha uma faixa de medição adequada para poder amostrar os dados sem saturar, ou seja, que a faixa de medição do sensor não seja menor que os valores possíveis a serem monitorados. A resolução, estabelecida a partir da faixa de valores a serem analisados, fornece o quão próximo o valor medido é comparado ao valor real, no processo de quantização. Assim, devido à limitação do número de bits representado pelos sensores, quanto maior a faixa de medição, menor a resolução.
+	O segundo e o terceiro fator estão fortemente correlacionados. A resolução é definida de acordo com a faixa de medição (\textit{full scale range}) escolhida para o sensor. Portanto, é necessário que o sensor tenha uma faixa de medição adequada para poder amostrar os dados sem saturar, ou seja, que a faixa de medição do sensor não seja menor que os valores possíveis a serem monitorados. A resolução, estabelecida a partir da faixa de valores a serem analisados, fornece o quão próximo o valor medido é comparado ao valor real, no processo de quantização e representação no sistema binário. Assim, devido à limitação do número de bits representado pelos sensores, quanto maior a faixa de medição, menor a resolução.
 	
-	Por fim, a taxa de amostragem descreve a frequência da amostragem de dados por segundo. A escolha desse valor deve levar em consideração não apenas o custo computacional de armazenamento e processamento dos dados amostrados, mas também se, a uma determinada velocidade, será possível obter amostras suficientes para realizar as percepções. Dessa forma, quando o veículo está em alta velocidade, percepções transientes, como buracos, precisam de uma taxa de amostragem satisfatória, para que seja possível adquirir alguma amostra desse evento.
+	Por fim, a taxa de amostragem descreve a frequência da coleta de dados por segundo. A escolha desse valor deve levar em consideração não apenas o custo computacional de armazenamento e processamento dos dados amostrados, mas também se, a uma determinada velocidade, será possível obter amostras suficientes para realizar as percepções. Dessa forma, quando o veículo está em alta velocidade, percepções transientes, como buracos, precisam de uma taxa de amostragem satisfatória, para que seja possível adquirir amostras suficientes desse evento.
 	
-	\item [Propriedades Veiculares:] em relação às mecânicas veiculares, o principal fator de dependência é o sistema de suspensão veicular \cite{Kumar2017, Wickramarathne2018}. O sistema de suspensão do veículo, com o objetivo de amortecer os impactos causados pela superfície da pista, faz com que os valores absolutos sejam reduzidos quando medidos acima da suspensão, como ocorre quando os sensores são embarcados em dispositivos móveis. Portanto, os valores amostrados nos sensores anexados no veículo abaixo da suspensão não apresentam essa interferência, embora ainda recebam um pequeno amortecimento causado pelo pneu. Sendo assim, para realizar as percepções em diferentes veículos, deve-se considerar que cada um possui um sistema de suspensão diferente, sendo mais ou menos eficiente.
+	\item [Propriedades Veiculares:] 
+	
+	Relacionam-se a estrutura veicular. O principal fator de dependência é o sistema de suspensão \cite{Kumar2017, Wickramarathne2018,Alam2020}. Estes sistema, com o objetivo de amortecer os impactos causados pelas irregularidades e obstáculos na superfície da pista, faz com que os valores medidos sejam reduzidos dependendo da localização dos sensores na infraestrutura veicular. Desta forma, os valores medidos abaixo da suspensão apresentam interferência da massa não suspensa através da rigidez e absorção do pneu, e os medidos acima da suspensão adicionam também a influência da massa suspensa, através da mola e amortecedor \cite{Yafeai2019}. Desta forma, para poder realizar as percepções em diferentes veículos é necessário considerar que cada um deles possuí uma estrutura diferente, com diferentes sistemas de suspensão, e que diferentes colocações do sensor em um mesmo veículo pode ter mais ou menos interferência destas propriedades.
 
-	\item [Propriedades Ambientais:] estas propriedades não abordadas em trabalhos relacionados, não são tão evidentes, embora necessitem ser consideradas na modelagem da adaptação. Seus fatores de dependência se relacionam com questões climáticas, como superfície de pista com água ou de pouco atrito, que levam a aquaplanagem e derrapagem. Sendo assim, são percepções que implicam na percepção de outras, ou seja, percepções que dependem de percepções. O mesmo ocorre com a variabilidade de superfície, onde a identificação de eventos transientes como buracos e lombadas dependem diretamente do tipo de pavimento que existe na pista, e se existe. Da mesma forma, o dinamismo do estado de conservação de um tipo de pavimento deve ser considerado para detectá-lo corretamente.
+	\item [Propriedades de Condução:] 
+	
+	As propriedades de condução, intrinsecamente vinculadas as propriedades veiculares, relacionam-se aos diferentes estilos de condução do veículo.  Cada motorista possuí seu estilo de condução, aplicando mais ou menos aceleração, dirigindo velocidades mais altas ou mais baixas, realizando diferentes manobras \cite{Alam2020}. Cada um destes fatores impacta nos sinais amostrados, de acordo com a tração e direção aplicada e o modo com que o veículo interage com o ambiente. O principal fator de dependência é a velocidade longitudinal \cite{Brunauer2016,Douangphachanh2013,Gueta2017,Kumar2017,Lima2016,M.2017,Nalavde2015,Singh2017,Alam2020}, a qual possui duas principais implicações. Uma vez que as curvas são feitas em todos os eixos do sistema de coordenadas do veículo, ocorre a produção do componente de força centrífuga. Portanto, as acelerações medidas dependem diretamente da velocidade aplicada. A segunda implicação da velocidade está na distribuição no tempo dos valores amostrados. Em velocidades mais baixas, mais amostras do evento são coletadas e, com o veículo em velocidades diferentes, diferentes quantidades de amostras são obtidas.
 
-	\item [Propriedades de Condução:] as propriedades de condução, intrinsecamente relacionadas as propriedades veiculares, dizem respeito as ações de quem controla o veículo. Nesse sentido, o principal fator de dependência a ser considerado é a velocidade longitudinal \cite{Brunauer2016, Douangphachanh2013, Gueta2017, Kumar2017, Lima2016, M.2017, Nalavde2015, Singh2017}. A velocidade do veículo possui duas implicações. Uma vez que as curvas são feitas em todos os eixos do sistema de coordenadas do veículo, ocorre a produção do componente de força centrífuga. Portanto, as acelerações medidas dependem diretamente da velocidade aplicada. A segunda implicação da velocidade está na distribuição no tempo dos valores amostrados. Em velocidades mais baixas, mais amostras do evento são coletadas e, com o veículo em velocidades diferentes, diferentes quantidades de amostras são obtidas.
-
+	\item [Propriedades Ambientais:] 
+	
+	Estas propriedades relacionam-se com as características do ambiente externo ao veículo \cite{Alam2020}, as quais afetam diretamente os valores amostrados, de forma que uma mesma percepção possa ter padrões muito diferentes. Na classificação de tipo de superfície de pista, um determinado tipo de pavimento pode apresentar variações no estado de conservação, possuir buracos, lombadas, outras anomalias e obstáculos. A variação destas características não devem influenciar a classificação final. Na detecção de lombadas este tipo de obstáculo pode estar presente em pistas com diferentes pavimentações, como asfalto e paralelepípedo \cite{Masino2017}. Cada um destes tipos de pavimento apresentam diferentes padrões nos sinais nos sensores. Além disso, as lombadas podem apresentar variações em suas dimensões, seja pela forma como foram construídas ou pela falta de manutenção. Independente destas condições, estas variações não devem influenciar a classificação final, onde lombadas diferentes devem ser reconhecidas da mesma maneira.
+	 
 \end{description}
 
-% \subsection{Magnetômetro}
+\subsection{Magnetômetro}
 
-% O magnetômetro é um sensor auxiliar comumente embarcado com os sensores inerciais devido sua função. Este sensor mede o campo geomagnético ambiental (em $\mu$T) em seus três eixos físicos \cite{Sattar2018}. Sendo assim, é geralmente aplicado junto aos ângulos de Euler para dar orientação aos dados e empregado com os dados de aceleração para aproximar dados de localização e velocidade mais rapidamente, uma vez que a taxa de amostragem do GPS é pequena.
+O magnetômetro é um sensor auxiliar comumente embarcado com os sensores inerciais em um mesmo módulo. Este sensor, também de abordagem passiva, mede o campo geomagnético ambiental (em $\mu$T) em seus três eixos físicos \cite{Sattar2018}. Sendo assim, é geralmente aplicado junto aos ângulos de Euler para dar orientação aos dados, reorientando para o referencial da terra. Também é empregado em conjunto com os dados de aceleração para estimar a localização e velocidade mais rapidamente, uma vez que a taxa de amostragem do GPS é muito mais lenta que a dos sensores inerciais.
 
-\subsection{GPS}
+\subsection{Global Position System}
 
-O Sistema de Posicionamento Global (\textit{Global Positioning System} - GPS) consiste de um sistema de satélites que orbitam o planeta, auxiliando receptores em terra a determinar sua localização \cite{Milette2012}. Sendo assim, além dos dados geodésicos de latitude e longitude, o receptor GPS também afere sua velocidade. Embora preciso, este sistema possui uma taxa de amostragem baixa em relação aos demais sensores, cerca de 1Hz.
+O Sistema de Posicionamento Global (\textit{Global Positioning System} - GPS) consiste de um sistema de satélites que orbitam o planeta, auxiliando receptores em terra a determinar sua localização \cite{Milette2012}. Sendo assim, além dos dados geodésicos de latitude e longitude, o receptor GPS também afere a velocidade do objeto que contém o sensor. Embora preciso, este sistema possui uma taxa de amostragem baixa em relação aos demais sensores, cerca de 1Hz.
 
 \section{Quarter Car}
 
-O modelo matemático \textit{Quarter Car} (QC) descreve as variáveis da dinâmica veicular, conforme ilustra a Figura \ref{fig:quarter_car}. O modelo QC possui propriedades relacionadas a roda, suspensão e amortecimento. A propriedade de massa suspensa do veículo (Ms), fica acima da suspensão e representa um quarto da massa veicular. A propriedade de massa não suspensa (Mu), abaixo da suspensão, inclui a massa de uma roda e do sistema de suspensão conectado a ela. Entre as massas, existe a suspensão feita da mola (Ks) e de um amortecedor (C), que suporta a massa suspensa. Uma vez que a massa não suspensa está em contato direto com a superfície da pista, existe a rigidez do pneu (Kt) e a capacidade de absorção do pneu (Ct) impactando nos valores de força \cite{Yafeai2019}.
+O modelo matemático \textit{Quarter Car} (QC) descreve as variáveis da dinâmica veicular, conforme ilustra a \autoref{fig:quarter_car}. O modelo QC possui propriedades relacionadas a roda, suspensão e amortecimento. A propriedade de massa suspensa do veículo $m_s$, fica acima da suspensão e representa um quarto da massa veicular. A propriedade de massa não suspensa $m_u$, abaixo da suspensão, inclui a massa de uma roda e do sistema de suspensão conectado a ela. Entre as massas, existe uma suspensão feita de mola com uma taxa de suspensão $K_s$, e de um amortecedor com uma taxa de amortecimento $C_s$, os quais suportam a massa suspensa. Uma vez que a massa não suspensa está em contato direto com a superfície da pista, existe a rigidez do pneu e sua  capacidade de absorção representadas pela taxa de amortecimento do pneu $K_t$ \cite{Yafeai2019,Loizos2008}. Logo, uma força que parte da superfície da pista atingindo o pneu, será irradiada para todos estes componentes, onde será suavizada pelo deslocamento de massa suspensa $Z_s$ e da massa não suspensa $Z_u$, antes de chegar a parte superior do veículo.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \caption{O modelo Quarter Car.}
    \label{fig:quarter_car}
-   \includegraphics[width=0.6\textwidth]{figuras/fig2_2.png}
-   \fonte{\cite{Loizos2008}}
+   \includegraphics[width=0.6\textwidth]{figuras/fig_4.png}
+   \fonte{Adaptado de \cite{Loizos2008}}
 \end{figure}
 
-Através das diversas fórmulas que compõem o modelo, foram criados valores padrões para estas propriedades, denominados \textit{Golden Car Parameters} \cite{Loizos2008}, conforme detalha a Tabela \ref{table:golden_car_parameters}.
+Os valores das variáveis do modelo QC são definidos de acordo com cada veículo, dado as diferentes estruturas veiculares existentes. Este modelo conta com diversas fórmulas que descrevem o relacionamento entre todas as suas variáveis. De forma a simplificar estas fórmulas, foram criados valores padrões para as propriedades, denominados \textit{Golden Car Parameters}. Estas propriedades, detalhadas na \autoref{table:golden_car_parameters}, foram estabelecidas considerando um cenário padrão, onde o veículo é dirigido a uma velocidade constante de 80 $km/h$ \cite{Loizos2008}.
 
-\begin{table}[h!]
+\begin{table}[h]
     \caption{Os parâmetros Golden Car.}
     \label{table:golden_car_parameters}
     \centering
     \small
-    \begin{tabular}{clll}
+    \begin{tabular}{cl}
         \toprule
         \textbf{Parâmetro} & \textbf{Valor} \\
         \toprule
-        Ks/Ms & 63,3 \\
+        $K_s/m_s$ & 63,3 \\
         \midrule
-        Kt/Ms & 653 \\
+        $K_t/m_s$ & 653 \\
         \midrule
-        Cs/Ms & 6 \\
+        $C_s/m_s$ & 6 \\
         \midrule
-        Mu/Ms & 0,15 \\
+        $m_u/m_s$ & 0,15 \\
         \bottomrule
     \end{tabular}
-    \fonte{\cite{Loizos2008}}
+    \fonte{Adaptado de \cite{Loizos2008}}
 \end{table}
 
 \section{Técnicas Clássicas de Machine Learning}
 
-Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para classificação, regressão e previsão. Dentre as técnicas clássicas de clustering e aprendizado de máquina supervisionado, neste trabalho foram utilizadas as técnicas K-Means Clustering (KMC), K-Nearest Neighbors (KNN) e Support Vector Machines (SVM), detalhadas nas próximas subseções.
+Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para resolver problemas de classificação, regressão e previsão. Dentre as técnicas clássicas de \textit{clustering} e aprendizado de máquina supervisionado, neste trabalho foram desenvolvidos modelos de \textit{K-Means Clustering} (KMC), \textit{K-Nearest Neighbors} (KNN) e \textit{Support Vector Machines} (SVM), detalhadas nas próximas subseções.
 
 \subsection{K-Means Clustering}
 
-O KMC consiste de uma técnica não supervisionada para clustering, que permite identificar agrupamentos de dados semelhantes. Neste método, cada dado é atribuído a um dos k clusters baseando-se em uma métrica de distância, como a Euclidiana, em relação à centroide do cluster. Iterativamente, a centroide de cada clusters é recalculada com base na média dos dados, e as distâncias novamente recalculadas, até que as centróides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\textit{clustering}), que permite identificar agrupamentos (\textit{clusters}) de dados semelhantes, conforme ilustra a \autoref{fig:execucao_kcm}. Neste método, partindo de um conjunto de dados não rotulados (1), são criadas aleatoriamente centróides para cada um dos \textit{k clusters} (2). Em seguida, cada dado é atribuído a um dos \textit{clusters} baseando-se em uma métrica de distância, como a Euclidiana, em relação à centroide do \textit{cluster} (3, 4). Iterativamente, a centroide de cada \textit{clusters} é recalculada com base na média dos dados (5), e as distâncias novamente recalculadas (6, 7), até que as centróides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Execução da técnica KMC.}
+   \label{fig:execucao_kcm}
+   \includegraphics[width=0.7\textwidth]{figuras/fig_5.png}
+   \fonte{Adaptado de \cite{i2020}}
+\end{figure}
 
 \subsection{K-Nearest Neighbors}
 
-O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os k vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus k vizinhos \cite{Khandelwal2018}.
+O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado a ser classificado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os k vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus k vizinhos, conforme ilustra a \autoref{fig:execucao_knn} \cite{Khandelwal2018}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Execução da técnica KNN.}
+   \label{fig:execucao_knn}
+   \includegraphics[width=0.4\textwidth]{figuras/fig_6.png}
+   \fonte{\cite{Jose2018}}
+\end{figure}
 
 \subsection{Support Vector Machines}
 
-O SVM é uma técnica de aprendizado supervisionado aplicados em classificação, onde o algoritmo busca por um optimal hyperplane que separa as classes de dados. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro kernel, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+O SVM é uma técnica de aprendizado supervisionado aplicada em classificação, onde se busca por um hiperplano ideal que separa as classes de dados, conforme ilustra a \autoref{fig:execucao_svm}. O algoritmo se inicia com a busca pelos pontos mais próximos ao hiperplano que separa as classes. Esses pontos são chamados de vetores de suporte. Na sequencia, é calculada a distância entre o hiperplano e estes vetores. Essa distância é chamada de margem, a qual o SVM busca maximizar, de forma a encontrar o hiperplano ideal \cite{Pupale2019}. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro kernel, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Execução da técnica SVM.}
+   \label{fig:execucao_svm}
+   \includegraphics[width=0.6\textwidth]{figuras/fig_7.png}
+   \fonte{\cite{Pupale2019}}
+\end{figure}
 
 \section{Técnicas de Deep Learning}
 
 Com o desenvolvimento do aprendizado de máquina, especialmente a partir de 2006, surgiu nesta área um segmento denominado aprendizado profundo (\textit{Deep Learning}) \cite{Deng2014}. Até então, a extração características importantes que bem representassem os dados parametrizados à uma técnica de reconhecimento de padrões, constituía um problema central. Sendo assim, as técnicas existentes apresentavam a grande dificuldade de se extrair, em um pré-processamento, características de alto nível através de dados brutos \cite{Goodfellow2016}. 
 
-Com o desenvolvimento do \textit{Deep Learning}, esse problema foi solucionado, sendo introduzidas representações que são expressadas em termos de outras, construindo conceitos complexos através de conceitos simples \cite{Goodfellow2016}. Nessa abordagem, tornou-se possível construir modelos computacionais compostos de múltiplas camadas de processamento para aprender a representação dos dados com diversos níveis de abstração \cite{LeCun2015}. Sendo assim, o aprendizado profundo descobre uma estrutura complexa em grandes conjuntos de dados usando o algoritmo de retropropagação para calcular como alterar seus parâmetros internos, os quais são usados para calcular a representação em cada camada a partir da representação na camada anterior \cite{LeCun2015}.
+Com o desenvolvimento do \textit{Deep Learning}, esse problema foi solucionado, sendo introduzidas representações que são expressadas em termos de outras representações, construindo conceitos complexos através de conceitos simples \cite{Goodfellow2016}. Nessa abordagem, tornou-se possível construir modelos computacionais compostos de múltiplas camadas de processamento para aprender a representação dos dados com diversos níveis de abstração \cite{LeCun2015}. Sendo assim, o aprendizado profundo descobre uma estrutura complexa em grandes conjuntos de dados utilizando do algoritmo de retropropagação para calcular como alterar seus parâmetros internos, os quais são usados para estabelecer a representação em cada camada a partir da representação obtida na camada anterior \cite{LeCun2015}.
 
-Com este novo paradigma, foram melhorados drasticamente o estado da arte em reconhecimento de fala, reconhecimento visual de objetos, detecção de objetos e muitos outros domínios \cite{LeCun2015}. Os diversos métodos presentes nessa categoria podem ser classificados entre redes profundas para aprendizado não supervisionado ou generativo, redes profundas para aprendizado supervisionado e redes profundas híbridas \cite{Deng2014}. Neste trabalho, foram utilizadas redes  profundas para aprendizado supervisionado do tipo \textit{Long Short-Term Memory} (LSTM) e \textit{Convolutional Neural Network} (CNN), assim como redes profundas híbridas CNN-LSTM, discorridas nas próximas seções.
+Com este novo paradigma, foram melhorados drasticamente o estado da arte em reconhecimento de fala, reconhecimento visual de objetos, detecção de objetos e muitos outros domínios \cite{LeCun2015}. Os diversos métodos presentes nessa categoria podem ser classificados entre redes profundas para aprendizado não supervisionado ou generativo, redes profundas para aprendizado supervisionado e redes profundas híbridas \cite{Deng2014}. Neste trabalho, foram utilizadas redes  profundas para aprendizado supervisionado do tipo \textit{Long Short-Term Memory} (LSTM), \textit{Convolutional Long Short-Term Memory} (ConvLSTM), \textit{Gated Recurrent Unit} (GRU)  e \textit{Convolutional Neural Network} (CNN), assim como redes profundas híbridas do tipo \textit{Convolutional Neural Network Long Short-Term Memory} (CNN-LSTM), discorridas nas próximas seções.
 
 \subsection{Long Short-Term Memory}
 
-A \textit{Long Short-Term Memory} (LSTM) constitui um tipo de Rede Neural Recorrente (\textit{Recurrent Neural Network} - RNN) considerada ideal para predição e classificação de séries temporais, substituindo muitas abordagens tradicionais por \textit{Deep Learning} \cite{Zaccone2017}. Nesta abordagem, introduzindo o conceito de célula de memória e auto-loops conforme a Figura \ref{fig:cell_lstm}, a rede pode manter valores por um período curto ou longo, como uma função de suas entradas. Assim, a célula consegue se lembrar daquilo que é importante, e não apenas do último valor computado \cite{Jones2017}.
+A LSTM constitui um tipo de Rede Neural Recorrente (\textit{Recurrent Neural Network} - RNN) considerada ideal para predição e classificação de séries temporais, substituindo muitas abordagens tradicionais por \textit{Deep Learning} \cite{Zaccone2017}. Suas aplicações envolvem previsão ou classificação de séries temporais \cite{Zaccone2017}, tais como previsão de velocidade de tráfego, modelagem de linguagem, reconhecimento de fala, aprendizagem de gramática, modelagem de áudio, reconhecimento de caligrafia, etc. \cite{Bianchi2017}. Nesta abordagem, introduzindo o conceito de estado de célula (memória) e \textit{auto-loops} conforme ilustra a \autoref{fig:cell_lstm}, a rede pode manter valores por um curto ou longo período de tempo, como uma função de suas entradas. Assim, a célula consegue se lembrar daquilo que é importante, e não apenas do último valor computado \cite{Jones2017}, de forma que informações relevantes de entradas anteriores são retidas e utilizadas para alterar a saída atual \cite{Zebin2018}.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
-  \caption{Célula de memória da LSTM com auto-loop.}
+  \caption{Célula de uma LSTM com \textit{auto-loop}.}
    \label{fig:cell_lstm}
-   \includegraphics[width=1\textwidth]{figuras/fig2_3.png}
+   \includegraphics[width=0.6\textwidth]{figuras/fig_8.png}
    \fonte{\cite{Junior2019}}
 \end{figure}
 
-Cada célula de memória de uma LSTM possuí três portas que controlam o fluxo de informações para dentro e fora da célula. Estas são a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Nguyen2018}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula.\cite{Jones2017}
+Cada célula de uma LSTM possuí três portas que controlam o fluxo de informações para dentro e fora da célula, ilustrado na \autoref{fig:cell_lstm_gates}. Estas são: a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Phi2020}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula \cite{Jones2017}.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
-  \caption{Portas da célula de memória da LSTM.}
+  \caption{Portas de uma célula de LSTM.}
    \label{fig:cell_lstm_gates}
-   \includegraphics[width=1\textwidth]{figuras/fig2_3_1.png}
-   \fonte{\cite{Nguyen2018}}
+   \includegraphics[width=0.69\textwidth]{figuras/fig_9.png}
+   \fonte{Adaptado de \cite{Phi2020}}
+\end{figure}
+
+\subsection{Gated Recurrent Unit}
+
+A GRU consiste de um tipo de RNN com o mesmo propósito da LSTM, embora considerada uma melhoria em relação a anterior, utilizando menos portas e parâmetros \cite{Kumar2019,Bianchi2017}. Em razão disso, redes GRU superaram a performance de redes LSTM em várias aplicações, treinando e convergindo mais rápido, se mostrando computacionalmente menos custosas e igualmente eficientes \cite{Kumar2019,Bianchi2017}. Empregada também em classificação e previsão de séries temporais, este tipo de rede ajuda na recuperação de informações em escalas de tempo distintas \cite{Bianchi2017,Kumar2019}. 
+
+Cada célula de uma GRU possuí um estado de célula (memória) que utiliza de um estado escondido (\textit{hidden state}) para transferir a informação, com é feito na LSTM. Contudo, a GRU utiliza de apenas duas portas, conforme ilustra a \autoref{fig:cell_gru_gates}: a porta de reinicialização (\textit{reset gate}) e a porta de atualização (\textit{update gate}). A porta de atualização opera de forma similar às portas de esquecimento e a de entrada de uma LSTM, decidindo quais informações descartar e quais informações novas adicionar a memória. A porta de reinicialização, por sua vez, é utilizada para decidir quais informações do passado devem ser esquecidas \cite{Phi2020}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Portas de uma célula de GRU.}
+   \label{fig:cell_gru_gates}
+   \includegraphics[width=0.7\textwidth]{figuras/fig_10.png}
+   \fonte{Adaptado de  \cite{Phi2020}}
 \end{figure}
 
 \subsection{Convolutional Neural Network}
 
-A CNN é um tipo de rede neural capaz de extrair características diretamente dos sinais, através de convoluções \cite{Dixon2019}. Quando aplicada à classificação de séries temporais, a CNN tem duas vantagens em relação a outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possuí uma quantidade n de filtros aplicados com um kernel de tamanho m, conforme ilustra a \autoref{fig:cnn_convolution} e \autoref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de pooling e fully connected, que executam tarefas de classificação \cite{Wang2019}.
+A CNN é um tipo de rede neural projetada para tratar eficientemente dados de imagem, se mostrando efetiva em aplicações de visão computacional, como classificação de imagem, localização de objetos, etc. \cite{Brownlee2018}. Através da aplicação de convoluções, este tipo de rede é capaz de aprender como extrair características de alto nível diretamente nos dados brutos, que representam bem os padrões a serem reconhecidos \cite{Dixon2019,Goodfellow2016}. Esta abordagem, denominada \textit{representation learning} \cite{Brownlee2018}, também pode ser aplicada em séries temporais, onde apresenta duas vantagens sobre outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possuí uma quantidade \emph{n} de filtros aplicados com um \textit{kernel} de tamanho \emph{m}, conforme ilustra as Figuras \ref{fig:cnn_convolution} e \ref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de \textit{pooling} e \textit{fully connected}, que executam tarefas de classificação \cite{Wang2019}.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \caption{Convolução em dados 1D.}
    \label{fig:cnn_convolution}
-   \includegraphics[width=0.9\textwidth]{figuras/cnn_kernel.png}
+   \includegraphics[width=0.9\textwidth]{figuras/fig_11.png}
    \fonte{\cite{Verma2020}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \caption{Convolução em dados 3D.}
    \label{fig:cnn_convolution_3d}
-   \includegraphics[width=0.8\textwidth]{figuras/cnn_3d.png}
+   \includegraphics[width=0.8\textwidth]{figuras/fig_12.png}
    \fonte{\cite{Verma2020}}
 \end{figure}
 
-\subsection{CNN-LSTM}
+\subsection{Convolutional Long Short-Term Memory}
 
-As redes do tipo CNN-LSTM-based constituem modelos híbridos que utilizam de ambas camadas de convolução e recorrência \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em janelas de dados, e cada janela em blocos menores. Sendo assim, cada bloco é processado por camadas de convolução que fazem a extração de características complexas \cite{Deep2019}. Em seguida, esses blocos são entregues as camadas de recorrência, para interpretar a sequência temporal das características.
+A ConvLSTM é um tipo de RNN variante da LSTM \cite{Salman2018}. Nestas redes existem operações de convolução dentro da célula de LSTM, de forma que as estruturas de convolução são aplicadas tanto na transição de entrada para estado, quanto nas transições de estado para estado. Desta forma, todas as operações de multiplicação de matrizes interna são substituídas por convoluções \cite{Rahman2019}. Neste ponto se mostra evidente a diferença para a híbrida CNN-LSTM, nas quais estruturas de convolução (CNN) são aplicadas como a primeira camada e sequencialmente na segunda camada é aplicada LSTM \cite{Rahman2019}.
+
+\subsection{Convolutional Neural Network Long Short-Term Memory}
+
+A CNN-LSTM constitui um tipo de rede neural híbrida que utiliza de ambas camadas de convolução (CNN) e recorrência (LSTM) \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em sequências temporais, e cada sequência é subdividida em blocos menores, as subsequencias. Nestas subsequências são aplicadas camadas de convolução para extração de características complexas \cite{Deep2019}. Em seguida, estas características são agrupadas novamente na sequência original e empregadas em camadas recorrentes, para interpretar a sequência temporal das características produzidas.
+
+\section{Métricas de Avaliação}
+
+Para mensurar os resultados dos experimentos foram adotadas métricas comumente utilizadas em problemas de classificação: acurácia, precisão, \textit{recall} e \textit{f1-score} \cite{Rodrigues2020,Rodrigues2021,Shung2020}. Em um problema de classificação, os resultados podem ser classificados em Verdadeiros Positivos (VP), sendo a classificação correta da classe Positivo; Verdadeiros Negativos (VN), a classificação correta da classe Negativo; Falsos Positivos (FP), erro em que o modelo previu a classe Positivo quando o valor real era classe Negativo; e Falsos Negativos (FN), erro em que o modelo previu a classe Negativo quando o valor real era classe Positivo \cite{Rodrigues2020}. A \autoref{fig:classificacao_positivo_negativo} ilustra os resultados possíveis.
+
+\begin{figure}[h]
+  \centering
+  \caption{Matriz confusão de classificação.}
+   \label{fig:classificacao_positivo_negativo}
+   \includegraphics[width=0.6\textwidth]{figuras/fig_13.png}
+   \fonte{\cite{Rodrigues2020}}
+\end{figure}
+
+A acurácia indica uma performance geral do modelo. Desta forma, consiste da proporção de amostras classificadas corretamente em relação ao total de amostras, considerando todas as classes de dados. A fórmula desta métrica é apresentada a seguir:
+
+\begin{center}
+  \[
+  \textit{Acurácia} = \frac{VP + VN}{VP + VN + FP + FN}
+  \]
+\end{center}
+
+Por outro lado, as métricas de precisão, \textit{recall} e \textit{f1-score} avaliam cada uma das classes de dados separadamente, de modo que se possa verificar problemas de desbalanceamento e viés. A precisão mede a proporção de amostras preditas corretamente em relação ao total de predições para determinada classe de dados, conforme a seguinte fórmula:
+
+\begin{center}
+  \[
+  \textit{Precisão} = \frac{VP}{VP + FP}
+  \]
+\end{center}
+
+A \textit{recall} mede a proporção de amostras preditas corretamente para determinada classe de dados em relação a todas as amostras reais daquela classe, conforme a seguinte fórmula:
+
+\begin{center}
+  \[
+  \textit{Recall} = \frac{VP}{VP + FN}
+  \]
+\end{center}
+
+Por fim, a \textit{f1-score} consiste da média harmônica de precisão e \textit{recall}, conforme a fórmula a seguir:
+
+\begin{center}
+  \[
+  \textit{F1-Score} = \frac{2 * \textit{precisão} * \textit{recall}}{\textit{precisão} + \textit{recall}}
+  \]
+\end{center}

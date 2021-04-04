@@ -4,7 +4,6 @@
 Nesta seção é apresentado o primeiro de dois estudos voltados ao desenvolvimento de um modelo adaptativo para classificação do tipo da superfície de pista. Este estudo teve como objetivo experimentar e comparar modelos baseados em algumas das técnicas mais utilizadas nos estudos relacionados, com modelos baseados em \textit{Deep Learning}. O processo de desenvolvimento e experimentação é detalhado nas próximas subseções. Na primeira delas, o pré-processamento, foi realizada a seleção de variáveis, normalização dos sinais, extração de características e separação de dados para treinamento e validação. O \textit{design} experimental foi produzido de forma a construir experimentos que permitiram avaliar a capacidade de generalização do aprendizado de cada modelo para contextos desconhecidos e, portanto, avaliar sua adaptabilidade. Na segunda subseção, processamento, foram desenvolvidos e testados 34 diferentes modelos para classificar a superfície de pista, dentre modelos de Aprendizado de Máquina clássico e \textit{Deep Learning}. Por fim, na última subseção são detalhados e comparados os resultados obtidos. 
 
 \section{Pré-Processamento}
-\label{sec:tipo_superficie_1_preprocessamento}
 
 Com os conjuntos de dados criados, os dados brutos foram pré-processados antes de serem entregues aos modelos de Aprendizado de Máquina. Este estudo teve como foco a utilização dos valores amostrados no braço de controle, localizado abaixo e próximo ao sistema de suspensão. De acordo com o modelo QC, esses valores possuem interferência apenas da massa não suspensa por meio da rigidez e absorção do pneu \cite{Yafeai2019}. Sendo assim, cada amostra utilizada possuí os valores de força de aceleração e de taxa de rotação, ambos em três eixos, e o valor da velocidade. Neste estudo, utilizamos de ambos os sensores inercias uma vez que os consideramos complementares, com cada um deles fornecendo um tipo específico de dado acerca dos movimentos veiculares. Também consideramos todos os eixos dos sensores e não apenas o de maior interesse, como geralmente é feito nos estudos de exterocepção, uma vez que todos os eixos apresentam informações relevantes, que devem ser consideradas no desenvolvimento de um modelo mais confiável.
 
@@ -77,7 +76,6 @@ Exp. por Contexto 3 & 26.15\% & 1:2.8 & 30.26\% & 1:2.3 & 43.58\% & 1:1.3 \\ \bo
 Analisando a \autoref{table:distribuicao_classes_tipo_superficie}, observamos que a distribuição das classes de tipo de superfície de pista situa-se entre 21.36\% e 44.61\%, dependendo do experimento. A proporção varia entre 1:1.2 a 1:3.7, onde para 1 amostra de uma determinada classe de dados, existem de 1.2 a 3.7 amostras nas outras classes. De acordo com \cite{Fernandez2018}, um conjunto de dados é considerado desbalanceado quando existe uma desproporção significativa, ou em alguns casos severa, entre o número de amostras de cada classe. O desbalanceamento de classes pode ser considerado leve ou severo, onde as proporções de distribuição que variam de 1:4 até 1:100 (presença de 20\% - 1\%) são consideradas desbalanceamento leve e proporções de distribuição que variam de 1:100 ou mais (<1\% de presença) são consideradas desbalanceamentos severos \cite{Krawczyk2016,Brownlee2020}. Como podemos observar, as proporções de distribuição das classes de dados neste estudo não é classificada sequer como desbalanceamento leve, pois em seu pior caso, a proporção 1:3.7 ainda é uma distribuição mais uniforme do que 1:4. De acordo com \cite{Brownlee2020}, o desbalanceamento leve geralmente não é uma preocupação, e o problema pode ser tratado como um problema de modelagem preditiva ou classificação normal. Sendo assim, se desbalanceamentos leves não dependem de balanceamento de classes, distribuições mais uniformes, como é o caso deste estudo, certamente não necessitam de aplicação desta técnica.
 
 \section{Processamento}
-\label{sec:tipo_superficie_1_processamento}
 
 Após a etapa de pré-processamento, os dados foram utilizados em técnicas de Inteligência Artificial para classificação do tipo de superfície de pista. Por meio de nossa RSL sobre percepção veicular, identificamos as principais técnicas utilizadas na exterocepção veicular com sensores inerciais, a qual tem como objetivo reconhecer as características do ambiente externo como tipo de superfície, qualidade do pavimento, buracos, lombadas, etc. Todos os modelos de Aprendizado de Máquina empregados em estudos anteriores na área são baseados em técnicas clássicas. Portanto, neste estudo foi realizada uma comparação entre as técnicas mais utilizadas na área, todas elas sendo o Aprendizado de Máquina clássico, com as técnicas de Aprendizado Profundo (\textit{Deep Learning}), as quais ainda não foram utilizadas neste tipo de problema de classificação.
 
@@ -182,7 +180,6 @@ CNN-LSTM 6 & 2 blocos de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 
 \end{figure}
 
 \section{Análise de Resultados}
-\label{sec:tipo_superficie_1_resultados}
 
 Todos os modelos desenvolvidos neste estudo foram programados em Python 3. Os modelos Aprendizado de Máquina clássico usaram a biblioteca Scikit-Learn, enquanto os modelos \textit{Deep Learning} utilizaram o \textit{framework} Keras com o \textit{backend} Tensorflow. Os experimentos foram realizados no Google Collaboratory, com uma GPU NVIDIA Tesla P100 com 12 GB e 25 GB de RAM. Em todas as técnicas, exceto KNN, os experimentos foram executados 3 vezes a fim de minimizar a aleatoriedade dos parâmetros iniciais, recuperando apenas o melhor entre os três. Cada experimento consiste de um elemento do produto cartesiano entre \emph{experimentos por tamanho de janela} e \emph{experimentos por contexto}. Os resultados obtidos na aplicação do Aprendizado de Máquina clássico são detalhados nas Tabelas \ref{table:kmc_results_tipo_superficie_1}, \ref{table:svm_results_tipo_superficie_1} e \ref{table:knn_results_tipo_superficie_1}. O valor detalhado corresponde à média de acurácia em  validação dos três \textit{experimentos por contexto} para um determinado \emph{experimento por tamanho de janela} e configuração dos hiper-parâmetros da técnica.
 
@@ -396,13 +393,13 @@ Nas redes baseadas em CNN, a utilização de duas a quatro camadas de convoluç�
 \begin{tabular}{clccc}
 \toprule
 \textbf{Modelo} & \multicolumn{1}{c}{\textbf{Classe de Dados}} & \textbf{F1-Score} & \textbf{Precisão} & \textbf{Recall} \\ \midrule
-\multirow{3}{*}{LSTM} & Asfalto & 98.52\% & 98.83\% & 98.21\% \\ \cmidrule(l){2-5} 
+\multirow{4}{*}{LSTM} & Asfalto & 98.52\% & 98.83\% & 98.21\% \\ \cmidrule(l){2-5} 
  & Paralelepípedo & 85.46\% & 86.43\% & 84.51\% \\ \cmidrule(l){2-5} 
  & Terra & 90.49\% & 89.44\% & 91.57\% \\ \midrule
-\multirow{3}{*}{CNN} & Asfalto & 98.96\% & 99.00\% & 98.93\% \\ \cmidrule(l){2-5} 
+\multirow{4}{*}{CNN} & Asfalto & 98.96\% & 99.00\% & 98.93\% \\ \cmidrule(l){2-5} 
  & Paralelepípedo & 85.84\% & 89.23\% & 82.71\% \\ \cmidrule(l){2-5} 
  & Terra & 90.85\% & 88.59\% & 93.24\% \\ \midrule
-\multirow{3}{*}{CNN-LSTM} & Asfalto & 98.62\% & 98.46\% & 98.77\% \\ \cmidrule(l){2-5} 
+\multirow{4}{*}{CNN-LSTM} & Asfalto & 98.62\% & 98.46\% & 98.77\% \\ \cmidrule(l){2-5} 
  & Paralelepípedo & 85.56\% & 90.69\% & 80.98\% \\ \cmidrule(l){2-5} 
  & Terra & 90.22\% & 87.20\% & 93.46\% \\ \bottomrule
 \end{tabular}

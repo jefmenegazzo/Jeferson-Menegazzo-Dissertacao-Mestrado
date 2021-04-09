@@ -1,2 +1,73 @@
 \chapter{Materiais Resultantes}
 \label{cap:materiais_resultantes}
+
+A realização deste trabalho resultou em diverso materiais disponíveis publicamente na página do projeto no Github \footnote{https://github.com/Intelligent-Vehicle-Perception/Intelligent-Vehicle-Perception-Based-on-Inertial-Sensing-and-Artificial-Intelligence} \footnote{https://codigos.ufsc.br/lapix/intelligent-vehicle-perception-based-on-inertial-sensing}. Os seguintes materiais de \textit{software} foram produzidos:
+
+\begin{small}
+\begin{description}
+	
+	\item[Módulo de Coleta de Dados e Pré-Processamento:] contém o código-fonte dos projetos utilizados para coleta e ajuste dos dados, tal como gerenciamento de sensores para amostragem, armazenamento dos sinais, sincronização de sensores multimodais, fusão de dados, criação de GT, visualização de dados brutos, criação de vídeos integrando dados de MPU, GPS e câmera, etc.
+	
+	\item[Módulo de Conjuntos de Dados:] contém todos os conjuntos de dados PVS produzidos.
+	
+    \item[Módulo de Classificação de Tipo de Superfície de Pista 1:] código-fonte com todos os modelos desenvolvidos para o primeiro estudo de classificação de tipo de superfície, juntamente com todos os experimentos executados, permitindo pesquisas futuras executarem, compararem e auditarem.
+    
+    \item[Módulo de Classificação de Tipo de Superfície de Pista 2:] código-fonte com todos os modelos desenvolvidos para o segundo estudo de classificação de tipo de superfície, juntamente com todos os experimentos executados, permitindo pesquisas futuras executarem, compararem e auditarem.
+    
+    \item[Módulo de Classificação de Qualidade de Superfície de Pista:] código-fonte com todos os modelos desenvolvidos para o estudo de classificação de qualidade de superfície, juntamente com todos os experimentos executados, permitindo pesquisas futuras executarem, compararem e auditarem.
+    
+    \item[Módulo de Reconhecimento de Lombadas:] código-fonte com todos os modelos desenvolvidos para o estudo de detecção de lombadas, juntamente com todos os experimentos executados, permitindo pesquisas futuras executarem, compararem e auditarem.
+    
+    \item[Módulo de Melhores Modelos de Percepção Veicular:] código-fonte simplificado para uso dos melhores modelos desenvolvidos, sendo eles:
+    \begin{itemize}
+        \item Classificação de Tipo de Superfície de Pista: modelo CNN, classificando em terra, paralelepípedo e asfalto.
+        \item Classificação de Qualidade de Superfície de Pista: modelo CNN, classificando em bom, regular e ruim.
+        \item Reconhecimento de Lombadas: modelo CNN-LSTM, detectando lombadas.
+    \end{itemize}
+
+\end{description}
+\end{small}
+
+Todos os módulos descritos compõe o programa \textit{Intelligent Road Assessment System} (IRAS), o qual já possuí Registro do Programa de Computador no Instituto Nacional da Propriedade Industrial (INPI), sendo distriuído sob a licença \textbf{CC BY-NC-ND 4.0}. Em relação ao \textit{hardware} e rede de sensores desenvolvida, pedido de patente e/ou modelo de utilidade estão sendo analisados. Para promover a pesquisa e auxiliar na popularização deste tipo de sensoriamento em ITS, foi criado um canal no Youtube \footnote{https://www.youtube.com/channel/UCoWKXjgUNhGCYieR-ys-IBw}, com divulgação de apresentações, vídeos didáticos e vídeos com os melhores modelos em execução produzindo seus reconhecimentos e classificações. Também estão em produção artigos acessíveis para público não especializado, que serão publicados no \textit{Medium} e \textit{Towards Data Science}. Em relação às publicações científicas, foram produzidos os seguintes artigos: 
+
+\begin{small}
+\begin{description}
+
+    \item \textbf{\textit{\href{http://www.incod.ufsc.br/wp-content/uploads/2018/10/INCoD-TR-2018-07-LAPIX-E-V01.pdf}{Vehicular Perception and Proprioception Based on Inertial Sensing: a Systematic Review}}} \phantom{ } 
+    \newline\textbf{Editora}: \textit{Brazilian National Institute for Digital Convergence}. 
+    \newline\textbf{Status}: Publicado.
+    \newline\textbf{Ano}: 2018.
+    \newline\textbf{Qualis}: C.
+
+    \item \textbf{\href{https://siaiap32.univali.br/seer/index.php/acotb/article/view/14375}{Classificação de Qualidade de Superfície de Pista Baseado em Sensoriamento Inercial e Lógica \textit{Fuzzy}}} \phantom{ } 
+    \newline\textbf{Editora}: UNIVALI. Anais do \textit{Computer on the Beach}. 
+    \newline\textbf{Status}: Publicado.
+    \newline\textbf{Ano}: 2019.
+    \newline\textbf{Qualis}: B4.
+    
+    \item \textbf{\textit{\href{https://link.springer.com/article/10.1007\%2Fs42979-020-00275-z}{Vehicular Perception Based on Inertial Sensing - A Structured Mapping of Approaches and Methods}}}\phantom{ } 
+    \newline\textbf{Editora}: Springer. Revista \textit{SN Computer Science}. 
+    \newline\textbf{Status}: Publicado.
+    \newline\textbf{Ano}: 2020.
+    \newline\textbf{Qualis}: Indefinido.
+    
+    \item \textbf{\textit{\href{https://ieeexplore.ieee.org/document/9277846}{Multi-Contextual and Multi-Aspect Analysis for Road Surface Type Classification Through Inertial Sensors and Deep Learning}}} \phantom{ } 
+    \newline\textbf{Editora}: IEEE Xplore. Anais do \textit{2020 X Brazilian Symposium on Computing Systems Engineering} (SBESC). 
+    \newline\textbf{Status}: Publicado.
+    \newline\textbf{Ano}: 2020.
+    \newline\textbf{Qualis}: B2.
+    
+    \item \textbf{\textit{\href{https://link.springer.com/article/10.1007/s00607-021-00914-0}{Road Surface Type Classification Based on Inertial Sensors and Machine Learning: A Comparison Between Classical and Deep Machine Learning Approaches For Multi-Contextual Real-world Scenarios}}} \phantom{ } 
+    \newline\textbf{Editora}: Springer. Revista \textit{Computing}.  
+    \newline\textbf{Status}: Publicado.
+    \newline\textbf{Ano}: 2021.
+    \newline\textbf{Qualis}: B1.
+    
+    \item \textbf{\textit{\href{}{Speed Bump Detection Through Inertial Sensors and Deep Learning in a Multi-Contextual Analysis}}}\phantom{ } 
+    \newline\textbf{Editora}: Springer. Revista \textit{Neural Processing Letters}.  
+    \newline\textbf{Status}: Em Revisão.
+    \newline\textbf{Ano}: 2021.
+    \newline\textbf{Qualis}: A2.
+
+\end{description}
+\end{small}

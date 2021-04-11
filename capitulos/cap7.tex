@@ -19,7 +19,7 @@ Com o objetivo de avaliar a influência da propriedade de dependência veicular 
     
 \end{description}
 
-Neste estudo, buscou-se identificar também o domínio de análise mais adequado para classificar o tipo de superfície de pista. Sendo assim, para cada \emph{experimento de colocação}, foram definidos \emph{experimentos por domínio de análise}. Para a análise no domínio da frequência, foram aplicados nos dados a Transformada de Fourier de Curto Tempo (\textit{Short-Time Fourier Transform} - STFT) para extrair as características de magnitude da frequência através de uma janela deslizante de 100 amostras com 100\% de sobreposição. Os experimentos do domínio de análise foram definidos de acordo com as características de entrada detalhadas abaixo:
+Neste estudo, buscou-se identificar também o domínio de análise mais adequado para classificar o tipo de superfície de pista. Sendo assim, para cada \emph{experimento de colocação}, foram definidos \emph{experimentos por domínio de análise}. Para a análise no domínio da frequência, foram aplicados nos dados a Transformada de Fourier de Curto Tempo (\textit{Short-Time Fourier Transform} - STFT) para extrair as características de magnitude da frequência através de uma janela deslizante de 100 amostras com 100\% de sobreposição. Os \emph{experimentos por domínio de análise} foram definidos de acordo com as características de entrada detalhadas abaixo:
 
 \begin{description}
 
@@ -33,7 +33,7 @@ Neste estudo, buscou-se identificar também o domínio de análise mais adequado
     
 \end{description}
 
-Após definir os \emph{experimentos por domínio de análise}, os dados foram normalizados usando \textit{Min Max Scaler}. Os dados das características no domínio do tempo foram normalizados na faixa de [-1,1], uma vez que o sinal, neste caso, contém informações importantes, denotando a direção do vetor força. No domínio da frequência, como a magnitude não apresenta valores negativos, os dados foram normalizados na faixa de [0,1]. Em seguida, foram definidos os dados a serem usados no treinamento e na validação dos modelos. Para avaliar corretamente a generalização do aprendizado de cada técnica, avaliando sua adaptabilidade para contextos desconhecidos onde há variação nas propriedades de dependência veicular, de condução e ambiental, os dados de treinamento e validação foram divididos da mesma maneira que no estudo anterior do \autoref{cap:classificacao_tipo_superficie_1}, separando-os de acordo com o conjunto de dados em três \emph{experimentos por contexto}:
+Após definir os \emph{experimentos por domínio de análise}, os dados foram normalizados usando \textit{Min Max Scaler}. Os dados das características no domínio do tempo foram normalizados na faixa de [-1,1], uma vez que o sinal, neste caso, contém informações importantes, denotando a direção do vetor força. No domínio da frequência, como a magnitude não apresenta valores negativos, os dados foram normalizados na faixa de [0,1]. Em seguida, foram definidos os dados a serem usados no treinamento e na validação dos modelos. Para avaliar corretamente a generalização do aprendizado de cada técnica, avaliando sua adaptabilidade para contextos desconhecidos onde há variação nas propriedades de dependência veicular, de condução e ambiental, os dados de treinamento e validação foram divididos da mesma maneira que no estudo da seção anterior, separando-os de acordo com o conjunto de dados em três \emph{experimentos por contexto}:
 
 \begin{description}
 	
@@ -57,17 +57,15 @@ Após definir os \emph{experimentos por domínio de análise}, os dados foram no
     
 \end{description}
 
-Finalmente, para analisar a influência do número de amostras na classificação, foram criados três \emph{experimentos por tamanho de janela}, com janelas de 100, 200 e 300 amostras. A janela de dados utilizada foi fixa sem sobreposição, e cada amostra correspondeu a um vetor com os valores das características. Em resumo, cada experimento realizado neste estudo é um elemento do produto cartesiano entre \emph{experimentos por colocação}, \emph{experimentos por domínio de análise}, \emph{experimentos por contexto} e \emph{experimentos por tamanho de janela}.
+Finalmente, para analisar a influência do número de amostras na classificação, foram criados três \emph{experimentos por tamanho de janela de dados}, com janelas de 100, 200 e 300 amostras. A janela de dados utilizada foi fixa sem sobreposição, e cada amostra correspondeu a um vetor com os valores das características. Em resumo, cada experimento realizado neste estudo é um elemento do produto cartesiano entre \emph{experimentos por colocação}, \emph{experimentos por domínio de análise}, \emph{experimentos por contexto} e \emph{experimentos por tamanho de janela de dados}.
 
 \section{Processamento}
 
-Após a etapa de pré-processamento, os dados foram aplicados em modelos de classificação baseados em \textit{Deep Learning}. Neste estudo, foram desenvolvidas DNN baseadas em LSTM, GRU e CNN. Todos os modelos utilizam o otimizador Adam em conjunto com a função de perda de Entropia Cruzada Categórica. 
-
-O modelo baseado em LSTM é ilustrado na \autoref{fig:best_lstm_tipo_superficie_2}, sendo composto por um bloco de camada de entrada, três blocos de camadas de recorrência e regularização e um bloco de camadas totalmente conectadas para produção de saída. O bloco de entrada possui uma camada que recebe um tensor \emph{janelas x sequências x características}, onde \emph{janelas} são os agrupamentos de janelas, \emph{sequências} são os dados que compõem uma das janelas e \emph{características} os valores das 7 variáveis. Cada bloco de recorrência e regularização é composto por uma camada LSTM de 100 unidades, seguido por uma camada de \textit{Batch Normalization} e outra de \textit{Dropout} em 50\%. Após o processamento nas camadas recorrentes, os parâmetros passam para o bloco de camadas totalmente conectadas, onde existem duas camadas \textit{Dense}, a primeira com 100 neurônios com ativação Relu e a segunda com 3 neurônios e ativação Softmax, produzindo a classificação. A saída esperada da rede são os rótulos correspondentes à última amostra na janela. O modelo baseado em GRU desenvolvido possuí a mesma estrutura LSTM, trocando camadas LSTM por GRU conforme detalha a \autoref{fig:best_gru_tipo_superficie_2}.
+Após a etapa de pré-processamento, os dados foram aplicados em modelos de classificação baseados em \textit{Deep Learning}. Neste estudo, foram desenvolvidas DNN baseadas em LSTM, GRU e CNN. Todos os modelos são sequenciais e utilizam o otimizador Adam em conjunto com a função de perda de Entropia Cruzada Categórica. O modelo baseado em LSTM é ilustrado na \autoref{fig:best_lstm_tipo_superficie_2}, sendo composto por um bloco de camada de entrada, três blocos de camadas de recorrência e regularização e um bloco de camadas totalmente conectadas para produção de saída. O bloco de entrada possui uma camada que recebe um tensor \emph{janelas x sequências x características}, onde \emph{janelas} são os agrupamentos de janelas, \emph{sequências} são os dados que compõem uma das janelas e \emph{características} os valores das 7 variáveis. Cada bloco de recorrência e regularização é composto por uma camada LSTM unidirecional de 100 unidades, seguido por uma camada de \textit{Batch Normalization} e outra de \textit{Dropout} em 50\%. Após o processamento nas camadas recorrentes, os parâmetros passam para o bloco de camadas totalmente conectadas, onde existem duas camadas \textit{Dense}, a primeira com 100 neurônios com ativação \textit{Relu} e a segunda com 3 neurônios e ativação \textit{Softmax}, produzindo a classificação. A saída esperada da rede são os rótulos correspondentes à última amostra na janela. O modelo baseado em GRU desenvolvido possuí a mesma estrutura LSTM, trocando camadas LSTM por GRU conforme detalha a \autoref{fig:best_gru_tipo_superficie_2}.
 
 \begin{figure}[h!]
   \centering
-  \caption{Modelo LSTM para classificação do tipo de superfície de pista.}
+  \caption{Modelo LSTM para classificação do tipo de superfície de pista}
   \label{fig:best_lstm_tipo_superficie_2}
   \includegraphics[width=0.8\textwidth]{figuras/fig_37.png}
  \fonte{Desenvolvido pelo autor.}
@@ -75,7 +73,7 @@ O modelo baseado em LSTM é ilustrado na \autoref{fig:best_lstm_tipo_superficie_
 
 \begin{figure}[h!]
   \centering
-  \caption{Modelo GRU para classificação do tipo de superfície de pista.}
+  \caption{Modelo GRU para classificação do tipo de superfície de pista}
   \label{fig:best_gru_tipo_superficie_2}
   \includegraphics[width=0.8\textwidth]{figuras/fig_38.png}
  \fonte{Desenvolvido pelo autor.}
@@ -83,24 +81,23 @@ O modelo baseado em LSTM é ilustrado na \autoref{fig:best_lstm_tipo_superficie_
 
 \begin{figure}[h!]
   \centering
-  \caption{Modelo CNN para classificação do tipo de superfície de pista.}
+  \caption{Modelo CNN para classificação do tipo de superfície de pista}
   \label{fig:best_cnn_tipo_superficie_2}
   \includegraphics[width=0.8\textwidth]{figuras/fig_39.png}
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-Por fim, o modelo desenvolvido baseado em CNN é ilustrado na \autoref{fig:best_cnn_tipo_superficie_2}, sendo composto por um bloco de camada de entrada, três blocos de camadas de convolução e regularização e um bloco de camadas totalmente conectadas para produção de saída. O bloco de entrada possui uma camada que recebe um tensor \emph{janelas x sequências x características}, similar aos modelos LSTM e GRU. Os dois primeiros blocos de convolução e regularização são compostos cada um por uma camada CNN 1D com 128 filtros de \textit{kernel} tamanho 5 para extração de características e ativação Relu, seguida por regularização através de uma camada de \textit{Batch Normalization} e outra de \textit{Spatial Dropout 1D} em 15\%. O último bloco de convolução e regularização possui uma camada CNN 1D com as mesmas configurações das anteriores, uma camada de \textit{Global Average Pooling 1D}, e camadas de regularização por \textit{Batch Normalization} e \textit{Dropout} em 20\%. Finalmente, o bloco de totalmente conectadas consiste em duas camadas \textit{Dense}, uma com 32 neurônios e ativação Relu e outra com 3 neurônios e ativação Softmax. A saída esperada da rede são os rótulos mais presentes na janela de dados.
+Por fim, o modelo desenvolvido baseado em CNN é ilustrado na \autoref{fig:best_cnn_tipo_superficie_2}, sendo composto por um bloco de camada de entrada, três blocos de camadas de convolução e regularização e um bloco de camadas totalmente conectadas para produção de saída. O bloco de entrada possui uma camada que recebe um tensor \emph{janelas x sequências x características}, similar aos modelos LSTM e GRU. Os dois primeiros blocos de convolução e regularização são compostos cada um por uma camada Conv 1D com 128 filtros de \textit{kernel} tamanho 5 para extração de características e ativação \textit{Relu}, seguida por regularização através de uma camada de \textit{Batch Normalization} e outra de \textit{Spatial Dropout 1D} em 15\%. O último bloco de convolução e regularização possui uma camada Conv 1D com as mesmas configurações das anteriores, uma camada de \textit{Global Average Pooling 1D}, e camadas de regularização por \textit{Batch Normalization} e \textit{Dropout} em 20\%. Finalmente, o bloco de totalmente conectadas consiste em duas camadas \textit{Dense}, uma com 32 neurônios e ativação \textit{Relu} e outra com 3 neurônios e ativação \textit{Softmax}. A saída esperada da rede são os rótulos mais presentes na janela de dados.
 
 \section{Análise de Resultados}
 
-Todos os modelos desenvolvidos neste estudo foram programados em Python 3, utilizando a biblioteca Keras do Tensorflow. Os experimentos foram realizados no Google Collaboratory, em uma GPU NVIDIA Tesla P100 com 12 GB e 25 GB de RAM. Todos os experimentos foram executados três vezes, a fim de minimizar a aleatoriedade dos parâmetros iniciais, recuperando apenas o melhor modelo entre as três execuções. O melhor modelo foi considerado aquele que apresentou o maior valor de acurácia durante a validação. Os resultados obtidos foram agrupados por ponto de coleta de dados no veículo, detalhados nas Tabelas \ref{table:below_suspension_results_tipo_superficie_2}, \ref{table:above_suspension_results_tipo_superficie_2} e \ref{table:dashboard_results_tipo_superficie_2}.
-
-Além do agrupamento por ponto de coleta, em cada tabela é detalhado o experimento por modelo de DNN, domínio de análise, características de entrada e janelas de dados. Cada valor percentual exibido corresponde a média de acurácia na validação dos três \emph{experimentos por contexto}, os quais visam analisar a capacidade de aprendizado e generalização do modelo para cenários não conhecidos, onde há variações contextuais correspondentes aos fatores de dependência veicular, de condução e ambientais. Os valores destacados correspondem ao valor máximo de média de acurácia em validação para dado tipo de DNN.
+Todos os modelos desenvolvidos neste estudo foram programados em Python 3, utilizando a biblioteca Keras do Tensorflow. Os experimentos foram realizados no Google \textit{Collaboratory}, em um ambiente com as mesmas configurações do estudo da seção anterior. Todos os experimentos foram executados três vezes, %a fim de minimizar a aleatoriedade dos parâmetros iniciais,
+recuperando apenas o melhor modelo entre as três execuções. O melhor modelo foi considerado aquele que apresentou o maior valor de acurácia durante a validação. Os resultados obtidos foram agrupados por ponto de coleta de dados no veículo, detalhados nas Tabelas \ref{table:below_suspension_results_tipo_superficie_2}, \ref{table:above_suspension_results_tipo_superficie_2} e \ref{table:dashboard_results_tipo_superficie_2}. Além do agrupamento por ponto de coleta, em cada tabela é detalhado o experimento por modelo de DNN, domínio de análise, características de entrada e janelas de dados. Cada valor exibido corresponde a média de acurácia na validação dos três \emph{experimentos por contexto}, os quais visam analisar a capacidade de aprendizado e generalização do modelo para cenários não conhecidos, onde há variações contextuais correspondentes aos fatores de dependência veicular, de condução e ambientais. Os valores destacados correspondem ao valor máximo de média de acurácia em validação para dado tipo de DNN.
 
 \begin{table}[h!]
 \scriptsize
 \centering
-\caption{Média de acurácia para colocação próximo e abaixo da suspensão.}
+\caption{Média de acurácia para colocação próximo e abaixo da suspensão}
 \label{table:below_suspension_results_tipo_superficie_2}
 \begin{tabular}{cccccc}
 \cmidrule(l){4-6} & \multicolumn{1}{l}{\textbf{}} & \multicolumn{1}{l}{} & \multicolumn{3}{c}{\textbf{Tamanho da Janela de Dados}} \\ \midrule
@@ -127,7 +124,7 @@ Além do agrupamento por ponto de coleta, em cada tabela é detalhado o experime
 \begin{table}[h!]
 \scriptsize
 \centering
-\caption{Média de acurácia para colocação próximo e acima da suspensão.}
+\caption{Média de acurácia para colocação próximo e acima da suspensão}
 \label{table:above_suspension_results_tipo_superficie_2}
 \begin{tabular}{cccccc}
 \cmidrule(l){4-6}
@@ -152,7 +149,7 @@ Além do agrupamento por ponto de coleta, em cada tabela é detalhado o experime
 \begin{table}[h!]
 \scriptsize
 \centering
-\caption{Média de acurácia para colocação no painel de controle.}
+\caption{Média de acurácia para colocação no painel de controle}
 \label{table:dashboard_results_tipo_superficie_2}
 \begin{tabular}{cccccc}
 \cmidrule(l){4-6}
@@ -180,12 +177,12 @@ Em relação aos domínios de análise, tanto o domínio do tempo quanto o domí
 
 Analisando os modelos de DNN propostos, observamos que todos obtiveram bons resultados, com pouca variação de resultados. Considerando todos os experimentos, a rede baseada em CNN obteve melhores resultados, seguida pela LSTM e pela GRU. Contudo, a variação média dos valores de acurácia entre os três modelos é menor que 1\%. Em relação aos diferentes pontos de coleta no veículo, observamos que as redes são capazes de classificar corretamente mesmo com interferência da dependência veicular. Em uma análise ampla, as redes tem mais facilidade em reconhecer os padrões dos dados amostrados próximo abaixo da suspensão, seguidos pelos amostrados no painel de controle e por fim os amostrados próximo e acima da suspensão. Contudo, a variação média de acurácia entre os pontos de coleta é pequena, cerca de 2\%.
 
-Em uma análise macro de todos os experimentos, observamos que as redes propostas nas suas diversas variações de configuração de dados de entrada realizam a classificação de superfície de pista com bons valores de acurácia em validação, validando a hipótese deste estudo e evidenciando a capacidade das redes de \textit{Deep Learning} aprenderem as relações dos dados com as propriedades de dependência, generalizando para cenários desconhecidos. Com base em todas as análises individuais realizadas, consideramos o melhor modelo de classificação de pista o modelo baseado em CNN, processando no domínio do tempo 7 características correspondentes aos dados brutos dos sensores, em uma janela de dados de 300 amostras. A Tabela \ref{table:cnn_results_tipo_superficie_2} detalha os valores de acurácia em treinamento e validação do modelo CNN para cada \emph{experimento por contexto} e para \emph{experimento por colocação}. A \autoref{table:cnn_metrics_tipo_superficie_2} detalha as demais métricas de avaliação e a \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} detalha as matrizes de confusão correspondentes.
+Em uma análise macro de todos os experimentos, observamos que as redes propostas nas suas diversas variações de configuração de dados de entrada realizam a classificação de superfície de pista com bons valores de acurácia em validação, validando a hipótese deste estudo e evidenciando a capacidade das redes de \textit{Deep Learning} aprenderem as relações dos dados com as propriedades de dependência, generalizando para cenários desconhecidos. Com base em todas as análises individuais realizadas, consideramos o melhor modelo de classificação de pista o modelo baseado em CNN, processando no domínio do tempo 7 características correspondentes aos dados brutos dos sensores, em uma janela de dados de 300 amostras. A Tabela \ref{table:cnn_results_tipo_superficie_2} detalha os valores de acurácia em treinamento e validação do modelo CNN para cada \emph{experimento por contexto} e \emph{experimento por colocação}. A \autoref{table:cnn_metrics_tipo_superficie_2} detalha as demais métricas de avaliação e a \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} detalha as matrizes de confusão correspondentes.
 
 \begin{table}[h!]
 \scriptsize
 \centering
-\caption{Valores de acurácia para o modelo baseado em CNN.}
+\caption{Valores de acurácia para o modelo baseado em CNN}
 \label{table:cnn_results_tipo_superficie_2}
 \begin{tabular}{cccccc}
 \toprule
@@ -204,7 +201,7 @@ Em uma análise macro de todos os experimentos, observamos que as redes proposta
 \begin{table}[h!]
 \scriptsize
 \centering
-\caption{Métricas de avaliação para o modelo baseado em CNN.}
+\caption{Métricas de avaliação para o modelo baseado em CNN}
 \label{table:cnn_metrics_tipo_superficie_2}
 \begin{tabular}{clccc}
 \toprule
@@ -224,10 +221,10 @@ Em uma análise macro de todos os experimentos, observamos que as redes proposta
 
 \begin{figure}[h!]
   \centering
-  \caption{Matriz de confusão para o modelo de CNN em cada ponto de coleta de dados.}
+  \caption{Matriz de confusão para o modelo de CNN em cada ponto de coleta de dados}
   \label{fig:cnn_confusion_matrix_tipo_superficie_2}
   \includegraphics[width=1\textwidth]{figuras/fig_36.png}
   \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-Através das Tabelas \ref{table:cnn_results_tipo_superficie_2} e \ref{table:cnn_metrics_tipo_superficie_2}, e da \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} observamos que a rede CNN demonstrou boa capacidade de aprendizado e generalização para todos os pontos de coleta e todas as variações de contexto. Para os dados amostrados próximo e abaixo da suspensão, a rede obteve média de acurácia de treinamento de 95.36\% e de 93.04\% em validação, classificando segmentos de asfalto com f1-score de 98.60\%, paralelepípedo com 86.09\% e terra com 90.78\%. Para os dados amostrados próximo e acima da suspensão, o modelo obteve média de acurácia em treinamento de 92.27\% e de 92.02\% em validação, classificando segmentos de asfalto com f1-score de 98.76\%, paralelepípedo com 84.18\% e terra com 86.06\%. Por fim, para os dados amostrados na painel de controle obteve-se média de acurácia em treinamento de 95.17\% e de 93.05\% em validação, classificando segmentos de asfalto com f1-score de 98.62\%, paralelepípedo com 85.47\% e terra com 91.12\%. Observa-se que os resultados obtidos são superiores aos estudos anteriores, adicionando-se que neste estudo a análise foi realizada em contextos com variações das propriedades de dependência.
+Através das Tabelas \ref{table:cnn_results_tipo_superficie_2} e \ref{table:cnn_metrics_tipo_superficie_2}, e da \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} observamos que a rede CNN demonstrou boa capacidade de aprendizado e generalização para todos os pontos de coleta e todas as variações de contexto. Para os dados amostrados próximo e abaixo da suspensão, a rede obteve média de acurácia de treinamento de 95.36\% e de 93.04\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.60\%, paralelepípedo com 86.09\% e terra com 90.78\%. Para os dados amostrados próximo e acima da suspensão, o modelo obteve média de acurácia em treinamento de 92.27\% e de 92.02\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.76\%, paralelepípedo com 84.18\% e terra com 86.06\%. Por fim, para os dados amostrados na painel de controle obteve-se média de acurácia em treinamento de 95.17\% e de 93.05\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.62\%, paralelepípedo com 85.47\% e terra com 91.12\%. Observa-se que os resultados obtidos são superiores aos estudos anteriores, adicionando-se que neste estudo a análise foi realizada em contextos com variações das propriedades de dependência.

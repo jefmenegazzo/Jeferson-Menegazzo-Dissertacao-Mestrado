@@ -32,7 +32,7 @@ Após definir o objeto de pesquisa e o escopo da revisão, foram selecionadas as
 \begin{table}[h!]
     \small
     \centering
-    \caption{Definições da busca.}
+    \caption{Definições da busca}
     \label{tabela:definicao_pesquisa}
     \begin{tabular}{l}
         \toprule
@@ -67,7 +67,7 @@ Após definir o objeto de pesquisa e o escopo da revisão, foram selecionadas as
 Para obter estudos primários a partir das bases de dados científicas definidas, com base nas palavras-chave obtidas nos estudos de controle foram construídas inicialmente as \textit{strings} de busca, detalhados nas Tabelas \ref{tabela:percepcao_ambiente_busca} e \ref{tabela:propriocepcao_busca}. Essas \textit{strings} foram modeladas de acordo com as características de cada fonte. Posteriormente, as \textit{strings} foram submetidas ao respectivo mecanismo de busca e seus resultados analisados por meio de uma estratégia de seleção. No processo de seleção, foram aceitos para a revisão os trabalhos que atenderam a todos os critérios de inclusão e a nenhum dos critérios de exclusão, detalhados na Tabela \ref{tabela:definicao_pesquisa}.
 
 \begin{table}[h!]
-    \caption{\textit{Strings} de busca para exterocepção veicular.}
+    \caption{\textit{Strings} de busca para exterocepção veicular}
     \label{tabela:percepcao_ambiente_busca}
     \centering
     \small
@@ -105,7 +105,7 @@ Para obter estudos primários a partir das bases de dados científicas definidas
 \end{table}
 
 \begin{table}[h!]
-    \caption{\textit{Strings} de busca para propriocepção veicular.}
+    \caption{\textit{Strings} de busca para propriocepção veicular}
     \label{tabela:propriocepcao_busca}
     \centering
     \small
@@ -148,7 +148,7 @@ Para obter estudos primários a partir das bases de dados científicas definidas
 Com as definições estabelecidas, foram realizadas buscas por estudos primários nas três fontes selecionadas. Devido à limitação de número de termos nos mecanismos de busca, foram realizadas duas buscas, uma para exterocepção e outra para propriocepção, conforme as \textit{strings} de busca construídas. A busca por exterocepção resultou em 737 artigos e a propriocepção em 239 artigos. Após análise dos estudos de acordo com os critérios estabelecidos, 66 artigos sobre exterocepção e 25 sobre propriocepção foram selecionados para esta revisão, conforme detalhado na Tabela \ref{tabela:resultados_sumarizados_busca}. 
 
 \begin{table}[h]
-    \caption{Resultados sumarizados das buscas.}
+    \caption{Resultados sumarizados das buscas}
     \label{tabela:resultados_sumarizados_busca}
     \centering
     \small
@@ -184,7 +184,7 @@ Os sensores inerciais não requerem nenhum referencial externo. Sendo assim, pos
 A orientação dos dados é importante no processo de análise para que se possa utilizar os valores de acordo com o tipo de percepção a ser realizada. Sendo assim, baseando-se no referencial do veículo, os padrões de percepção de ambiente são geralmente mais evidentes na aceleração do eixo Z e na taxa de rotação dos eixos X e Y. Já quanto aos padrões de propriocepção, mostram-se mais evidentes nos dados de aceleração nos eixos X e Y e na taxa de rotação do eixo Z. Para uma padronização de nomenclatura neste trabalho, serão usados os termos definidos nas Tabelas \ref{table:accelerometer_reference_frames} e \ref{table:gyroscope_reference_frames} para se referir aos dados em relação a cada um dos referenciais.
 
 \begin{table}[h]
-    \caption{Referenciais para os dados de aceleração.}
+    \caption{Referenciais para os dados de aceleração}
     \label{table:accelerometer_reference_frames}
     \centering
     \small
@@ -203,7 +203,7 @@ A orientação dos dados é importante no processo de análise para que se possa
 \end{table}
 
 \begin{table}[h]
-    \caption{Referenciais para os dados de taxa de rotação.}
+    \caption{Referenciais para os dados de taxa de rotação}
     \label{table:gyroscope_reference_frames}
     \centering
     \small
@@ -235,7 +235,7 @@ Os valores amostrados através dos sensores inerciais, embora não dependam de u
 	
 	Quatro fatores de dependência estão relacionados às configurações e características dos sensores, sendo eles a orientação \cite{Kumar2017,Alam2020}, resolução, faixa de medição e taxa de amostragem. A orientação do sensor, conforme discutido na seção anterior, afeta a amostragem de dados no sistema de coordenadas correto. Portanto, o sensor deve ser colocado de forma a ficar alinhado com o sistema de coordenadas do veículo ou ter uma reorientação de eixos para esse referencial. Isso implica na confiabilidade dos dados existentes em cada eixo de análise, pois cada um deles visa atingir certa percepção veicular.
 
-	O segundo e o terceiro fator estão fortemente correlacionados. A resolução é definida de acordo com a faixa de medição (\textit{full scale range}) escolhida para o sensor. Portanto, é necessário que o sensor tenha uma faixa de medição adequada para poder amostrar os dados sem saturar, ou seja, que a faixa de medição do sensor não seja menor que os valores possíveis a serem monitorados. A resolução, estabelecida a partir da faixa de valores a serem analisados, fornece o quão próximo o valor medido é comparado ao valor real, no processo de quantização e representação no sistema binário. Assim, devido à limitação do número de bits representado pelos sensores, quanto maior a faixa de medição, menor a resolução.
+	O segundo e o terceiro fator estão fortemente correlacionados. A resolução é definida de acordo com a faixa de medição FSR escolhida para o sensor. Portanto, é necessário que o sensor tenha uma faixa de medição adequada para poder amostrar os dados sem saturar, ou seja, que a faixa de medição do sensor não seja menor que os valores possíveis a serem monitorados. A resolução, estabelecida a partir da faixa de valores a serem analisados, fornece o quão próximo o valor medido é comparado ao valor real, no processo de quantização e representação no sistema binário. Assim, devido à limitação do número de bits representado pelos sensores, quanto maior a faixa de medição, menor a resolução.
 	
 	Por fim, a taxa de amostragem descreve a frequência da coleta de dados por segundo. A escolha desse valor deve levar em consideração não apenas o custo computacional de armazenamento e processamento dos dados amostrados, mas também se, a uma determinada velocidade, será possível obter amostras suficientes para realizar as percepções. Dessa forma, quando o veículo está em alta velocidade, percepções transientes, como buracos, precisam de uma taxa de amostragem satisfatória, para que seja possível adquirir amostras suficientes desse evento.
 	
@@ -259,7 +259,7 @@ A coleta de dados nos estudos analisados foi realizada em diferentes contextos, 
 
 \begin{figure}[h!]
   \centering
-  \caption{Sensores inerciais utilizados nos estudos revisados.}
+  \caption{Sensores inerciais utilizados nos estudos revisados}
    \label{fig:sensores_ocorrencia}
    \includegraphics[width=0.85\textwidth]{figuras/fig_14.png}
    \fonte{Desenvolvido pelo autor.}
@@ -269,7 +269,7 @@ Os estudos também foram agrupados de acordo com a plataforma utilizada, detalha
 
 \begin{figure}[h!]
   \centering
-  \caption{Plataformas utilizadas nos estudos revisados.}
+  \caption{Plataformas utilizadas nos estudos revisados}
    \label{fig:plataformas_ocorrencia}
    \includegraphics[width=0.85\textwidth]{figuras/fig_15.png}
    \fonte{Desenvolvido pelo autor.}
@@ -279,7 +279,7 @@ Os sensores foram colocados no veículo de acordo com a plataforma utilizada. Se
 
 \begin{figure}[h!]
   \centering
-  \caption{Colocação dos sensores no veículo.}
+  \caption{Colocação dos sensores no veículo}
    \label{fig:colocacao_sensores_ocorrencia}
    \includegraphics[width=1\textwidth]{figuras/fig_16.png}
    \fonte{Desenvolvido pelo autor.}
@@ -297,7 +297,7 @@ Na segunda etapa de pré-processamento, várias técnicas foram aplicadas para a
 
 \begin{figure}[h!]
   \centering
-  \caption{Métodos utilizados no pré-processamento de sinais dos estudos revisados.}
+  \caption{Métodos utilizados no pré-processamento de sinais dos estudos revisados}
    \label{fig:preprocessamento_sinais_ocorrencia}
    \includegraphics[width=1\textwidth]{figuras/fig_17.png}
    \fonte{Desenvolvido pelo autor.}
@@ -305,7 +305,7 @@ Na segunda etapa de pré-processamento, várias técnicas foram aplicadas para a
 
 \begin{figure}[h!]
   \centering
-  \caption{Domínios de análise utilizados nos estudos revisados.}
+  \caption{Domínios de análise utilizados nos estudos revisados}
    \label{fig:dominios_analise_ocorrencia}
    \includegraphics[width=0.85\textwidth]{figuras/fig_18.png}
    \fonte{Desenvolvido pelo autor.}
@@ -319,7 +319,7 @@ Para reconhecer e classificar os padrões nos sinais pré-processados dos sensor
 
 \begin{figure}[h!]
   \centering
-  \caption{Técnicas utilizadas para reconhecimento e classificação de padrões de percepção veicular.}
+  \caption{Técnicas utilizadas para reconhecimento e classificação de padrões de percepção veicular}
    \label{fig:tecnicas_ocorrencia}
    \includegraphics[width=0.95\textwidth]{figuras/fig_19.png}
     \fonte{Desenvolvido pelo autor.}
@@ -327,7 +327,7 @@ Para reconhecer e classificar os padrões nos sinais pré-processados dos sensor
 
 \subsubsection{Abordagens Baseadas em Limiares} 
 
-Os métodos baseados em limiares (\textit{threshold}) são extremamente simples e consistem na técnica mais utilizada nos estudos revisados. Esta abordagem é baseada na comparação dos valores pré-processados dos sensores com limiares estáticos ou dinâmicos. Alguns trabalhos utilizaram de mais de um valor de comparação, construindo assim uma heurística baseada em limiares. Esses valores de comparação, em geral, são obtidos por meio de análises exploratórias dos sinais dos sensores inerciais, sem muito rigor metológico.
+Os métodos baseados em limiares (\textit{threshold}) são extremamente simples e consistem na técnica mais utilizada nos estudos revisados. Esta abordagem é baseada na comparação dos valores pré-processados dos sensores com limiares estáticos ou dinâmicos. Alguns trabalhos utilizaram de mais de um valor de comparação, construindo assim uma heurística baseada em limiares. Esses valores de comparação, em geral, são obtidos por meio de análises exploratórias dos sinais dos sensores inerciais, sem muito rigor metodológico.
 
 Na aplicação de limiares para o reconhecimento de exterocepção, foram identificados eventos transientes e persistentes. No estudo de \cite{Orhan2013} e \cite{Strutu2013} foram identificados buracos e redutores de velocidade. \cite{Akhtar2014}, \cite{Astarita2014}, \cite{Kaur2017} e \cite{Vittorio2014} reconheceram irregularidades do pavimento de forma genérica, sem classificar os padrões. \cite{Jamakhandi2014} detectou lombadas, poças e elevações abruptas. \cite{BelloSalau2018}, \cite{Gunawan2015}, \cite{Ghadge2015}, \cite{Kumar2017}, \cite{Li2018}, \cite{Pooja2017} e \cite{Rishiwal2016} identificaram solavancos/saliências e buracos, com \cite{Ghadge2015} validando o limiar com KMC e \textit{Random Forest}. \cite{Gawad2016} treinou um \textit{Perceptron} para gerar o limiar, posteriormente empregado na identificação de anomalias nas estradas. \cite{Afrin2015} identificou redutores de velocidade. \cite{Hsu2016} reconheceu buracos e identificou a qualidade da estrada, classificando em irregular, áspera ou lisa. \cite{Lima2016} classificou a qualidade do pavimento em boa, normal, ruim e péssima, enquanto \cite{Li2018} classificou em excelente/boa, regular, ruim, muito ruim/terrível.
 
@@ -356,7 +356,7 @@ As figuras \ref{fig:exteroperception_occurrence} e \ref{fig:proprioception_occur
 
 \begin{figure}[h!]
   \centering
-  \caption{Exterocepções encontradas nos estudos analisados.}
+  \caption{Exterocepções encontradas nos estudos analisados}
    \label{fig:exteroperception_occurrence}
    \includegraphics[width=0.95\textwidth]{figuras/fig_20.png}
     \fonte{Desenvolvido pelo autor.}
@@ -364,7 +364,7 @@ As figuras \ref{fig:exteroperception_occurrence} e \ref{fig:proprioception_occur
 
 \begin{figure}[h!]
   \centering
-  \caption{Propriocepções encontradas nos estudos analisados.}
+  \caption{Propriocepções encontradas nos estudos analisados}
    \label{fig:proprioception_occurrence}
    \includegraphics[width=0.95\textwidth]{figuras/fig_21.png}
    \fonte{Desenvolvido pelo autor.}

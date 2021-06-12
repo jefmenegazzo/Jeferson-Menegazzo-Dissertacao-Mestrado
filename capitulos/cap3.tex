@@ -1,7 +1,7 @@
 \chapter{Fundamentação Teórica}
 \label{cap:fundamentacao}
 
-Nesta seção são detalhados conceitos acerca dos materiais e métodos utilizados na pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter-Car} (QC), o qual descreve as mecânicas veiculares envolvidas no sistema de suspensão. Em seguida, são detalhadas as técnicas de IA utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular, dentre técnicas \textit{Machine Learning} clássico e \textit{Deep Learning}. Por fim, são apresentadas as métricas de avaliação adotadas.
+Nesta seção são detalhados fundamentos teóricos necessários para compreensão da pesquisa. Inicialmente é discorrido sobre o sensoriamento empregado, tipos de sensores, valores aferidos, entre outras características. Posteriormente, é apresentado o modelo matemático \textit{Quarter Car} (QC), o qual descreve as mecânicas veiculares envolvidas no sistema de suspensão. Em seguida, são detalhadas as técnicas de IA utilizadas com o intuito de reconhecer e classificar os padrões de percepção veicular, dentre técnicas \textit{Machine Learning} clássico e \textit{Deep Learning}. Por fim, são apresentadas as métricas de avaliação adotadas.
 
 \section{Sensoriamento}
 
@@ -9,7 +9,7 @@ Nesta seção, são apresentados os sensores inerciais, os quais constituem font
 
 \subsection{Sensores Inerciais}
 
-Os sensores inerciais constituem dispositivos que produzem sinais através do princípio da inércia \cite{Braga2017}. Estes sensores compreendem acelerômetros e giroscópios, de um ou mais eixos \cite{Beeby2004}. O acelerômetro mede a força de aceleração (em $m/s^2$ ou g = 9.8 $m/s^2$), enquanto  o giroscópio afere a taxa de rotação (em graus/segundo ou radianos/segundo), ambos sem a necessidade de um referencial externo \cite{Groves2013}. Sendo assim, a partir de um quadro de referência ou posição inicial destes sensores, forças externas que atuam sobre eles causam acelerações e mudanças de orientação (rotação) em um ou mais de seus eixos \cite{Kempe2011}. Em síntese, são sensores que necessitam de movimento para produção de dados. Neste estudo, estes movimentos são resultantes das forças produzidas pela tração do veículo e pelas interações com o ambiente no qual ele trafega.
+Os sensores inerciais constituem dispositivos que produzem sinais através do princípio da inércia \cite{Braga2017}. Estes sensores compreendem acelerômetros e giroscópios, de um ou mais eixos \cite{Beeby2004}. O acelerômetro mede a força de aceleração (em $m/s^2$ ou $g$), enquanto  o giroscópio afere a taxa de rotação (em graus/segundo ou radianos/segundo), ambos sem a necessidade de um referencial externo \cite{Groves2013}. Sendo assim, a partir de um quadro de referência ou posição inicial destes sensores, forças externas que atuam sobre eles causam acelerações e mudanças de orientação (rotação) em um ou mais de seus eixos \cite{Kempe2011}. Em síntese, são sensores que necessitam de movimento para produção de dados. Neste estudo, estes movimentos são resultantes das forças produzidas pela tração do veículo e pelas interações com o ambiente no qual ele trafega.
 
 \subsection{Magnetômetro}
 
@@ -31,7 +31,7 @@ O modelo matemático \textit{Quarter Car} (QC) descreve as variáveis da dinâmi
    \fonte{Adaptado de \cite{Loizos2008}}
 \end{figure}
 
-Os valores das variáveis do modelo QC são definidos de acordo com cada veículo, dado as diferentes estruturas veiculares existentes. Este modelo conta com diversas fórmulas que descrevem o relacionamento entre todas as suas variáveis. Os parâmetros do modelo são essenciais na aplicação de metodologias internacionais para indexação da irregularidade, como o IRI, para estabelecer a qualidade da via. De forma a simplificar as fórmulas do QC, foram criados valores padrões para as propriedades, denominados \textit{Golden Car Parameters}. Estas propriedades, detalhadas na \autoref{table:golden_car_parameters}, foram estabelecidas considerando um cenário padrão, onde o veículo é dirigido a uma velocidade constante de 80 $km/h$ \cite{Loizos2008}.
+Os valores das variáveis do modelo QC são definidos de acordo com cada veículo, dadas as diferentes estruturas veiculares existentes. Este modelo conta com diversas fórmulas que descrevem o relacionamento entre todas as suas variáveis. Os parâmetros do modelo são essenciais na aplicação de metodologias internacionais para indexação da irregularidade, como o IRI, para estabelecer a qualidade da via. De forma a simplificar as fórmulas do QC, foram criados valores padrões para as propriedades, denominados \textit{Golden Car Parameters}. Estas propriedades, detalhadas na \autoref{table:golden_car_parameters}, foram estabelecidas considerando um cenário padrão, onde o veículo é dirigido a uma velocidade constante de 80 $km/h$ \cite{Loizos2008}.
 
 \begin{table}[h]
     \caption{Os parâmetros \textit{Golden Car}}
@@ -56,11 +56,11 @@ Os valores das variáveis do modelo QC são definidos de acordo com cada veícul
 
 \section{Técnicas Clássicas de Machine Learning}
 
-Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para resolver problemas de classificação, regressão e previsão. Dentre as técnicas clássicas de \textit{clustering} e aprendizado de máquina supervisionado, neste trabalho foram desenvolvidos modelos de \textit{K-Means Clustering} (KMC), \textit{K-Nearest Neighbors} (KNN) e \textit{Support Vector Machines} (SVM), detalhadas nas próximas subseções.
+Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para resolver problemas de classificação e regressão (previsão). Dentre as técnicas clássicas de \textit{clustering} e aprendizado de máquina supervisionado, neste trabalho foram desenvolvidos modelos de \textit{K-Means Clustering} (KMC), \textit{K-Nearest Neighbors} (KNN) e \textit{Support Vector Machines} (SVM), detalhadas nas próximas subseções.
 
 \subsection{K-Means Clustering}
 
-O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\textit{clustering}), que permite identificar agrupamentos (\textit{clusters}) de dados semelhantes, conforme ilustra a \autoref{fig:execucao_kcm}. Neste método, partindo de um conjunto de dados não rotulados (1), são criadas aleatoriamente centróides para cada um dos \textit{k clusters} (2). Em seguida, cada dado é atribuído a um dos \textit{clusters} baseando-se em uma métrica de distância, como a Euclidiana, em relação à centroide do \textit{cluster} (3, 4). Iterativamente, a centroide de cada \textit{clusters} é recalculada com base na média dos dados (5), e as distâncias novamente recalculadas (6, 7), até que as centróides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\textit{clustering}), que permite identificar agrupamentos (\textit{clusters}) de dados semelhantes, conforme ilustra a \autoref{fig:execucao_kcm}. Neste método, partindo de um conjunto de dados não rotulados (1), são criadas aleatoriamente centróides para cada um dos \textit{k clusters} (2). Em seguida, cada dado é atribuído a um dos \textit{clusters} baseando-se em uma métrica de distância, como a Euclidiana, em relação ao centroide do \textit{cluster} (3, 4). Iterativamente, o centroide de cada \textit{clusters} é recalculado com base na média dos dados (5), e as distâncias novamente recalculadas (6, 7), até que as centroides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
 
 \begin{figure}[h]
   \centering
@@ -72,7 +72,7 @@ O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\t
 
 \subsection{K-Nearest Neighbors}
 
-O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado a ser classificado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os k vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus k vizinhos, conforme ilustra a \autoref{fig:execucao_knn} \cite{Khandelwal2018}.
+O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado a ser classificado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os $k$ vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus $k$ vizinhos, conforme ilustra a \autoref{fig:execucao_knn} \cite{Khandelwal2018}.
 
 \begin{figure}[h]
   \centering
@@ -84,7 +84,7 @@ O KNN consiste de uma técnica para classificação a qual se baseia em métrica
 
 \subsection{Support Vector Machines}
 
-O SVM é uma técnica de aprendizado supervisionado aplicada em classificação, onde se busca por um hiperplano ideal que separa as classes de dados, conforme ilustra a \autoref{fig:execucao_svm}. O algoritmo se inicia com a busca pelos pontos mais próximos ao hiperplano que separa as classes. Esses pontos são chamados de vetores de suporte. Na sequencia, é calculada a distância entre o hiperplano e estes vetores. Essa distância é chamada de margem, a qual o SVM busca maximizar, de forma a encontrar o hiperplano ideal \cite{Pupale2019}. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro \textit{kernel}, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+O SVM é uma técnica de aprendizado supervisionado aplicada em classificação, onde se busca por um hiperplano ideal que separa as classes de dados, conforme ilustra a \autoref{fig:execucao_svm}. O algoritmo se inicia com a busca pelos pontos mais próximos ao hiperplano que separa as classes. Esses pontos são chamados de vetores de suporte. Na sequência, é calculada a distância entre o hiperplano e estes vetores. Essa distância é chamada de margem, a qual o SVM busca maximizar, de forma a encontrar o hiperplano ideal \cite{Pupale2019}. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro \textit{kernel}, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
 
 \begin{figure}[h]
   \centering
@@ -114,7 +114,7 @@ A LSTM constitui um tipo de Rede Neural Recorrente (\textit{Recurrent Neural Net
    \fonte{\cite{Junior2019}}
 \end{figure}
 
-Cada célula de uma LSTM possuí três portas que controlam o fluxo de informações para dentro e fora da célula, ilustrado na \autoref{fig:cell_lstm_gates}. Estas são: a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Phi2020}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula \cite{Jones2017}.
+Cada célula de uma LSTM possui três portas que controlam o fluxo de informações para dentro e fora da célula, ilustrado na \autoref{fig:cell_lstm_gates}. Estas são: a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Phi2020}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula \cite{Jones2017}.
 
 \begin{figure}[h]
   \centering
@@ -128,7 +128,7 @@ Cada célula de uma LSTM possuí três portas que controlam o fluxo de informaç
 
 A GRU consiste de um tipo de RNN com o mesmo propósito da LSTM, embora considerada uma melhoria em relação a anterior, utilizando menos portas e parâmetros \cite{Kumar2019,Bianchi2017}. Em razão disso, redes GRU superaram a performance de redes LSTM em várias aplicações, treinando e convergindo mais rápido, se mostrando computacionalmente menos custosas e igualmente eficientes \cite{Kumar2019,Bianchi2017}. Empregada também em classificação e previsão de séries temporais, este tipo de rede ajuda na recuperação de informações em escalas de tempo distintas \cite{Bianchi2017,Kumar2019}. 
 
-Cada célula de uma GRU possuí um estado de célula (memória) que utiliza de um estado escondido (\textit{hidden state}) para transferir a informação, com é feito na LSTM. Contudo, a GRU utiliza de apenas duas portas, conforme ilustra a \autoref{fig:cell_gru_gates}: a porta de reinicialização (\textit{reset gate}) e a porta de atualização (\textit{update gate}). A porta de atualização opera de forma similar às portas de esquecimento e a de entrada de uma LSTM, decidindo quais informações descartar e quais informações novas adicionar a memória. A porta de reinicialização, por sua vez, é utilizada para decidir quais informações do passado devem ser esquecidas \cite{Phi2020}.
+Cada célula de uma GRU possui um estado de célula (memória) que utiliza de um estado escondido (\textit{hidden state}) para transferir a informação, com é feito na LSTM. Contudo, a GRU utiliza de apenas duas portas, conforme ilustra a \autoref{fig:cell_gru_gates}: a porta de reinicialização (\textit{reset gate}) e a porta de atualização (\textit{update gate}). A porta de atualização opera de forma similar às portas de esquecimento e a de entrada de uma LSTM, decidindo quais informações descartar e quais informações novas adicionar a memória. A porta de reinicialização, por sua vez, é utilizada para decidir quais informações do passado devem ser esquecidas \cite{Phi2020}.
 
 \begin{figure}[h]
   \centering
@@ -140,7 +140,7 @@ Cada célula de uma GRU possuí um estado de célula (memória) que utiliza de u
 
 \subsection{Convolutional Neural Network}
 
-A CNN é um tipo de rede neural projetada para tratar eficientemente dados de imagem, se mostrando efetiva em aplicações de visão computacional, como classificação de imagem, localização de objetos, etc. \cite{Brownlee2018}. Através da aplicação de convoluções, este tipo de rede é capaz de aprender como extrair características de alto nível diretamente nos dados brutos, que representam bem os padrões a serem reconhecidos \cite{Dixon2019,Goodfellow2016}. Esta abordagem, denominada \textit{representation learning} \cite{Brownlee2018}, também pode ser aplicada em séries temporais, onde apresenta duas vantagens sobre outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possuí uma quantidade \emph{n} de filtros aplicados com um \textit{kernel} de tamanho \emph{m}, conforme ilustra as Figuras \ref{fig:cnn_convolution} e \ref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de \textit{pooling} e \textit{fully connected}, que executam tarefas de classificação \cite{Wang2019}.
+A CNN é um tipo de rede neural projetada para tratar eficientemente dados de imagem, se mostrando efetiva em aplicações de visão computacional, como classificação de imagem, localização de objetos, etc. \cite{Brownlee2018}. Através da aplicação de convoluções, este tipo de rede é capaz de aprender como extrair características de alto nível diretamente nos dados brutos, que representam bem os padrões a serem reconhecidos \cite{Dixon2019,Goodfellow2016}. Esta abordagem, denominada \textit{representation learning} \cite{Brownlee2018}, também pode ser aplicada em séries temporais, onde apresenta duas vantagens sobre outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possui uma quantidade \emph{n} de filtros aplicados com um \textit{kernel} de tamanho \emph{m}, conforme ilustra as Figuras \ref{fig:cnn_convolution} e \ref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de \textit{pooling} e \textit{fully connected}, que executam tarefas de classificação \cite{Wang2019}.
 
 \begin{figure}[h]
   \centering
@@ -164,7 +164,7 @@ A ConvLSTM é um tipo de RNN variante da LSTM \cite{Salman2018}. Nestas redes ex
 
 \subsection{Convolutional Neural Network Long Short-Term Memory}
 
-A CNN-LSTM constitui um tipo de rede neural híbrida que utiliza de ambas as camadas de convolução (CNN) e recorrência (LSTM) \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em sequências temporais, e cada sequência é subdividida em blocos menores, as subsequências. Nestas subsequências são aplicadas camadas de convolução para extração de características complexas \cite{Deep2019}. Em seguida, estas características são agrupadas novamente na sequência original e empregadas em camadas recorrentes, para interpretar a sequência temporal das características produzidas.
+A CNN-LSTM constitui um tipo de rede neural híbrida que utiliza ambas as camadas de convolução (CNN) e recorrência (LSTM) \cite{Deep2019}. Nestas redes, os sinais são inicialmente agrupados em sequências temporais, e cada sequência é subdividida em blocos menores, as subsequências. Nestas subsequências são aplicadas camadas de convolução para extração de características complexas \cite{Deep2019}. Em seguida, estas características são agrupadas novamente na sequência original e empregadas em camadas recorrentes, para interpretar a sequência temporal das características produzidas.
 
 \section{Métricas de Avaliação}
 
@@ -206,6 +206,6 @@ Por fim, a \textit{f1-score} consiste da média harmônica de precisão e \texti
 
 \begin{center}
   \[
-  \textit{F1-Score} = \frac{2 * \textit{precisão} * \textit{recall}}{\textit{precisão} + \textit{recall}}
+  \textit{F1-Score} = \frac{2 \cdot \textit{precisão} \cdot \textit{recall}}{\textit{precisão} + \textit{recall}}
   \]
 \end{center}

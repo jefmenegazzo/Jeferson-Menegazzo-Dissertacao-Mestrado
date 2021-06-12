@@ -1,7 +1,7 @@
 \chapter{Classificação de Tipo de Superfície de Pista 2}
 \label{cap:classificacao_tipo_superficie_2}
 
-Através dos resultados obtidos no estudo da seção anterior, foi conduzido um segundo estudo para o desenvolvimento de modelo adaptativo de classificação de tipo de superfície de pista, com foco em modelos de \textit{Deep Learning}, os quais se mostraram mais promissores quando comparados a modelos de Aprendizado de Máquina clássicos. Neste estudo foi produzido em conjunto uma avaliação multi-aspecto e multi-contextual. O processo de desenvolvimento e experimentação é detalhado nas próximas subseções. Na primeira delas, o pré-processamento, os dados foram ajustados e organizados para avaliar aspectos como a influência do ponto de coleta de dados no veículo, o domínio de análise, as características de entrada do modelo e o tamanho da janela de dados. Também foi avaliado a capacidade de generalização do aprendizado dos modelos para contextos desconhecidos. Na segunda subseção, processamento, foram desenvolvidos três modelos de DNN baseados em diferentes técnicas de \textit{Deep Learning}: LSTM, GRU e CNN. Por fim, na última subseção são detalhados e comparados os resultados obtidos.
+Através dos resultados obtidos no estudo da seção anterior, foi conduzido um segundo estudo para o desenvolvimento de modelo adaptativo de classificação de tipo de superfície de pista, com foco em modelos de \textit{Deep Learning}, os quais se mostraram mais promissores quando comparados a modelos de Aprendizado de Máquina clássicos. Neste estudo foi produzido em conjunto uma avaliação multiaspecto e multicontextual. O processo de desenvolvimento e experimentação é detalhado nas próximas subseções. Na primeira delas, o pré-processamento, os dados foram ajustados e organizados para avaliar aspectos como a influência do ponto de coleta de dados no veículo, o domínio de análise, as características de entrada do modelo e o tamanho da janela de dados. Também foi avaliada a capacidade de generalização do aprendizado dos modelos para contextos desconhecidos. Na segunda subseção, processamento, foram desenvolvidos três modelos de DNN baseados em diferentes técnicas de \textit{Deep Learning}: LSTM, GRU e CNN. Por fim, na última subseção são detalhados e comparados os resultados obtidos.
 
 \section{Pré-Processamento}
 
@@ -19,7 +19,7 @@ Com o objetivo de avaliar a influência da propriedade de dependência veicular 
     
 \end{description}
 
-Neste estudo, buscou-se identificar também o domínio de análise mais adequado para classificar o tipo de superfície de pista. Sendo assim, para cada \emph{experimento de colocação}, foram definidos \emph{experimentos por domínio de análise}. Para a análise no domínio da frequência, foram aplicados nos dados a Transformada de Fourier de Curto Tempo (\textit{Short-Time Fourier Transform} - STFT) para extrair as características de magnitude da frequência através de uma janela deslizante de 100 amostras com 100\% de sobreposição. Os \emph{experimentos por domínio de análise} foram definidos de acordo com as características de entrada detalhadas abaixo:
+Neste estudo, buscou-se identificar também o domínio de análise mais adequado para classificar o tipo de superfície de pista. Sendo assim, para cada \emph{experimento de colocação}, foram definidos \emph{experimentos por domínio de análise}. Para a análise no domínio da frequência, foram aplicados nos dados a Transformada de Fourier de Curto Tempo (\textit{Short-Time Fourier Transform} - STFT) para extrair as características de magnitude da frequência através de uma janela deslizante de 100 amostras com total sobreposição. Os \emph{experimentos por domínio de análise} foram definidos de acordo com as características de entrada detalhadas abaixo:
 
 \begin{description}
 
@@ -27,9 +27,9 @@ Neste estudo, buscou-se identificar também o domínio de análise mais adequado
     
     \item[Experimento por Domínio de Análise 2:] Foram utilizadas as 7 características do \emph{Experimento por Domínio de Análise 1}, mais quatro características de aceleração composta XY, YZ, XZ, XYZ, de acordo com as fórmulas detalhadas em \cite{Tan2019}.
     
-    \item[Experimento por Domínio de Análise 3:] Foram utilizadas 357 características correspondentes a magnitude das 51 frequências de cada características no domínio do tempo definida no \emph{Experimento por Domínio de Análise 1}.
+    \item[Experimento por Domínio de Análise 3:] Foram utilizadas 357 características correspondentes à magnitude das 51 frequências de cada característica no domínio do tempo definida no \emph{Experimento por Domínio de Análise 1}.
     
-    \item[Experimento por Domínio de Análise 3:] Foram utilizadas 561 características correspondentes a magnitude das 51 frequências de cada características no domínio do tempo definida no \emph{Experimento por Domínio de Análise 2}.
+    \item[Experimento por Domínio de Análise 4:] Foram utilizadas 561 características correspondentes à magnitude das 51 frequências de cada característica no domínio do tempo definida no \emph{Experimento por Domínio de Análise 2}.
     
 \end{description}
 
@@ -103,20 +103,20 @@ recuperando apenas o melhor modelo entre as três execuções. O melhor modelo f
 \cmidrule(l){4-6} & \multicolumn{1}{l}{\textbf{}} & \multicolumn{1}{l}{} & \multicolumn{3}{c}{\textbf{Tamanho da Janela de Dados}} \\ \midrule
 \textbf{Modelo} & \textbf{Domínio} & \textbf{Características} & \multicolumn{1}{c}{100} & \multicolumn{1}{c}{200} & \multicolumn{1}{c}{300} \\ \midrule
 \multirow{5}{*}{LSTM} & \multirow{2}{*}{Tempo} 
-& 7 & 89.69\% & 92.06\% & 92.34\% \\ \cmidrule(l){3-6} 
-&  & 11 & 89.70\% & 90.99\% & 92.11\% \\ \cmidrule(l){2-6} 
+& 7 & 89,69\% & 92,06\% & 92,34\% \\ \cmidrule(l){3-6} 
+&  & 11 & 89,70\% & 90,99\% & 92,11\% \\ \cmidrule(l){2-6} 
 & \multirow{2}{*}{Frequência} 
-& 357 & 90.34\% & 91.86\% & 92.63\% \\ \cmidrule(l){3-6} 
-&  & 561 & 90.65\% & 91.55\% & \cellcolor[HTML]{34FF34}92.82\% \\ \midrule
+& 357 & 90,34\% & 91,86\% & 92,63\% \\ \cmidrule(l){3-6} 
+&  & 561 & 90,65\% & 91,55\% & \cellcolor[HTML]{34FF34}92,82\% \\ \midrule
 \multirow{5}{*}{GRU} & \multirow{2}{*}{Tempo} 
-& 7 & 90.23\% & 92.06\% & \cellcolor[HTML]{34FF34}92.88\% \\ \cmidrule(l){3-6} 
-&  & 11 & 89.81\% & 91.65\% & 92.31\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 90.18\% & 91.09\% & 92.33\% \\ \cmidrule(l){3-6} 
- &  & 561 & 90.55\% & 91.59\% & 92.40\% \\ \midrule
-\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 91.16\% & 92.92\% & 93.04\% \\ \cmidrule(l){3-6} 
- &  & 11 & 90.24\% & 92.58\% & 92.60\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 89.56\% & 91.92\% & \cellcolor[HTML]{34FF34}93.91\% \\ \cmidrule(l){3-6} 
- &  & 561 & 89.78\% & 92.08\% & 93.67\% \\ \bottomrule
+& 7 & 90,23\% & 92,06\% & \cellcolor[HTML]{34FF34}92,88\% \\ \cmidrule(l){3-6} 
+&  & 11 & 89,81\% & 91,65\% & 92,31\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 90,18\% & 91,09\% & 92,33\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 90,55\% & 91,59\% & 92,40\% \\ \midrule
+\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 91,16\% & 92,92\% & 93,04\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 90,24\% & 92,58\% & 92,60\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 89,56\% & 91,92\% & \cellcolor[HTML]{34FF34}93,91\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 89,78\% & 92,08\% & 93,67\% \\ \bottomrule
 \end{tabular}
 \fonte{Desenvolvido pelo autor.}
 \end{table}
@@ -130,18 +130,18 @@ recuperando apenas o melhor modelo entre as três execuções. O melhor modelo f
 \cmidrule(l){4-6}
  & \multicolumn{1}{l}{\textbf{}} & \multicolumn{1}{l}{} & \multicolumn{3}{c}{\textbf{Tamanho da Janela de Dados}} \\ \midrule
 \textbf{Modelo} & \textbf{Domínio} & \textbf{Características} & \multicolumn{1}{c}{100} & \multicolumn{1}{c}{200} & \multicolumn{1}{c}{300} \\ \midrule
-\multirow{5}{*}{LSTM} & \multirow{2}{*}{Tempo} & 7 & 89.23\% & 90.56\% & \cellcolor[HTML]{34FF34}90.89\% \\ \cmidrule(l){3-6} 
- &  & 11 & 87.56\% & 88.96\% & 90.58\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 88.41\% & 89.55\% & 90.78\% \\ \cmidrule(l){3-6} 
- &  & 561 & 88.04\% & 90.00\% & 90.15\% \\ \midrule
-\multirow{5}{*}{GRU} & \multirow{2}{*}{Tempo} & 7 & 87.53\% & 89.16\% & 89.42\% \\ \cmidrule(l){3-6} 
- &  & 11 & 87.54\% & 88.61\% & 89.79\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 88.57\% & 89.49\% & \cellcolor[HTML]{34FF34}90.41\% \\ \cmidrule(l){3-6} 
- &  & 561 & 87.84\% & 89.76\% & 90.05\% \\ \midrule
-\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 88.65\% & 90.85\% & \cellcolor[HTML]{34FF34}92.02\% \\ \cmidrule(l){3-6} 
- &  & 11 & 88.25\% & 90.04\% & 90.74\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 88.32\% & 90.75\% & 91.01\% \\ \cmidrule(l){3-6} 
- &  & 561 & 88.23\% & 90.67\% & 90.92\% \\ \bottomrule
+\multirow{5}{*}{LSTM} & \multirow{2}{*}{Tempo} & 7 & 89,23\% & 90,56\% & \cellcolor[HTML]{34FF34}90,89\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 87,56\% & 88,96\% & 90,58\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 88,41\% & 89,55\% & 90,78\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 88,04\% & 90,00\% & 90,15\% \\ \midrule
+\multirow{5}{*}{GRU} & \multirow{2}{*}{Tempo} & 7 & 87,53\% & 89,16\% & 89,42\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 87,54\% & 88,61\% & 89,79\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 88,57\% & 89,49\% & \cellcolor[HTML]{34FF34}90,41\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 87,84\% & 89,76\% & 90,05\% \\ \midrule
+\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 88,65\% & 90,85\% & \cellcolor[HTML]{34FF34}92,02\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 88,25\% & 90,04\% & 90,74\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 88,32\% & 90,75\% & 91,01\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 88,23\% & 90,67\% & 90,92\% \\ \bottomrule
 \end{tabular}
 \fonte{Desenvolvido pelo autor.}
 \end{table}
@@ -155,25 +155,26 @@ recuperando apenas o melhor modelo entre as três execuções. O melhor modelo f
 \cmidrule(l){4-6}
  & \multicolumn{1}{l}{\textbf{}} & \multicolumn{1}{l}{} & \multicolumn{3}{c}{\textbf{Tamanho da Janela de Dados}} \\ \midrule
 \textbf{Modelo} & \textbf{Domínio} & \textbf{Características} & 100 & 200 & \multicolumn{1}{c}{300} \\ \midrule
-\multirow{5}{*}{LSTM} & \multirow{2}{*}{Tempo} & 7 & 89.64\% & \cellcolor[HTML]{34FF34}91.79\% & 91.64\% \\ \cmidrule(l){3-6} 
- &  & 11 & 88.54\% & 90.96\% & 91.73\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 88.61\% & 89.47\% & 90.92\% \\ \cmidrule(l){3-6} 
- &  & 561 & 89.90\% & 91.03\% & 91.55\% \\ \midrule
-\multirow{5}{*}{GRU} & \multirow{2}{*}{Tempo} & 7 & 89.82\% & 91.67\% & \cellcolor[HTML]{34FF34}91.91\% \\ \cmidrule(l){3-6} 
- &  & 11 & 89.62\% & 90.83\% & 91.73\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 88.76\% & 90.53\% & 90.74\% \\ \cmidrule(l){3-6} 
- &  & 561 & 89.67\% & 90.92\% & 91.68\% \\ \midrule
-\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 89.44\% & 91.46\% & 93.05\% \\ \cmidrule(l){3-6} 
- &  & 11 & 89.64\% & 91.50\% & 93.30\% \\ \cmidrule(l){2-6} 
- & \multirow{2}{*}{Frequência} & 357 & 89.40\% & 91.51\% & 92.37\% \\ \cmidrule(l){3-6} 
- &  & 561 & 89.70\% & 92.09\% & \cellcolor[HTML]{34FF34}93.57\% \\ \bottomrule
+\multirow{5}{*}{LSTM} & \multirow{2}{*}{Tempo} & 7 & 89,64\% & \cellcolor[HTML]{34FF34}91,79\% & 91,64\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 88,54\% & 90,96\% & 91,73\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 88,61\% & 89,47\% & 90,92\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 89,90\% & 91,03\% & 91,55\% \\ \midrule
+\multirow{5}{*}{GRU} & \multirow{2}{*}{Tempo} & 7 & 89,82\% & 91,67\% & \cellcolor[HTML]{34FF34}91,91\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 89,62\% & 90,83\% & 91,73\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 88,76\% & 90,53\% & 90,74\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 89,67\% & 90,92\% & 91,68\% \\ \midrule
+\multirow{5}{*}{CNN} & \multirow{2}{*}{Tempo} & 7 & 89,44\% & 91,46\% & 93,05\% \\ \cmidrule(l){3-6} 
+ &  & 11 & 89,64\% & 91,50\% & 93,30\% \\ \cmidrule(l){2-6} 
+ & \multirow{2}{*}{Frequência} & 357 & 89,40\% & 91,51\% & 92,37\% \\ \cmidrule(l){3-6} 
+ &  & 561 & 89,70\% & 92,09\% & \cellcolor[HTML]{34FF34}93,57\% \\ \bottomrule
 \end{tabular}
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Através das tabelas de resultados, é possível observar que o tamanho da janela de dados pouco influencia o resultado final. Considerando todos os experimentos realizados, o aumento da janela de dados de 100 para 200 amostras aumentou em média cerca de 1.8\% a média de acurácia em validação, enquanto que o aumento de 200 amostras para 300 acrescentou cerca de 0.8\%. Em relação a utilização das variáveis brutas dos sensores (7 características) e a magnitude de suas frequências (357 características) quando comparadas a adição das variáveis de aceleração composta (11 características) e a magnitude das frequências (561 características) foi observado uma variação média de 0.1\% no valor de acurácia, sendo que em 54\% dos melhores experimentos não utilizaram da aceleração composta, e outros 46\% utilizaram. De maneira geral, a adição destas variáveis não se justifica, aumentando o custo computacional sem ter um aumento consistente de acurácia.
 
-Em relação aos domínios de análise, tanto o domínio do tempo quanto o domínio da frequência obtiveram bons resultados. Quando comparados os experimentos com as variáveis no domínio do tempo com sua respectiva representação no domínio da frequência, metade dos experimentos foi melhor no domínio do tempo e a outra metade teve melhor desempenho no domínio da frequência. Contudo, a variação média de acurácia entre os domínios de análise é de apenas 0.05\% e, considerando o aumento expressivo de características de entrada quando representadas no domínio da frequência, passando de 7 no domínio do tempo para 357 com sua representação na frequência, e de 11 no domínio do tempo para 561 com sua representação na frequência, o domínio do tempo mostra-se mais adequado.
+Através das tabelas de resultados, é possível observar que o tamanho da janela de dados pouco influencia o resultado final. Considerando todos os experimentos realizados, o aumento da janela de dados de 100 para 200 amostras aumentou em média cerca de 1,8\% a média de acurácia em validação, enquanto que o aumento de 200 amostras para 300 acrescentou cerca de 0,8\%. Em relação a utilização das variáveis brutas dos sensores (7 características) e a magnitude de suas frequências (357 características) quando comparadas a adição das variáveis de aceleração composta (11 características) e a magnitude das frequências (561 características) foi observado uma variação média de 0,1\% no valor de acurácia, sendo que em 54\% dos melhores experimentos não utilizaram da aceleração composta, e outros 46\% utilizaram. De maneira geral, a adição destas variáveis não se justifica, aumentando o custo computacional sem ter um aumento consistente de acurácia.
+
+Em relação aos domínios de análise, tanto o domínio do tempo quanto o domínio da frequência obtiveram bons resultados. Quando comparados os experimentos com as variáveis no domínio do tempo com sua respectiva representação no domínio da frequência, metade dos experimentos foi melhor no domínio do tempo e a outra metade teve melhor desempenho no domínio da frequência. Contudo, a variação média de acurácia entre os domínios de análise é de apenas 0,05\% e, considerando o aumento expressivo de características de entrada quando representadas no domínio da frequência, passando de 7 no domínio do tempo para 357 com sua representação na frequência, e de 11 no domínio do tempo para 561 com sua representação na frequência, o domínio do tempo mostra-se mais adequado.
 
 Analisando os modelos de DNN propostos, observamos que todos obtiveram bons resultados, com pouca variação de resultados. Considerando todos os experimentos, a rede baseada em CNN obteve melhores resultados, seguida pela LSTM e pela GRU. Contudo, a variação média dos valores de acurácia entre os três modelos é menor que 1\%. Em relação aos diferentes pontos de coleta no veículo, observamos que as redes são capazes de classificar corretamente mesmo com interferência da dependência veicular. Em uma análise ampla, as redes têm mais facilidade em reconhecer os padrões dos dados amostrados próximo abaixo da suspensão, seguidos pelos amostrados no painel de controle e por fim os amostrados próximo e acima da suspensão. Contudo, a variação média de acurácia entre os pontos de coleta é pequena, cerca de 2\%.
 
@@ -188,12 +189,12 @@ Em uma análise macro de todos os experimentos, observamos que as redes proposta
 \toprule
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Experimento \\ por Colocação\end{tabular}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Fase de \\ Processamento\end{tabular}}} & \multicolumn{4}{c}{\textbf{Experimento por Contexto}} \\ \cmidrule(l){3-6} 
  &  & 1 & 2 & 3 & Média \\ \midrule
-\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e abaixo \\ da suspensão\end{tabular}} & Treinamento & 94.67\% & 94.40\% & 97.01\% & 95.36\% \\ \cmidrule(l){2-6} 
- & Validação & 94.78\% & 92.17\% & 92.17\% & 93.04\% \\ \midrule
-\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e acima\\ da suspensão\end{tabular}} & Treinamento & 88.46\% & 92.89\% & 95.45\% & 92.27\% \\ \cmidrule(l){2-6} 
- & Validação & 94.11\% & 90.14\% & 91.80\% & 92.02\% \\ \midrule
-\multirow{2}{*}{Painel de Controle} & Treinamento & 93.16\% & 94.84\% & 97.50\% & 95.17\% \\ \cmidrule(l){2-6} 
- & Validação & 95.25\% & 89.93\% & 93.96\% & 93.05\% \\ \bottomrule
+\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e abaixo \\ da suspensão\end{tabular}} & Treinamento & 94,67\% & 94,40\% & 97,01\% & 95,36\% \\ \cmidrule(l){2-6} 
+ & Validação & 94,78\% & 92,17\% & 92,17\% & 93,04\% \\ \midrule
+\multirow{2}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e acima\\ da suspensão\end{tabular}} & Treinamento & 88,46\% & 92,89\% & 95,45\% & 92,27\% \\ \cmidrule(l){2-6} 
+ & Validação & 94,11\% & 90,14\% & 91,80\% & 92,02\% \\ \midrule
+\multirow{2}{*}{Painel de Controle} & Treinamento & 93,16\% & 94,84\% & 97,50\% & 95,17\% \\ \cmidrule(l){2-6} 
+ & Validação & 95,25\% & 89,93\% & 93,96\% & 93,05\% \\ \bottomrule
 \end{tabular}
 \fonte{Desenvolvido pelo autor.}
 \end{table}
@@ -206,15 +207,15 @@ Em uma análise macro de todos os experimentos, observamos que as redes proposta
 \begin{tabular}{clccc}
 \toprule
 \textbf{Colocação} & \multicolumn{1}{c}{\textbf{Classe de Dados}} & \textbf{F1-Score} & \textbf{Precisão} & \textbf{Recall} \\ \midrule
-\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e abaixo\\ da suspensão\end{tabular}} & Asfalto & 98.60\% & 98.59\% & 98.62\% \\ \cmidrule(l){2-5} 
- & Paralelepípedo & 86.09\% & 88.39\% & 83.90\% \\ \cmidrule(l){2-5} 
- & Terra & 90.78\% & 89.22\% & 92.39\% \\ \midrule
-\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e acima\\ da suspensão\end{tabular}} & Asfalto & 98.76\% & 99.08\% & 98.43\% \\ \cmidrule(l){2-5} 
- & Paralelepípedo & 84.18\% & 83.49\% & 84.87\% \\ \cmidrule(l){2-5} 
- & Terra & 89.06\% & 89.20\% & 88.91\% \\ \midrule
-\multirow{4}{*}{Painel de Controle} & Asfalto & 98.62\% & 98.23\% & 99.02\% \\ \cmidrule(l){2-5} 
- & Paralelepípedo & 85.47\% & 90.13\% & 81.27\% \\ \cmidrule(l){2-5} 
- & Terra & 91.12\% & 88.58\% & 93.81\% \\ \bottomrule
+\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e abaixo\\ da suspensão\end{tabular}} & Asfalto & 98,60\% & 98,59\% & 98,62\% \\ \cmidrule(l){2-5} 
+ & Paralelepípedo & 86,09\% & 88,39\% & 83,90\% \\ \cmidrule(l){2-5} 
+ & Terra & 90,78\% & 89,22\% & 92,39\% \\ \midrule
+\multirow{4}{*}{\begin{tabular}[c]{@{}c@{}}Próximo e acima\\ da suspensão\end{tabular}} & Asfalto & 98,76\% & 99,08\% & 98,43\% \\ \cmidrule(l){2-5} 
+ & Paralelepípedo & 84,18\% & 83,49\% & 84,87\% \\ \cmidrule(l){2-5} 
+ & Terra & 89,06\% & 89,20\% & 88,91\% \\ \midrule
+\multirow{4}{*}{Painel de Controle} & Asfalto & 98,62\% & 98,23\% & 99,02\% \\ \cmidrule(l){2-5} 
+ & Paralelepípedo & 85,47\% & 90,13\% & 81,27\% \\ \cmidrule(l){2-5} 
+ & Terra & 91,12\% & 88,58\% & 93,81\% \\ \bottomrule
 \end{tabular}
 \fonte{Desenvolvido pelo autor.}
 \end{table}
@@ -227,4 +228,4 @@ Em uma análise macro de todos os experimentos, observamos que as redes proposta
   \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-Através das Tabelas \ref{table:cnn_results_tipo_superficie_2} e \ref{table:cnn_metrics_tipo_superficie_2}, e da \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} observamos que a rede CNN demonstrou boa capacidade de aprendizado e generalização para todos os pontos de coleta e todas as variações de contexto. Para os dados amostrados próximo e abaixo da suspensão, a rede obteve média de acurácia de treinamento de 95.36\% e de 93.04\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.60\%, paralelepípedo com 86.09\% e terra com 90.78\%. Para os dados amostrados próximo e acima da suspensão, o modelo obteve média de acurácia em treinamento de 92.27\% e de 92.02\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.76\%, paralelepípedo com 84.18\% e terra com 86.06\%. Por fim, para os dados amostrados no painel de controle obteve-se média de acurácia em treinamento de 95.17\% e de 93.05\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98.62\%, paralelepípedo com 85.47\% e terra com 91.12\%. Observa-se que os resultados obtidos são superiores aos estudos anteriores, adicionando-se que neste estudo a análise foi realizada em contextos com variações das propriedades de dependência.
+Através das Tabelas \ref{table:cnn_results_tipo_superficie_2} e \ref{table:cnn_metrics_tipo_superficie_2}, e da \autoref{fig:cnn_confusion_matrix_tipo_superficie_2} observamos que a rede CNN demonstrou boa capacidade de aprendizado e generalização para todos os pontos de coleta e todas as variações de contexto. Para os dados amostrados próximo e abaixo da suspensão, a rede obteve média de acurácia de treinamento de 95,36\% e de 93,04\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98,60\%, paralelepípedo com 86,09\% e terra com 90,78\%. Para os dados amostrados próximo e acima da suspensão, o modelo obteve média de acurácia em treinamento de 92,27\% e de 92,02\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98,76\%, paralelepípedo com 84,18\% e terra com 86,06\%. Por fim, para os dados amostrados no painel de controle obteve-se média de acurácia em treinamento de 95,17\% e de 93,05\% em validação, classificando segmentos de asfalto com \textit{f1-score} de 98,62\%, paralelepípedo com 85,47\% e terra com 91,12\%. Observa-se que os resultados obtidos são superiores aos estudos anteriores, adicionando-se que neste estudo a análise foi realizada em contextos com variações das propriedades de dependência.

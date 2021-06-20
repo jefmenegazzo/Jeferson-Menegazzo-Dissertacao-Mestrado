@@ -6,7 +6,7 @@ Para realizar os experimentos deste estudo foi necessário dispor de conjuntos d
 Na \autoref{tabela:datasets} é detalhada a comparação. São utilizados os marcadores \emph{Sim (S)}, \emph{Não (N)} e \emph{Indefinido (I)}. São considerados \emph{S} os conjuntos que cumprem todos os requisitos de determinada característica, \emph{N} aqueles que não cumprem ao menos uma restrição, e \emph{I} quando não foi possível identificar informações do parâmetro avaliado. Na avaliação dos sensores inerciais e magnetômetro, foi considerado como requisito os conjuntos possuírem dados brutos nos três eixos. Para diferentes veículos, o requisito foi de utilizar diferentes modelos. Para ambientes, considerou-se diferentes superfícies, com variação de pavimentações ou não pavimentação. Para colocações, o requisito torna necessário ao menos um conjunto de sensores inerciais abaixo da suspensão e um acima. Por fim, o posicionamento controlado é requerido por produzir dados de forma mais confiável e permitir análises de propriocepção e exterocepção.
 
 \begin{table}[h!]
-    \small
+    \scriptsize
     \centering
     \caption{Comparação de conjuntos de dados públicos}
     \label{tabela:datasets}
@@ -29,7 +29,7 @@ Na \autoref{tabela:datasets} é detalhada a comparação. São utilizados os mar
  & \textit{Diferentes Condutores} & I & I & I & I & I & I \\ \cmidrule(l){2-8} 
  & \textit{Diferentes Ambientes} & I & I & I & I & I & I \\ \cmidrule(l){2-8} 
  & \textit{Diferentes Colocações} & N & N & N & N & N & N \\ \cmidrule(l){2-8} 
- & \textit{Pos. Controlado} & S & I & S & N & N & I \\ \bottomrule
+ & \textit{Posicionamento Controlado} & S & I & S & N & N & I \\ \bottomrule
 \end{tabular}
     \fonte{Desenvolvido pelo autor.}
 \end{table}
@@ -38,10 +38,10 @@ Conforme observado na análise comparativa, nenhum dos conjuntos de dados dispon
 
 \section{Rede de Sensores}
 
-Para coletar os dados foram desenvolvidas duas redes de sensores, sendo cada uma delas composta por um SBC Raspberry Pi e três módulos MPU-9250, cada um deles equipado com um acelerômetro 3D, giroscópio 3D, magnetômetro 3D e um sensor de temperatura. Uma fonte externa de GPS também foi utilizada, produzindo dados de localização e velocidade, assim como uma câmera para captura de vídeo do ambiente. A \autoref{tabela:rede_de_sensores} detalha o \textit{hardware} utilizado.
+Para coletar os dados foram desenvolvidas duas redes de sensores, sendo cada uma delas composta por um SBC Raspberry Pi e três módulos MPU-9250, cada um deles equipado com um acelerômetro 3D, giroscópio 3D, magnetômetro 3D e um sensor de temperatura. Uma fonte externa de GPS também foi utilizada, produzindo dados de localização e velocidade, assim como uma câmera para captura de vídeo do ambiente. A \autoref{tabela:rede_de_sensores} detalha o \textit{hardware} utilizado. Embora o foco deste estudo esteja na utilização dos dados do acelerômetro, giroscópio e GPS, também foram coletados dados do magnetômetro, temperatura e vídeo para produzir conjuntos de dados completos de sensores passivos, úteis para pesquisas futuras.
 
 \begin{table}[h!]
-\small
+\scriptsize
 \caption{Hardware da rede de sensores} 
 \label{tabela:rede_de_sensores}
 \centering
@@ -93,7 +93,7 @@ Para coletar os dados foram desenvolvidas duas redes de sensores, sendo cada uma
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Todo o equipamento foi fixado no veículo conforme detalha a \autoref{fig:colocacao_posicionamento_rede_sensores}. A câmera foi colocada na parte externa do teto do carro (1), capturando vídeo do ambiente em 30Hz. O receptor GPS foi colocado internamente no painel (2), amostrando dados em 1Hz. Os seis módulos MPU-9250 foram distribuídos no veículo de forma a considerar os dados provindos de pontos com diferentes influências da propriedade de dependência veicular. Sendo assim, em ambas as extremidades do eixo dianteiro (lado direito e esquerdo) foi anexado um módulo ao braço de controle (4), localizado abaixo e próximo à suspensão do veículo; outro módulo foi colocado acima e próximo da suspensão, anexado à carroceria imediatamente acima do pneu (3); e outro módulo foi anexado no painel do veículo (2), dentro da cabine. Em relação ao referencial de amostragem dos módulos MPU-9250, foi utilizada a abordagem de posicionamento controlado, onde a colocação dos módulos foi realizada de forma que os três eixos do sistema de coordenadas do sensor ficaram alinhados com os do veículo, sendo tanto referencial de coleta como de análise. O acelerômetro foi ajustado em um \textit{Full Scale Range} (FSR) de 8$g$ e o giroscópio de 1000$graus/s$, constituindo intervalos consistentes para não saturar, ambos amostrando em 100Hz (propriedades sensoriais).
+Todo o equipamento foi fixado no veículo conforme detalha a \autoref{fig:colocacao_posicionamento_rede_sensores}. A câmera foi colocada na parte externa do teto do carro (1), capturando vídeo do ambiente em 30Hz. O receptor GPS foi colocado internamente no painel (2), amostrando dados em 1Hz. Os seis módulos MPU-9250 foram distribuídos no veículo de forma a considerar os dados provindos de pontos com diferentes influências da propriedade de dependência veicular. Sendo assim, em ambas as extremidades do eixo dianteiro (lado direito e esquerdo) foi anexado um módulo ao braço de controle (4), localizado abaixo e próximo à suspensão do veículo; outro módulo foi colocado acima e próximo da suspensão, anexado à carroceria imediatamente acima do pneu (3); e outro módulo foi anexado no painel do veículo (2), dentro da cabine. Em relação ao referencial de amostragem dos módulos MPU-9250, foi utilizada a abordagem de posicionamento controlado, onde a colocação dos módulos foi realizada de forma que os três eixos do sistema de coordenadas do sensor ficaram alinhados com os do veículo, sendo tanto referencial de coleta como de análise. O acelerômetro foi ajustado em um \textit{Full Scale Range} (FSR) de 8$g$ e o giroscópio de 1000$graus/s$, constituindo intervalos consistentes para não saturar, ambos amostrando em 100Hz (propriedades sensoriais). Estes valores foram obtidos através de experimentos exploratórios desta pesquisa.
 
 \begin{figure}[h!]
   \centering
@@ -108,7 +108,7 @@ Todo o equipamento foi fixado no veículo conforme detalha a \autoref{fig:coloca
 Para o desenvolvimento e validação de modelos de percepção veicular adaptativa, se mostrou necessário produzir dados em variações contextuais para obter variabilidade de condições relacionadas aos fatores de dependência. Sendo assim, além da amostragem de velocidade (propriedade de condução) e da colocação dos sensores inerciais em diferentes pontos da estrutura veicular (propriedade veicular), nós realizamos diversas coletas de dados utilizando da rede de sensores em três diferentes modelos de veículos (propriedade veicular), com três diferentes motoristas variando a velocidade de 0 \emph{km/h} até 91,98 \emph{km/h} (propriedade de condução) trafegando em três cenários distintos (propriedade ambiental). Cada cenário contém vias sem pavimentação (terra) e trechos pavimentados (asfalto ou paralelepípedo), com variações gerais do ambiente, tais como presença de lombadas, buracos, diferentes níveis de conservação do pavimento, etc. Detalhes dos cenários são apresentados na próxima seção. Sendo assim, foram produzidos nove conjuntos de dados denominados \textit{Passive Vehicular Sensors Dataset} (PVS 1-9), detalhados na \autoref{table:descricao_conjuntos}. Cada um dos conjuntos de dados é composto pelos arquivos especificados na \autoref{table:conjuntos_arquivos}. Os dados foram coletados no município de Anita Garibaldi, no interior do estado de Santa Catarina, Brasil, entre os dias 24 e 26 de dezembro de 2019. O ponto médio dos cenários é dado pelas coordenadas (-27,69983094872972, -51,11577673365139).
 
 \begin{table}[H]
-\small
+\scriptsize
 \caption{Conjuntos de dados produzidos} 
 \label{table:descricao_conjuntos}
 \centering
@@ -128,10 +128,10 @@ PVS 9 & Fiat Palio & Condutor 3 & Cenário 3 \\ \bottomrule
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-\vspace{-1.1cm}
+% \vspace{-1.1cm}
 
 \begin{table}[H]
-\small
+\scriptsize
 \caption{Arquivos que compõe cada conjunto de dados} 
 \label{table:conjuntos_arquivos}
 \centering
@@ -156,6 +156,7 @@ video\_environment\_dataset\_right.mp4 & Vídeos lado a lado de video\_environme
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
+\newpage
 \section{Classes de Dados}
 
 Para criação dos rótulos correspondentes às classes de dados, foram utilizados GT de anotação humana e de anotação automatizada por máquina. Os primeiros rótulos criados foram os das classes de dados de tipo de superfície de pista. Para essas classes, foram criados os rótulos \emph{terra} (\texttt{dirt\_road}), \emph{paralelepípedo} (\texttt{cobblestone\_road}) e \emph{asfalto} (\texttt{asphalt\_road}). A anotação foi realizada via GT humano, uma vez que esta classe representa uma característica objetiva. Desta forma, através da observação do que a roda toca por meio do vídeo capturado, os delimitadores de início e fim dessas classes puderam ser facilmente apontados. A \autoref{fig:tipos_superficie} ilustra os tipos de superfície presentes em todos os conjuntos de dados PVS, com a \autoref{fig:mapa_superficies} detalhando a distribuição delas no mapa de cada cenário. A \autoref{table:tipos_superficie_metricas} detalha as métricas para cada conjunto, com a quantificação das amostras e a proporção da distribuição das classes de dados, informações importantes para se analisar o nível de desbalanceamento das classes antes do treinamento dos modelos. 
@@ -266,21 +267,26 @@ O segundo grupo de classes de dados rotuladas foi o de lombadas. Assim como as c
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Por fim, foram criados os rótulos para o nível de qualidade da superfície de pista. Para estas classes de dados, foram criados os rótulos \emph{boa} (\texttt{good\_road}), \emph{regular} (\texttt{regular\_road}) e \emph{ruim} (\texttt{bad\_road}). Ao contrário das classes anteriores, as classes de qualidade podem tornar-se subjetivas de acordo com o GT utilizado. Inúmeros estudos rotulam a qualidade com base na percepção de qualidade de um usuário ou através da quantificação de irregularidades e obstáculos presentes no segmento de pista. Contudo, utilizar GT de anotação humana através das metodologias descritas acima torna as classes subjetivas, com viés a percepção de quem rotulou. Logo, de forma a tratar este problema, desenvolvemos um GT de anotação automatizada por máquina, baseado na análise de vibração.
+Por fim, foram criados os rótulos para o nível de qualidade da superfície de pista. Para estas classes de dados, foram criados os rótulos \emph{boa} (\texttt{good\_road}), \emph{regular} (\texttt{regular\_road}) e \emph{ruim} (\texttt{bad\_road}). Ao contrário das classes anteriores, as classes de qualidade podem tornar-se subjetivas de acordo com o GT utilizado. Inúmeros estudos rotulam a qualidade com base na percepção de qualidade de um usuário ou através da quantificação de irregularidades e obstáculos presentes no segmento de pista. Contudo, utilizar GT de anotação humana através das metodologias descritas acima torna as classes subjetivas, com viés a percepção de quem rotulou. Logo, para não haver viés através de GT humano, mostra-se necessário uma média amostral de uma quantidade estatisticamente relevante de opiniões de qualidade, sobre cada pequeno segmento de via. Isto demanda uma grande quantidade de \textit{feedbacks}, tornando inviável devido ao alto custo. Sendo assim, de forma a tratar este problema, desenvolvemos um GT de anotação automatizada por máquina, baseado na análise de vibração.
 
-O processo de anotação de qualidade de superfície se inicia com a quantificação da irregularidade longitudinal dos segmentos analisados, baseado no cálculo de IRI de \cite{Li2018}. A irregularidade calculada corresponde ao conjunto de desvios da superfície em relação a um plano de referência. Sendo assim, partindo de um \textit{baseline} onde a variação dos sinais dos sensores inerciais é 0, caracterizando um segmento regular, quanto maior essa variação (vibração), mais irregular é a superfície. Para calcular a irregularidade, foi empregado RMS, a qual consiste de uma técnica estatística que mede a magnitude de uma variação, sendo especialmente útil quando os valores empregados alternam entre positivos e negativos, como é o caso dos sinais analisados. 
+O processo de anotação de qualidade de superfície é ilustrado na \autoref{fig:processo_anotacao} e se inicia com a quantificação da irregularidade longitudinal dos segmentos analisados, baseado no cálculo de IRI de \citeonline{Li2018}, o qual utiliza dos dados do acelerômetro. A irregularidade calculada corresponde ao conjunto de desvios da superfície em relação a um plano de referência. Sendo assim, partindo de um \textit{baseline} onde a variação dos sinais dos sensores inerciais é 0, caracterizando um segmento regular, quanto maior essa variação (vibração), mais irregular é a superfície. Para calcular a irregularidade, foi empregado RMS, a qual consiste de uma técnica estatística que mede a magnitude de uma variação, sendo especialmente útil quando os valores empregados alternam entre positivos e negativos, como é o caso dos sinais analisados. 
 
-A utilização do RMS com os dados dos sensores inerciais fornece a magnitude da irregularidade da superfície com a influência dos fatores de dependência. Sendo assim, é necessário considerar a forma com que cada um dos fatores influencia o valor resultante. Desta forma, após seu cálculo, a magnitude da irregularidade (propriedade ambiental) é normalizada pela velocidade acumulada no segmento de dados (propriedade de condução) \cite{Li2018}. Em suma, nesta primeira etapa, através de uma janela deslizante de 500 amostras, com 250 amostras à direita e outras 250 à esquerda, os sinais são convolvidos aplicando sobre eles RMS normalizado pela velocidade acumulada no segmento. A equação abaixo detalha este cálculo, onde \emph{i} é o índice da primeira amostra da janela, \emph{j} o índice da última amostra, \emph{R} o RMS dos sinais dos sensores inerciais, e \emph{v} a velocidade.
+A utilização do RMS com os dados dos sensores inerciais fornece a magnitude da irregularidade da superfície com a influência dos fatores de dependência. Sendo assim, é necessário considerar a forma com que cada um dos fatores influencia o valor resultante. Desta forma, após seu cálculo, a magnitude da irregularidade (propriedade ambiental) é normalizada pela velocidade acumulada no segmento de dados (propriedade de condução) \cite{Li2018}. Em suma, nesta primeira etapa, através de uma janela deslizante de 500 amostras, com 250 amostras à direita e outras 250 à esquerda, os sinais são aplicados ao RMS, o resultado multiplicado pela quantidade de amostras e normalizado pela velocidade acumulada no segmento. A equação abaixo detalha este cálculo, onde \emph{i} é o índice da primeira amostra da janela, \emph{j} o índice da última amostra, \emph{R} o RMS dos sinais dos sensores inerciais, e \emph{v} a velocidade.
 
-\begin{center}
-  \[
+\begin{equation}
   \textit{Vibração} = \frac{(j - i + 1) \cdot R}{\sum_{x=i}^{j} v_x} \cdot 100
-  \]
-\end{center}
+\end{equation}
 
-As características de vibração foram extraídas para cada um dos conjuntos PVS. Em seguida, estas características foram agrupadas de acordo com o modelo de veículo utilizado (propriedade veicular), onde no primeiro grupo ficaram as características dos PVS 1-3 (Volkswagen Saveiro), no segundo as dos PVS 4-6 (Fiat Bravo), e no terceiro as dos PVS 7-9 (Fiat Palio). Uma vez que os três cenários de coleta de dados contam com ambientes nos quais há segmentos nos três níveis de qualidade, e que cada um dos agrupamentos por veículo conta com dados dos três cenários, podemos concluir que necessariamente cada agrupamento possui características de alto nível que representam segmentos com pista de qualidade boa, regular e ruim. Sendo assim, em seguida cada agrupamento por veículo foi empregado separadamente em um modelo KMC de 3 \textit{clusters}, os quais representam os níveis de qualidade, onde as características de vibração foram agrupadas de acordo com sua similaridade. Os agrupamentos obtidos através do modelo de KMC resultou nos rótulos das classes de níveis de qualidade ilustrados na \autoref{fig:qualidade_superficies_mapa}. Uma vez que a qualidade da superfície depende diretamente do pneu que a toca, foram produzidos separadamente rótulos para os sensores colocados no lado direito do veículo, assim como aqueles do lado esquerdo. A \autoref{table:qualidade_superficie_metricas} detalha as métricas dessas classes.  
+As características de vibração foram extraídas para cada um dos conjuntos PVS. Em seguida, estas características foram agrupadas de acordo com o modelo de veículo utilizado para considerar os fatores de dependência (propriedade veicular), onde no primeiro grupo ficaram as características dos PVS 1-3 (Volkswagen Saveiro), no segundo as dos PVS 4-6 (Fiat Bravo), e no terceiro as dos PVS 7-9 (Fiat Palio). Uma vez que os três cenários de coleta de dados contam com ambientes nos quais há segmentos nos três níveis de qualidade, e que cada um dos agrupamentos por veículo conta com dados dos três cenários, podemos concluir que necessariamente cada agrupamento possui características de alto nível que representam segmentos com pista de qualidade boa, regular e ruim. Sendo assim, em seguida cada agrupamento por veículo foi empregado separadamente em um modelo KMC de 3 \textit{clusters}, os quais representam os níveis de qualidade, onde as características de vibração foram agrupadas de acordo com sua similaridade. O critério de parada foi o máximo de iterações, definido em 100.000. Os demais hiperparâmetros foram utilizados com valores padrões, encontrados em \citeonline{scikit_learn1}.  Os agrupamentos obtidos através do modelo de KMC resultaram nos rótulos das classes de níveis de qualidade ilustrados na \autoref{fig:qualidade_superficies_mapa}. Uma vez que a qualidade da superfície depende diretamente do pneu que a toca, foram produzidos separadamente rótulos para os sensores colocados no lado direito do veículo, assim como aqueles do lado esquerdo. A \autoref{table:qualidade_superficie_metricas} detalha as métricas dessas classes.  
+\begin{figure}[h]
+  \centering
+  \caption{Processo de GT de anotação automatizada por máquina para qualidade de superfície}
+   \label{fig:processo_anotacao}
+   \includegraphics[width=1\textwidth]{figuras/fig_26_1.png}
+   \fonte{Desenvolvido pelo autor.}
+\end{figure}
  
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \caption{Diferentes níveis de qualidade de superfície presentes nos cenários}
    \label{fig:qualidade_superficies_mapa}
@@ -288,7 +294,7 @@ As características de vibração foram extraídas para cada um dos conjuntos PV
    \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[ht]
 \centering
 \scriptsize
 \caption{Quantificação para as classes de dados de qualidade de superfície} 

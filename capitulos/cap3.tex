@@ -184,32 +184,24 @@ Para mensurar os resultados dos experimentos foram adotadas métricas comumente 
 
 A acurácia indica uma performance geral do modelo. Desta forma, consiste da proporção de amostras classificadas corretamente em relação ao total de amostras, considerando todas as classes de dados. A fórmula desta métrica é apresentada a seguir:
 
-\begin{center}
-  \[
+\begin{equation}
   \textit{Acurácia} = \frac{VP + VN}{VP + VN + FP + FN}
-  \]
-\end{center}
+\end{equation}
 
 Por outro lado, as métricas de precisão, \textit{recall} e \textit{f1-score} avaliam cada uma das classes de dados separadamente, de modo que se possa verificar problemas de desbalanceamento e viés. A precisão mede a proporção de amostras preditas corretamente em relação ao total de predições para determinada classe de dados, conforme a seguinte fórmula:
 
-\begin{center}
-  \[
+\begin{equation}
   \textit{Precisão} = \frac{VP}{VP + FP}
-  \]
-\end{center}
+\end{equation}
 
 A \textit{recall} mede a proporção de amostras preditas corretamente para determinada classe de dados em relação a todas as amostras reais daquela classe, conforme a seguinte fórmula:
 
-\begin{center}
-  \[
+\begin{equation}
   \textit{Recall} = \frac{VP}{VP + FN}
-  \]
-\end{center}
+\end{equation}
 
 Por fim, a \textit{f1-score} consiste da média harmônica de precisão e \textit{recall}, conforme a fórmula a seguir:
 
-\begin{center}
-  \[
+\begin{equation}
   \textit{F1-Score} = \frac{2 \cdot \textit{precisão} \cdot \textit{recall}}{\textit{precisão} + \textit{recall}}
-  \]
-\end{center}
+\end{equation}

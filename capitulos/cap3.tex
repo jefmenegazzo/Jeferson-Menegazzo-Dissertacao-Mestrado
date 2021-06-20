@@ -31,7 +31,7 @@ O modelo matemático \textit{Quarter Car} (QC) descreve as variáveis da dinâmi
    \fonte{Adaptado de \cite{Loizos2008}}
 \end{figure}
 
-Os valores das variáveis do modelo QC são definidos de acordo com cada veículo, dadas as diferentes estruturas veiculares existentes. Este modelo conta com diversas fórmulas que descrevem o relacionamento entre todas as suas variáveis. Os parâmetros do modelo são essenciais na aplicação de metodologias internacionais para indexação da irregularidade, como o IRI, para estabelecer a qualidade da via. De forma a simplificar as fórmulas do QC, foram criados valores padrões para as propriedades, denominados \textit{Golden Car Parameters}. Estas propriedades, detalhadas na \autoref{table:golden_car_parameters}, foram estabelecidas considerando um cenário padrão, onde o veículo é dirigido a uma velocidade constante de 80 $km/h$ \cite{Loizos2008}.
+Os valores das variáveis do modelo QC são definidos de acordo com cada veículo, dadas as diferentes estruturas veiculares existentes. Este modelo conta com diversas fórmulas que descrevem o relacionamento entre todas as suas variáveis. Os parâmetros do modelo são essenciais na aplicação de metodologias internacionais para indexação da irregularidade, como o \textit{International Roughness Index} (IRI), para estabelecer a qualidade da via. O detalhamento do método para cálculo IRI utilizando o QC pode ser encontrado em \citeonline{Du2014}. De forma a simplificar as fórmulas do QC, foram criados valores padrões para as propriedades, denominados \textit{Golden Car Parameters}. Estas propriedades, detalhadas na \autoref{table:golden_car_parameters}, foram estabelecidas considerando um cenário padrão, onde o veículo é dirigido a uma velocidade constante de 80 $km/h$ \cite{Loizos2008}.
 
 \begin{table}[h]
     \caption{Os parâmetros \textit{Golden Car}}
@@ -54,13 +54,17 @@ Os valores das variáveis do modelo QC são definidos de acordo com cada veícul
     \fonte{Adaptado de \cite{Loizos2008}}
 \end{table}
 
+\section{Séries Temporais}
+
+As séries temporais consistem de conjuntos de observações ordenadas ao longo do tempo. Alguns exemplos são valores mensais de temperatura, cotação diária do \textit{Bitcoint} e precipitação atmosférica anual. Estas séries podem ser contínuas, sendo aquelas constituídas de observações feitas continuamente no tempo, ou discretas, quando as observações são amostradas da série temporal contínua em intervalos de tempos iguais, em uma frequência de amostragem. Com o objetivo de construir modelos para determinados propósitos através das séries temporais, existem as análises realizadas no domínio do tempo e outras no domínio da frequência \cite{Morettin2018}.
+
 \section{Técnicas Clássicas de Machine Learning}
 
 Com o desenvolvimento da Inteligência Artificial, diversas técnicas surgiram para resolver problemas de classificação e regressão (previsão). Dentre as técnicas clássicas de \textit{clustering} e aprendizado de máquina supervisionado, neste trabalho foram desenvolvidos modelos de \textit{K-Means Clustering} (KMC), \textit{K-Nearest Neighbors} (KNN) e \textit{Support Vector Machines} (SVM), detalhadas nas próximas subseções.
 
 \subsection{K-Means Clustering}
 
-O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\textit{clustering}), que permite identificar agrupamentos (\textit{clusters}) de dados semelhantes, conforme ilustra a \autoref{fig:execucao_kcm}. Neste método, partindo de um conjunto de dados não rotulados (1), são criadas aleatoriamente centróides para cada um dos \textit{k clusters} (2). Em seguida, cada dado é atribuído a um dos \textit{clusters} baseando-se em uma métrica de distância, como a Euclidiana, em relação ao centroide do \textit{cluster} (3, 4). Iterativamente, o centroide de cada \textit{clusters} é recalculado com base na média dos dados (5), e as distâncias novamente recalculadas (6, 7), até que as centroides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.
+O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\textit{clustering}), que permite identificar agrupamentos (\textit{clusters}) de dados semelhantes, conforme ilustra a \autoref{fig:execucao_kcm}. Neste método, partindo de um conjunto de dados não rotulados (1), são criadas aleatoriamente centróides para cada um dos \textit{k clusters} (2). Em seguida, cada dado é atribuído a um dos \textit{clusters} baseando-se em uma métrica de distância, como a Euclidiana, em relação ao centroide do \textit{cluster} (3, 4). Iterativamente, o centroide de cada \textit{clusters} é recalculado com base na média dos dados (5), e as distâncias novamente recalculadas (6, 7), até que as centroides sejam estabilizadas, ou o número máximo de iterações atingido \cite{foley2019,nisbet2009}.  A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{scikit_learn1}.
 
 \begin{figure}[h]
   \centering
@@ -72,19 +76,19 @@ O KMC consiste de uma técnica não supervisionada para agrupamento de dados (\t
 
 \subsection{K-Nearest Neighbors}
 
-O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado a ser classificado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os $k$ vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus $k$ vizinhos, conforme ilustra a \autoref{fig:execucao_knn} \cite{Khandelwal2018}.
+O KNN consiste de uma técnica para classificação a qual se baseia em métricas de similaridades entre os dados para reconhecer padrões. Desta forma, para um novo dado a ser classificado é calculada a distância entre ele e cada um dos dados de treinamento, identificando os $k$ vizinhos mais próximos. A classe do novo dado é definida como aquela mais comum entre seus $k$ vizinhos, conforme ilustra a \autoref{fig:execucao_knn} \cite{Khandelwal2018}.  A lista completa de hiperparâmetros e seus  valores padrões são encontradas em \citeonline{scikit_learn2}.
 
 \begin{figure}[h]
   \centering
   \caption{Execução da técnica KNN}
    \label{fig:execucao_knn}
-   \includegraphics[width=0.4\textwidth]{figuras/fig_6.png}
+   \includegraphics[width=0.5\textwidth]{figuras/fig_6.png}
    \fonte{\cite{Jose2018}}
 \end{figure}
 
 \subsection{Support Vector Machines}
 
-O SVM é uma técnica de aprendizado supervisionado aplicada em classificação, onde se busca por um hiperplano ideal que separa as classes de dados, conforme ilustra a \autoref{fig:execucao_svm}. O algoritmo se inicia com a busca pelos pontos mais próximos ao hiperplano que separa as classes. Esses pontos são chamados de vetores de suporte. Na sequência, é calculada a distância entre o hiperplano e estes vetores. Essa distância é chamada de margem, a qual o SVM busca maximizar, de forma a encontrar o hiperplano ideal \cite{Pupale2019}. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro \textit{kernel}, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}.
+O SVM é uma técnica de aprendizado supervisionado aplicada em classificação, onde se busca por um hiperplano ideal que separa as classes de dados, conforme ilustra a \autoref{fig:execucao_svm}. O algoritmo se inicia com a busca pelos pontos mais próximos ao hiperplano que separa as classes. Esses pontos são chamados de vetores de suporte. Na sequência, é calculada a distância entre o hiperplano e estes vetores. Essa distância é chamada de margem, a qual o SVM busca maximizar, de forma a encontrar o hiperplano ideal \cite{Pupale2019}. Em problemas não lineares, como é o caso deste, é necessário a utilização do hiperparâmetro \textit{kernel}, o qual converte problema não separável em problema separável, para que o SVM possa classificar \cite{Shubham2018}. O suporte multiclasse, neste estudo, é tratado de acordo com um esquema \textit{one-vs-one}. A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{scikit_learn3}.
 
 \begin{figure}[h]
   \centering
@@ -114,7 +118,7 @@ A LSTM constitui um tipo de Rede Neural Recorrente (\textit{Recurrent Neural Net
    \fonte{\cite{Junior2019}}
 \end{figure}
 
-Cada célula de uma LSTM possui três portas que controlam o fluxo de informações para dentro e fora da célula, ilustrado na \autoref{fig:cell_lstm_gates}. Estas são: a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Phi2020}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula \cite{Jones2017}.
+Cada célula de uma LSTM possui três portas que controlam o fluxo de informações para dentro e fora da célula, ilustrado na \autoref{fig:cell_lstm_gates}. Estas são: a porta de entrada (\textit{input gate}), a porta de saída (\textit{output gate}) e a porta de esquecimento (\textit{forget gate}). As portas possuem pesos, onde os valores computados seguem um fluxo no qual resultam em alterações no estado de célula. Sendo assim, inicialmente tem-se a porta de esquecimento, responsável por decidir quais dados devem ser mantidos na memória e quais devem ser esquecidos \cite{Phi2020}. Isso permite que a célula se lembre de dados anteriores importantes, ou apenas de novos dados, esquecendo os anteriores. Em seguida, a porta de entrada é responsável por controlar quando novas informações podem entrar na memória. Finalmente, a porta de saída controla quais as informações contidas no próximo estado da célula \cite{Jones2017}. Cada porta conta com funções de ativação, sendo \textit{tanh} utilizada para regular os valores dos vetores da rede no intervalo [-1,1], e a \textit{sigmoid} para regular entre [0,1]. De acordo com o fluxo dos dados na rede, os vetores são utilizados em operações de multiplicação (\textit{pointwise multiplication}, adição (\textit{pointwise addition}) e concatenação (\textit{vector concatenation}), junto com os pesos calculados \cite{Phi2020}. A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{tensorflow1}.
 
 \begin{figure}[h]
   \centering
@@ -128,26 +132,26 @@ Cada célula de uma LSTM possui três portas que controlam o fluxo de informaç�
 
 A GRU consiste de um tipo de RNN com o mesmo propósito da LSTM, embora considerada uma melhoria em relação a anterior, utilizando menos portas e parâmetros \cite{Kumar2019,Bianchi2017}. Em razão disso, redes GRU superaram a performance de redes LSTM em várias aplicações, treinando e convergindo mais rápido, se mostrando computacionalmente menos custosas e igualmente eficientes \cite{Kumar2019,Bianchi2017}. Empregada também em classificação e previsão de séries temporais, este tipo de rede ajuda na recuperação de informações em escalas de tempo distintas \cite{Bianchi2017,Kumar2019}. 
 
-Cada célula de uma GRU possui um estado de célula (memória) que utiliza de um estado escondido (\textit{hidden state}) para transferir a informação, com é feito na LSTM. Contudo, a GRU utiliza de apenas duas portas, conforme ilustra a \autoref{fig:cell_gru_gates}: a porta de reinicialização (\textit{reset gate}) e a porta de atualização (\textit{update gate}). A porta de atualização opera de forma similar às portas de esquecimento e a de entrada de uma LSTM, decidindo quais informações descartar e quais informações novas adicionar a memória. A porta de reinicialização, por sua vez, é utilizada para decidir quais informações do passado devem ser esquecidas \cite{Phi2020}.
+Cada célula de uma GRU possui um estado de célula (memória) que utiliza de um estado escondido (\textit{hidden state}) para transferir a informação, com é feito na LSTM. Contudo, a GRU utiliza de apenas duas portas, conforme ilustra a \autoref{fig:cell_gru_gates}: a porta de reinicialização (\textit{reset gate}) e a porta de atualização (\textit{update gate}). A porta de atualização opera de forma similar às portas de esquecimento e a de entrada de uma LSTM, decidindo quais informações descartar e quais informações novas adicionar a memória. A porta de reinicialização, por sua vez, é utilizada para decidir quais informações do passado devem ser esquecidas \cite{Phi2020}. A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{tensorflow2}.
 
 \begin{figure}[h]
   \centering
   \caption{Componentes de uma célula de GRU}
    \label{fig:cell_gru_gates}
    \includegraphics[width=0.8\textwidth]{figuras/fig_10.png}
-   \fonte{Adaptado de  \cite{Phi2020}}
+   \fonte{Adaptado de \cite{Phi2020}}
 \end{figure}
 
 \subsection{Convolutional Neural Network}
 
-A CNN é um tipo de rede neural projetada para tratar eficientemente dados de imagem, se mostrando efetiva em aplicações de visão computacional, como classificação de imagem, localização de objetos, etc. \cite{Brownlee2018}. Através da aplicação de convoluções, este tipo de rede é capaz de aprender como extrair características de alto nível diretamente nos dados brutos, que representam bem os padrões a serem reconhecidos \cite{Dixon2019,Goodfellow2016}. Esta abordagem, denominada \textit{representation learning} \cite{Brownlee2018}, também pode ser aplicada em séries temporais, onde apresenta duas vantagens sobre outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possui uma quantidade \emph{n} de filtros aplicados com um \textit{kernel} de tamanho \emph{m}, conforme ilustra as Figuras \ref{fig:cnn_convolution} e \ref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de \textit{pooling} e \textit{fully connected}, que executam tarefas de classificação \cite{Wang2019}.
+A CNN é um tipo de rede neural projetada para tratar eficientemente dados de imagem, se mostrando efetiva em aplicações de visão computacional, como classificação de imagem, localização de objetos, etc. \cite{Brownlee2018}. Através da aplicação de convoluções, este tipo de rede é capaz de aprender como extrair características de alto nível diretamente nos dados brutos, que representam bem os padrões a serem reconhecidos \cite{Dixon2019,Goodfellow2016}. Esta abordagem, denominada \textit{representation learning} \cite{Brownlee2018}, também pode ser aplicada em séries temporais, onde apresenta duas vantagens sobre outras técnicas: dependência local, uma vez que os sinais próximos provavelmente estão correlacionados; e invariância de escala para diferentes passos ou frequências \cite{Wang2019}. Neste tipo de rede, cada camada de convolução possui uma quantidade \emph{n} de filtros, cada um deles com um \textit{kernel} de tamanho \emph{m}, conforme ilustra as Figuras \ref{fig:cnn_convolution} e \ref{fig:cnn_convolution_3d}. Após a convolução, geralmente existem camadas de \textit{pooling} e \textit{fully connected}, que executam tarefas de classificação \cite{Wang2019}. A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{tensorflow3}.
 
 \begin{figure}[h]
   \centering
   \caption{Convolução em dados 1D}
    \label{fig:cnn_convolution}
    \includegraphics[width=0.9\textwidth]{figuras/fig_11.png}
-   \fonte{\cite{Verma2020}}
+   \fonte{Adaptado de \cite{Verma2020}}
 \end{figure}
 
 \begin{figure}[h]
@@ -155,12 +159,12 @@ A CNN é um tipo de rede neural projetada para tratar eficientemente dados de im
   \caption{Convolução em dados 3D}
    \label{fig:cnn_convolution_3d}
    \includegraphics[width=0.8\textwidth]{figuras/fig_12.png}
-   \fonte{\cite{Verma2020}}
+   \fonte{Adaptado de \cite{Verma2020}}
 \end{figure}
 
 \subsection{Convolutional Long Short-Term Memory}
 
-A ConvLSTM é um tipo de RNN variante da LSTM \cite{Salman2018}. Nestas redes existem operações de convolução dentro da célula de LSTM, de forma que as estruturas de convolução são aplicadas tanto na transição de entrada para estado, quanto nas transições de estado para estado. Desta forma, todas as operações de multiplicação de matrizes interna são substituídas por convoluções \cite{Rahman2019}. Neste ponto se mostra evidente a diferença para a híbrida CNN-LSTM, nas quais estruturas de convolução (CNN) são aplicadas como a primeira camada e sequencialmente na segunda camada é aplicada LSTM \cite{Rahman2019}.
+A ConvLSTM é um tipo de RNN variante da LSTM \cite{Salman2018}. Nestas redes existem operações de convolução dentro da célula de LSTM, de forma que as estruturas de convolução são aplicadas tanto na transição de entrada para estado, quanto nas transições de estado para estado. Desta forma, todas as operações de multiplicação de matrizes interna são substituídas por convoluções \cite{Rahman2019}. Neste ponto se mostra evidente a diferença para a híbrida CNN-LSTM, nas quais estruturas de convolução (CNN) são aplicadas como a primeira camada e sequencialmente na segunda camada é aplicada LSTM \cite{Rahman2019}. A lista completa de hiperparâmetros e seus valores padrões são encontradas em \citeonline{tensorflow4}.
 
 \subsection{Convolutional Neural Network Long Short-Term Memory}
 

@@ -7,9 +7,9 @@ Nesta seção é apresentado o primeiro de dois estudos voltados ao desenvolvime
 
 Com os conjuntos de dados criados, os dados brutos foram pré-processados antes de serem entregues aos modelos de Aprendizado de Máquina. Este estudo teve como foco a utilização dos valores amostrados no braço de controle, localizado abaixo e próximo ao sistema de suspensão. De acordo com o modelo QC, esses valores possuem interferência apenas da massa não suspensa por meio da rigidez e absorção do pneu \cite{Yafeai2019}. Sendo assim, cada amostra utilizada possui os valores de força de aceleração e de taxa de rotação, ambos em três eixos, e o valor da velocidade. Neste estudo, utilizamos de ambos os sensores inercias uma vez que os consideramos complementares, com cada um deles fornecendo um tipo específico de dado acerca dos movimentos veiculares. Também consideramos todos os eixos dos sensores e não apenas o de maior interesse, como geralmente é feito nos estudos de exterocepção, uma vez que todos os eixos apresentam informações relevantes, que devem ser consideradas no desenvolvimento de um modelo mais confiável.
 
-Após a seleção das sete variáveis, seus dados foram transformados para se adequar às entradas das técnicas de classificação de padrões. Para os modelos de Aprendizado de Máquina clássicos, foi necessário extrair em pré-processamento as características de alto nível que bem representem as classes de dados. Para isto, foram aplicados os métodos estatísticos Desvio Padrão, Média e Variância para sinais de sensores inerciais e Média para velocidade, os quais constituem os métodos mais comumente usados em estudos relacionados para extrair características baseadas em vibração de sinais de sensores inerciais \cite{Alqudah2016,Andria2016,BelloSalau2018,Bose2018,Hou2017,Li2016,Lima2016,Pholprasit2015,Prapulla2017,Savera2016,Singh2017}. Para os modelos baseados em \textit{Deep Learning}, uma vez que estas técnicas produzem melhor desempenho quando as variáveis são escaladas em uma faixa de valores, os dados foram normalizados com \textit{Robust Scaler}, \textit{Min Max Scaler} no intervalo [0,1] e \textit{Min Max Scaler} no intervalo [-1,1]. Para analisar a influência do número de amostras em todos os modelos, foram criados os \emph{experimentos por tamanho de janela de dados}, onde foram utilizadas janelas fixas de 100, 150, 200, 250 e 300 amostras. 
+Após a seleção das sete variáveis, seus dados foram transformados para se adequar às entradas das técnicas de classificação de padrões. Para os modelos de Aprendizado de Máquina clássicos, foi necessário extrair em pré-processamento as características de alto nível que bem representem as classes de dados. Para isto, foram aplicadas estatísticas janeladas utilizando os métodos Desvio Padrão, Média e Variância para cada eixo dos sensores inerciais e Média para velocidade, os quais constituem os métodos mais comumente usados em estudos relacionados para extrair características baseadas em vibração de sinais de sensores inerciais \cite{Alqudah2016,Andria2016,BelloSalau2018,Bose2018,Hou2017,Li2016,Lima2016,Pholprasit2015,Prapulla2017,Savera2016,Singh2017}. Para os modelos baseados em \textit{Deep Learning}, uma vez que estas técnicas produzem melhor desempenho quando as variáveis são escaladas em uma faixa de valores, os dados foram normalizados com \textit{Robust Scaler}, \textit{Min Max Scaler} no intervalo [0,1] e \textit{Min Max Scaler} no intervalo [-1,1], para avaliar o mais adequado. Para analisar a influência do número de amostras em todos os modelos de Aprendizado de Máquina clássico e de \textit{Deep Learning}, foram criados os \emph{experimentos por tamanho de janela de dados}, onde foram utilizadas janelas fixas sem sobreposição de 100, 150, 200, 250 e 300 amostras. 
 
-Após a transformação dos dados, definiu-se quais foram utilizados para treinamento e para validação. Embora um mesmo conjunto de dados seja comumente dividido em uma parte para treinamento e outra para validação (geralmente 70\% - 30\%), ou os conjuntos de dados sejam aplicados em uma metodologia de validação cruzada \textit{k-fold}, ambas as abordagens no contexto deste estudo incorrem em viés por duas razões. A primeira, se todos os conjuntos de dados possuírem uma parte para treinamento e outra para validação ou sejam distribuídos na abordagem \textit{k-fold} de k igual a 9, isso implica que a técnica de reconhecimento de padrões terá para treinamento dados amostrados em todos os veículos, com todos os motoristas, e em todos os cenários. Isso, por si só, já leva a técnica a obter excelentes resultados, mas não nos diz nada sobre a capacidade de generalizar seu aprendizado de classificar padrões em contextos desconhecidos. A segunda razão decorre de que esse tipo de divisão pode levar a situações em que os dados de validação são compostos principalmente por dados com padrões mais facilmente reconhecidos, como segmentos de pavimento asfáltico, uma vez que a vibração do sinal neste tipo de superfície é muito menor do que nas outras. Portanto, para avaliar corretamente a generalização de cada técnica, avaliando sua confiabilidade em contextos desconhecidos (diferentes veículos, motoristas ou cenários/ambientes), os dados de treinamento e validação foram divididos de acordo com o conjunto de dados, separando-os em três \emph{experimentos por contexto}:
+Após a transformação dos dados, definiu-se quais foram utilizados para treinamento e para validação. Embora um mesmo conjunto de dados seja comumente dividido em uma parte para treinamento e outra para validação (geralmente 70\% - 30\%), ou os conjuntos de dados sejam aplicados em uma metodologia de validação cruzada \textit{k-fold}, ambas as abordagens no contexto deste estudo incorrem em viés por duas razões. A primeira, se todos os conjuntos de dados possuírem uma parte para treinamento e outra para validação ou sejam distribuídos na abordagem \textit{k-fold} de k igual a 9, isso implica que a técnica de reconhecimento de padrões terá para treinamento dados amostrados em todos os veículos, com todos os motoristas, e em todos os cenários. Isso, por si só, já leva a técnica a obter excelentes resultados, mas não nos diz nada sobre a capacidade de generalizar seu aprendizado de classificar padrões em contextos desconhecidos. A segunda razão, a qual incide na divisão de um mesmo conjunto PVS, decorre de que esse tipo de divisão pode levar a situações em que os dados de validação são compostos principalmente por dados com padrões mais facilmente reconhecidos, como segmentos de pavimento asfáltico, uma vez que a vibração do sinal neste tipo de superfície é muito menor do que nas outras. Portanto, para avaliar corretamente a generalização de cada técnica, avaliando sua confiabilidade em contextos desconhecidos (diferentes veículos, motoristas ou cenários/ambientes), os dados de treinamento e validação foram divididos de acordo com o conjunto de dados, separando-os em três \emph{experimentos por contexto}:
 
 \begin{description}
 	
@@ -43,7 +43,17 @@ Após a transformação dos dados, definiu-se quais foram utilizados para treina
   \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-Embora a abordagem de divisão de dados adotada não seja comum, ela foi necessária para permitir avaliar o comportamento dos modelos de Aprendizado de Máquina quando submetido a dados coletados em um veículo, motorista ou cenário desconhecido. Nos três experimentos, todas as classes de dados estão presentes na fase de treinamento e validação. Para avaliar a necessidade de aplicar técnicas de balanceamento de classe de dados, foi medido a distribuição de cada classe conforme detalhado na \autoref{table:distribuicao_classes_tipo_superficie}. A distribuição de classes foi calculada com os dados de treinamento \cite{He2013,Kuhn2013}, uma vez que estes são os dados utilizados pelos modelos para aprender os padrões. A distribuição foi calculada em relação ao número de amostras, uma vez que as janelas de dados são definidas de acordo com esse parâmetro.
+Embora a abordagem de divisão de dados adotada não seja comum, ela foi necessária para permitir avaliar o comportamento dos modelos de Aprendizado de Máquina quando submetido a dados coletados em um veículo, motorista ou cenário desconhecido. Nos três experimentos, todas as classes de dados estão presentes na fase de treinamento e validação. Em resumo, cada experimento executado neste estudo consiste de um elemento do produto cartesiano entre \emph{experimentos por contexto} e \emph{experimentos por tamanho de janela de dados}, conforme ilustra a \autoref{fig:combinacao_experimentos_1}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Combinação de tipos de experimentos}
+  \label{fig:combinacao_experimentos_1}
+  \includegraphics[width=1\textwidth]{figuras/fig_29_1.png}
+  \fonte{Desenvolvido pelo autor.}
+\end{figure}
+
+Para avaliar a necessidade de aplicar técnicas de balanceamento de classe de dados, foi medido a distribuição de cada classe conforme detalhado na \autoref{table:distribuicao_classes_tipo_superficie}. A distribuição de classes foi calculada com os dados de treinamento \cite{He2013,Kuhn2013}, uma vez que estes são os dados utilizados pelos modelos para aprender os padrões. A distribuição foi calculada em relação ao número de amostras, uma vez que as janelas de dados são definidas de acordo com esse parâmetro.
 
 \begin{table}[h]
 \caption{Distribuição de classes de dados de tipo de superfície de pista}
@@ -73,29 +83,25 @@ Exp. por Contexto 3 & 26,15\% & 1:2,8 & 30,26\% & 1:2,3 & 43,58\% & 1:1,3 \\ \bo
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Analisando a \autoref{table:distribuicao_classes_tipo_superficie}, observamos que a distribuição das classes de tipo de superfície de pista situa-se entre 21,36\% e 44,61\%, dependendo do experimento. A proporção varia entre 1:1,2 a 1:3,7, onde para 1 amostra de uma determinada classe de dados, existem de 1,2 a 3,7 amostras nas outras classes. De acordo com \cite{Fernandez2018}, um conjunto de dados é considerado desbalanceado quando existe uma desproporção significativa, ou em alguns casos severa, entre o número de amostras de cada classe. O desbalanceamento de classes pode ser considerado leve ou severo, onde as proporções de distribuição que variam de 1:4 até 1:100 (presença de 20\% - 1\%) são consideradas desbalanceamento leve e proporções de distribuição que variam de 1:100 ou mais (<1\% de presença) são consideradas desbalanceamentos severos \cite{Krawczyk2016,Brownlee2020}. Como podemos observar, as proporções de distribuição das classes de dados neste estudo não é classificada sequer como desbalanceamento leve, pois em seu pior caso, a proporção 1:3.7 ainda é uma distribuição mais uniforme do que 1:4. De acordo com \cite{Brownlee2020}, o desbalanceamento leve geralmente não é uma preocupação, e o problema pode ser tratado como um problema de modelagem preditiva ou classificação normal. Sendo assim, se desbalanceamentos leves não dependem de balanceamento de classes, distribuições mais uniformes, como é o caso deste estudo, não necessitam de aplicação desta técnica.
+Analisando a \autoref{table:distribuicao_classes_tipo_superficie}, observamos que a distribuição das classes de tipo de superfície de pista situa-se entre 21,36\% e 44,61\%, dependendo do experimento. A proporção varia entre 1:1,2 a 1:3,7, onde para 1 amostra de uma determinada classe de dados, existem de 1,2 a 3,7 amostras nas outras classes. De acordo com \cite{Fernandez2018}, um conjunto de dados é considerado desbalanceado quando existe uma desproporção significativa, ou em alguns casos severa, entre o número de amostras de cada classe. O desbalanceamento de classes pode ser considerado leve ou severo, onde as proporções de distribuição que variam de 1:4 até 1:100 (presença de 20\% - 1\%) são consideradas desbalanceamento leve e proporções de distribuição que variam de 1:100 ou mais (<1\% de presença) são consideradas desbalanceamentos severos \cite{Krawczyk2016,Brownlee2020}. Como podemos observar, as proporções de distribuição das classes de dados neste estudo não é classificada sequer como desbalanceamento leve, pois em seu pior caso, a proporção 1:3.7 ainda é uma distribuição mais uniforme do que 1:4. De acordo com \cite{Brownlee2020}, o desbalanceamento leve geralmente não é uma preocupação, e o problema pode ser tratado como um problema de modelagem preditiva ou classificação normal. Sendo assim, se desbalanceamentos leves não dependem de balanceamento de classes, distribuições mais uniformes, como é o caso deste estudo, não necessitam de aplicação desta técnica. 
 
 \section{Processamento}
 
 Após a etapa de pré-processamento, os dados foram utilizados em técnicas de Inteligência Artificial para classificação do tipo de superfície de pista. Por meio de nossa RSL sobre percepção veicular, identificamos as principais técnicas utilizadas na exterocepção veicular com sensores inerciais, a qual tem como objetivo reconhecer as características do ambiente externo como tipo de superfície, qualidade do pavimento, buracos, lombadas, etc. Todos os modelos de Aprendizado de Máquina empregados em estudos anteriores na área são baseados em técnicas clássicas. Portanto, neste estudo foi realizada uma comparação entre as técnicas mais utilizadas na área, todas elas sendo o Aprendizado de Máquina clássico, com as técnicas de Aprendizado Profundo (\textit{Deep Learning}), as quais ainda não foram utilizadas neste tipo de problema de classificação.
 
-Dentre as técnicas de Aprendizado de Máquina clássico mais aplicadas na área, estão as três experimentadas neste estudo: KMC, SVM e KNN. Para a técnica de KMC, foram desenvolvidos modelos com 3 \textit{clusters}, representando as classes a serem agrupadas. Para a técnica de SVM, foram experimentados modelos com três diferentes \textit{kernels}: polinomial de grau 3, rbf e sigmoid. Por fim, para a técnica de KNN, de forma a identificar o valor ótimo de vizinhos, foram desenvolvidos modelos com 1, 2, 5, 10, 50, 100, 250, 500, 1000 vizinhos. No desenvolvimento dos modelos de \textit{Deep Learning}, uma vez que nenhum estudo de exterocepção aplica este tipo de técnica, os modelos produzidos foram baseados em modelos de outros domínios que também utilizam de sensores inerciais para reconhecer padrões. Sendo assim, as Redes Neurais Profundas (\textit{Deep Neural Networks - DNN}) desenvolvidas foram baseadas em estudos de reconhecimento de atividade humana \cite{Deep2019,Alemayoh2019,Chen2015,Yang2018,Zebin2018,Zebin2019,Wang2019,Ahmad2019}, estimativa de velocidade de caminhada \cite{Shrestha2018} e classificação de terrenos durante corrida humana \cite{Dixon2019}. Foram construídos e analisados modelos baseados em LSTM, CNN e CNN-LSTM. Todos os modelos de DNN são sequenciais e utilizam o otimizador Adam em conjunto com a função de perda de Entropia Cruzada Categórica, uma vez que se trata de um problema de classificação multiclasse.
+Dentre as técnicas de Aprendizado de Máquina clássico mais aplicadas na área, estão as três experimentadas neste estudo: KMC, SVM e KNN. Para a técnica de KMC, foram desenvolvidos modelos com 3 \textit{clusters}, representando as classes a serem agrupadas. Para a técnica de SVM, foi adotado o esquema \textit{one-vs-one} para classificação multiclasse, e experimentados modelos com três diferentes \textit{kernels}: polinomial de grau 3, rbf e sigmoid. Por fim, para a técnica de KNN, de forma a identificar o valor ótimo de vizinhos, foram desenvolvidos modelos com 1, 2, 5, 10, 50, 100, 250, 500, 1000 vizinhos. Os demais hiperparâmetros das técnicas clássicas foram utilizados com seus valores padrões, disponíveis em \citeonline{scikit_learn1}, \citeonline{scikit_learn2} e \citeonline{scikit_learn3}. No desenvolvimento dos modelos de \textit{Deep Learning}, uma vez que nenhum estudo de exterocepção aplica este tipo de técnica, os modelos produzidos foram baseados em modelos de outros domínios que também utilizam de sensores inerciais para reconhecer padrões. Sendo assim, as Redes Neurais Profundas (\textit{Deep Neural Networks - DNN}) desenvolvidas foram baseadas em estudos de reconhecimento de atividade humana \cite{Deep2019,Alemayoh2019,Chen2015,Yang2018,Zebin2018,Zebin2019,Wang2019,Ahmad2019}, estimativa de velocidade de caminhada \cite{Shrestha2018} e classificação de terrenos durante corrida humana \cite{Dixon2019}. Foram construídos e analisados modelos baseados em LSTM, CNN e CNN-LSTM. Todos os modelos de DNN são sequenciais e utilizam o otimizador Adam em conjunto com a função de perda de Entropia Cruzada Categórica, uma vez que se trata de um problema de classificação multiclasse.
 
 Para as redes baseadas em LSTM, vários modelos foram desenvolvidos, dentre \textit{vanilla} LSTM e \textit{stacked} LSTM, tanto na forma unidirecional quanto bidirecional, detalhados na \autoref{table:lstm_superficie_pista_1}. O LSTM 7 foi o modelo desenvolvido com melhores resultados, consistindo de uma LSTM \textit{stacked} unidirecional detalhada na \autoref{fig:best_lstm_tipo_superficie_1}. Neste modelo, a DNN recebe um tensor de entrada \emph{janelas x sequências x características}, onde \emph{janelas} são os agrupamentos de janelas, \emph{sequências} são os dados que uma janela possui, ou seja, a sequência de amostras, e \emph{características} são os valores das 7 variáveis dos sensores, sendo assim, os valores de cada amostra. O modelo é composto por uma camada de entrada, três blocos de recorrência e regularização, e um bloco de camadas totalmente conectadas para produção de saída. As camadas de LSTM com 100 unidades são utilizadas para aprender as dependências temporais de longo prazo na sequência de dados. A regularização é feita por duas camadas, sendo \textit{Batch Normalization} para padronizar as entradas de uma nova camada, reduzindo o tempo de treinamento e melhorando o desempenho \cite{Zebin2018}; e \textit{Dropout} em 50\% para evitar \textit{overfitting}, ignorando neurônios selecionados aleatoriamente durante o treinamento. Após o processamento nas camadas recorrentes, os parâmetros são passados para duas camadas \textit{Dense}, a primeira com 100 neurônios com ativação \textit{Relu}, e a segunda com 3 neurônios e ativação do \textit{Softmax}, produzindo a classificação. A saída esperada da rede são os rótulos correspondentes à última amostra da janela.
 
-\begin{center}
+\begin{table}[h!]
 \scriptsize
-\begin{longtable}{cl}
+\centering
 \caption{Modelos de LSTM para classificação do tipo de superfície de pista}
-\label{table:lstm_superficie_pista_1} \\
+\label{table:lstm_superficie_pista_1}
+\begin{tabular}{cl}
 \toprule 
 \multicolumn{1}{l}{\textbf{Nome}} & 
 \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endfirsthead
-\toprule 
-\multicolumn{1}{l}{\textbf{Nome}} & 
-\multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endhead \endfoot \endlastfoot
 LSTM 1 & 1 LSTM com 100 unidades, 1 Dropout de 0,5, 1 Dense com 100 unidades e ativação Relu,  1 Dense com 3 \\ & unidades e  ativação Softmax. \\ \midrule
 LSTM 2 & Igual a LSTM 1, mas conetando as sequencias \textit{flattened} retornadas pela LSTM diretamente na camada Dense. \\ \midrule
 LSTM 3 & Igual a LSTM 1, mas com LSTM bidirecional. \\ \midrule
@@ -103,9 +109,33 @@ LSTM 4 & Igual a LSTM 2, mas com LSTM bidirecional. \\ \midrule
 LSTM 5 & 3 blocos de LSTM com 100 unidades e Dropout em 0,5, 1 Dense com 100 unidades e ativação Relu, 1 Dense \\ & com 3  unidades e ativação Softmax.\\ \midrule
 LSTM 6 & Igual a LSTM 5, mas com LSTM bidirecional e Dropout em 0,2. \\ \midrule
 LSTM 7 & 3 blocos de LSTM com 100 unidades, Batch Normalization e Dropout 0,5, 1 Dense com 100 unidades e \\ & ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
-\end{longtable}
+\end{tabular}
 \fonte{Desenvolvido pelo autor.}
-\end{center}
+\end{table}
+
+% \begin{center}
+% \scriptsize
+% \begin{longtable}{cl}
+% \caption{Modelos de LSTM para classificação do tipo de superfície de pista}
+% \label{table:lstm_superficie_pista_1} \\
+% \toprule 
+% \multicolumn{1}{l}{\textbf{Nome}} & 
+% \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endfirsthead
+% \toprule 
+% \multicolumn{1}{l}{\textbf{Nome}} & 
+% \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endhead \endfoot \endlastfoot
+% LSTM 1 & 1 LSTM com 100 unidades, 1 Dropout de 0,5, 1 Dense com 100 unidades e ativação Relu,  1 Dense com 3 \\ & unidades e  ativação Softmax. \\ \midrule
+% LSTM 2 & Igual a LSTM 1, mas conetando as sequencias \textit{flattened} retornadas pela LSTM diretamente na camada Dense. \\ \midrule
+% LSTM 3 & Igual a LSTM 1, mas com LSTM bidirecional. \\ \midrule
+% LSTM 4 & Igual a LSTM 2, mas com LSTM bidirecional. \\ \midrule
+% LSTM 5 & 3 blocos de LSTM com 100 unidades e Dropout em 0,5, 1 Dense com 100 unidades e ativação Relu, 1 Dense \\ & com 3  unidades e ativação Softmax.\\ \midrule
+% LSTM 6 & Igual a LSTM 5, mas com LSTM bidirecional e Dropout em 0,2. \\ \midrule
+% LSTM 7 & 3 blocos de LSTM com 100 unidades, Batch Normalization e Dropout 0,5, 1 Dense com 100 unidades e \\ & ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
+% \end{longtable}
+% \fonte{Desenvolvido pelo autor.}
+% \end{center}
 
 \begin{figure}[h]
   \centering
@@ -117,33 +147,59 @@ LSTM 7 & 3 blocos de LSTM com 100 unidades, Batch Normalization e Dropout 0,5, 1
 
 Para as redes baseadas em CNN, foram produzidos modelos de CNN \textit{Stacked} utilizando diferentes camadas de \textit{pooling}, conforme detalha a \autoref{table:cnn_superficie_pista_1}. O modelo desenvolvido com melhores resultados foi o CNN 8, detalhado na \autoref{fig:best_cnn_dnn_tipo_superficie_1}. Esta DNN recebe um tensor de entrada \emph{janelas x sequências x características} semelhante ao das redes baseadas em LSTM, o qual é processado por três blocos de camadas de convolução e regularização, e um bloco de camadas totalmente conectadas. Os blocos de extração de características utilizam nos sinais \textit{kernels} de convolução de tamanho 3, com a primeira camada possuindo 64 filtros e as demais com 32 filtros. A regularização é feita pelas camadas \textit{Batch Normalization} e \textit{Dropout} em 15\% e 20\%. O último bloco de extração de características também possui uma camada \textit{Global Average Pooling 1D} para extrair características mais robustas por valores médios em cada região, acelerando o processo de treinamento e evitando \textit{overfitting} \cite{Yang2018, Wang2019}. Por fim, o último bloco consiste de duas camadas \textit{Dense}, uma com 32 neurônios e ativação de \textit{Relu}, e a outra com 3 neurônios e ativação de \textit{Softmax}. A saída esperada da rede são os rótulos mais presentes na janela analisada.
 
-\begin{center}
+\begin{table}[h!]
 \scriptsize
-\begin{longtable}{cl}
+\centering
 \caption{Modelos de CNN para classificação do tipo de superfície de pista} 
-\label{table:cnn_superficie_pista_1}  \\
-\multicolumn{2}{r}{(continua)} \\
-\toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endfirsthead
-% \caption{Modelos de CNN para classificação do tipo de superfície de pista} 
-\multicolumn{2}{r}{(conclusão)} \\
-\toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endhead \endfoot \endlastfoot
+\label{table:cnn_superficie_pista_1}
+\begin{tabular}{cl}
+\toprule 
+\multicolumn{1}{l}{\textbf{Nome}} & 
+\multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
 CNN 1 &
-3 blocos de Conv1D com 64-64-128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten, 1 Dense com 100 \\ & unidades e ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+3 blocos de Conv1D com 64-64-128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten, 1 Dense com \\ & 100 unidades e ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
 CNN 2 & Igual a CNN 1, mas com 1 Max Pooling 1D com \textit{pool} de tamanho 2 depois dos blocos de convolução. \\ \midrule
-CNN 3 & 1 Conv1D com 64 filtros,  \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization, 1 Dropout em 0,15, \\ & 1 Conv1D com 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout 0,2 e 1 Dense com 3 unidades e ativação Softmax.
+CNN 3 & 1 Conv1D com 64 filtros,  \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization, 1 Dropout em \\ & 0,15,  1 Conv1D com 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch \\ & Normalization,  1 Dropout 0,2 e 1 Dense com 3 unidades e ativação Softmax.
  \\ \midrule
-CNN 4 & 2 Conv1D com 100 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de tamanho 3, \\ & 2 Conv1D com 160 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Global Avg Pool 1D, 1 Dropout 0,5 e 1 Dense \\ & com 3 unidades e ativação Softmax.
+CNN 4 & 2 Conv1D com 100 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de \\ & tamanho 3, 2 Conv1D com 160 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Global Avg Pool 1D, \\ &  1 Dropout 0,5 e 1 Dense com 3 unidades e ativação Softmax.
  \\ \midrule
-CNN 5 & 1 Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de tamanho 2, 1 \\ & Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten e 1 Dense com 3 unidades e ativação Softmax.
+CNN 5 & 1 Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de \\ & tamanho 2, 1  Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten e 1 Dense com \\ & 3 unidades e ativação  Softmax.
  \\ \midrule
-CNN 6 & 1 Conv1D com 24 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Batch Normalization, 1 Spatial Dropout 0,15, 1 \\ & Conv1D com 12 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout 0,2, 1 Dense com 48 unidades e ativação Relu, 1 Batch Normalization, 1 Dropout em 0,25, 1 Dense com \\ & 3 unidades e ativação Softmax. \\ \midrule
-CNN 7 &  3 blocos de Conv1D com 128-64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization e 1 \\ & Max Pooling 1D com \textit{pool} de tamanho 2, 1 Flatten, 1 Dropout em 0,2, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
-CNN 8 & 2 blocos de Conv1D com 64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization e 1 Dropout \\ & em 0,15, 1 Conv1D 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout em 0,2, 1 Dense com 32 unidades e ativação Relu e 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
-\end{longtable}
+CNN 6 & 1 Conv1D com 24 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Batch Normalization, 1 Spatial Dropout \\ & 0,15, 1  Conv1D com 12 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch \\ & Normalization,  1 Dropout 0,2, 1 Dense com 48 unidades e ativação Relu, 1 Batch Normalization,  \\ & 1 Dropout em 0,25, 1 Dense com  3 unidades e ativação Softmax. \\ \midrule
+CNN 7 &  3 blocos de Conv1D com 128-64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization \\ & e 1  Max Pooling 1D com \textit{pool} de tamanho 2, 1 Flatten, 1 Dropout em 0,2, 1 Dense com 3 unidades e \\ & ativação Softmax. \\ \midrule
+CNN 8 & 2 blocos de Conv1D com 64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization e \\ & 1 Dropout  em 0,15, 1 Conv1D 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D,  \\ & 1 Batch Normalization, 1 Dropout em 0,2, 1 Dense com 32 unidades e ativação Relu e 1 Dense com 3 \\ & unidades e ativação Softmax. \\ \bottomrule
+\end{tabular}
 \fonte{Desenvolvido pelo autor.}
-\end{center}
+\end{table}
+
+% \begin{center}
+% \scriptsize
+% \begin{longtable}{cl}
+% \caption{Modelos de CNN para classificação do tipo de superfície de pista} 
+% \label{table:cnn_superficie_pista_1}  \\
+% \toprule 
+% \multicolumn{1}{l}{\textbf{Nome}} & 
+% \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endfirsthead
+% \toprule 
+% \multicolumn{1}{l}{\textbf{Nome}} & 
+% \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endhead \endfoot \endlastfoot
+% CNN 1 &
+% 3 blocos de Conv1D com 64-64-128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten, 1 Dense com 100 \\ & unidades e ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+% CNN 2 & Igual a CNN 1, mas com 1 Max Pooling 1D com \textit{pool} de tamanho 2 depois dos blocos de convolução. \\ \midrule
+% CNN 3 & 1 Conv1D com 64 filtros,  \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization, 1 Dropout em 0,15, \\ & 1 Conv1D com 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout 0,2 e 1 Dense com 3 unidades e ativação Softmax.
+%  \\ \midrule
+% CNN 4 & 2 Conv1D com 100 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de tamanho 3, \\ & 2 Conv1D com 160 filtros, \textit{kernel} de tamanho 10 e ativação Relu, 1 Global Avg Pool 1D, 1 Dropout 0,5 e 1 Dense \\ & com 3 unidades e ativação Softmax.
+%  \\ \midrule
+% CNN 5 & 1 Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Max Pooling 1D com \textit{pool} de tamanho 2, 1 \\ & Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Flatten e 1 Dense com 3 unidades e ativação Softmax.
+%  \\ \midrule
+% CNN 6 & 1 Conv1D com 24 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Batch Normalization, 1 Spatial Dropout 0,15, 1 \\ & Conv1D com 12 filtros, \textit{kernel} de tamanho 8 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout 0,2, 1 Dense com 48 unidades e ativação Relu, 1 Batch Normalization, 1 Dropout em 0,25, 1 Dense com \\ & 3 unidades e ativação Softmax. \\ \midrule
+% CNN 7 &  3 blocos de Conv1D com 128-64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization e 1 \\ & Max Pooling 1D com \textit{pool} de tamanho 2, 1 Flatten, 1 Dropout em 0,2, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+% CNN 8 & 2 blocos de Conv1D com 64-32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Batch Normalization e 1 Dropout \\ & em 0,15, 1 Conv1D 32 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Global Avg Pool 1D, 1 Batch Normalization, \\ & 1 Dropout em 0,2, 1 Dense com 32 unidades e ativação Relu e 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
+% \end{longtable}
+% \fonte{Desenvolvido pelo autor.}
+% \end{center}
 
 \begin{figure}[H]
   \centering
@@ -155,26 +211,48 @@ CNN 8 & 2 blocos de Conv1D com 64-32 filtros, \textit{kernel} de tamanho 3 e ati
 
 Para as redes baseadas em CNN-LSTM, foram produzidos modelos híbridos detalhados na \autoref{table:cnn_lstm_superficie_pista_1}. O modelo desenvolvido com melhores resultados foi o CNN-LSTM 6, detalhado na \autoref{fig:best_cnn_lstm_tipo_superficie_1}. Esta DNN recebe um tensor \emph{janelas x sequências x subsequências x características}, onde \emph{janelas} são os agrupamentos de janelas, \emph{sequências} são as janelas de dados, \emph{subsequências} são os subgrupos de janelas e \emph{características} são os valores das 7 variáveis dos sensores. Os dados são inicialmente processados por três blocos de camadas de convolução e regularização, três blocos de camadas recorrentes e de regularização, e um bloco de camadas totalmente conectadas. Os blocos de extração de características utilizam nos sinais \textit{kernels} de convolução de tamanho 3 com 128 filtros. A regularização é feita pelas camadas de \textit{Batch Normalization} e \textit{Spatial Dropout 1D} em 15\% e 20\%. O último bloco possuí uma camada \textit{Global Average Pooling 1D}. Os blocos recorrentes possuem camadas de LSTM com 100 unidades e regularização por \textit{Batch Normalization} e \textit{Dropout} em 50\%. Finalmente, os parâmetros resultantes são entregues a uma camada \textit{Dense} com 3 neurônios e ativação do \textit{Softmax}, produzindo a classificação. A saída esperada da rede são os rótulos correspondentes à última amostra na janela.
 
-\begin{center}
+\begin{table}[h!]
 \scriptsize
-\begin{longtable}{cl}
+\centering
 \caption{Modelos de CNN-LSTM para classificação do tipo de superfície de pista} 
-\label{table:cnn_lstm_superficie_pista_1} \\
-\toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endfirsthead
-\toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
-\endhead \endfoot \endlastfoot
+\label{table:cnn_lstm_superficie_pista_1}
+\begin{tabular}{cl}
+\toprule 
+\multicolumn{1}{l}{\textbf{Nome}} & 
+\multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
 CNN-LSTM 1 &  2 Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Dropout em 0,5, 1 Max Pooling 1D \\ & com \textit{pool} de tamanho 2, 1 Flatten, 1 LSTM com 100 unidades, 1 Dropout em 0,2, 1 Dense com 100 \\ & unidades e ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
 CNN-LSTM 2 & Igual a CNN-LSTM 1, mas com 3 camadas Conv1D. \\ \midrule
 CNN-LSTM 3 & Igual a CNN-LSTM 2, mas com 3 blocos de LSTM e Dropout após a camada Max Pooling 1D. \\ \midrule
 CNN-LSTM 4 & Igual a CNN-LSTM 3, mas com os blocos LSTM sem camada Dropout. \\ \midrule
-CNN-LSTM 5 &  2 blocos de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Max Pooling 1D com \textit{pool} \\ & de tamanho 2 e Batch Normalization, 1 bloco de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação \\ & Relu,  Global Avg Pool 1D e Batch Normalization, 3 blocos de 1 LSTM com 100 unidades, Batch \\ & Normalization e Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
-CNN-LSTM 6 & 2 blocos de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Batch Normalization, e Spatial \\ &  Dropout em 0,15, 1 bloco de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Global Avg Pool \\& 1D, Batch Normalization e Dropout em 0,2, 3 blocos de LSTM com 100 unidades, Batch Normalization e \\ & Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
-\end{longtable}
+CNN-LSTM 5 &  2 blocos de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Max Pooling 1D com \textit{pool} \\ & de tamanho 2 e Batch Normalization, 1 bloco de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e \\ & ativação  Relu,  Global Avg Pool 1D e Batch Normalization, 3 blocos de 1 LSTM com 100 unidades, \\ & Batch  Normalization e Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+CNN-LSTM 6 & 2 blocos de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Batch Normalization, e \\ & Spatial   Dropout em 0,15, 1 bloco de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, \\ & Global Avg Pool  1D, Batch Normalization e Dropout em 0,2, 3 blocos de LSTM com 100 unidades, \\ & Batch Normalization e  Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
+\end{tabular}
 \fonte{Desenvolvido pelo autor.}
-\end{center}
+\end{table}
 
-\begin{figure}[h]
+% \begin{center}
+% \scriptsize
+% \begin{longtable}{cl}
+% \caption{Modelos de CNN-LSTM para classificação do tipo de superfície de pista} 
+% \label{table:cnn_lstm_superficie_pista_1} \\
+% \multicolumn{2}{r}{(continua)} \\
+% \toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endfirsthead
+% % \caption{Modelos de CNN para classificação do tipo de superfície de pista} 
+% \multicolumn{2}{r}{(conclusão)} \\
+% \toprule \textbf{Nome} & \multicolumn{1}{c}{\textbf{Camadas}} \\ \midrule
+% \endhead \endfoot \endlastfoot
+% CNN-LSTM 1 &  2 Conv1D com 64 filtros, \textit{kernel} de tamanho 3 e ativação Relu, 1 Dropout em 0,5, 1 Max Pooling 1D \\ & com \textit{pool} de tamanho 2, 1 Flatten, 1 LSTM com 100 unidades, 1 Dropout em 0,2, 1 Dense com 100 \\ & unidades e ativação Relu, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+% CNN-LSTM 2 & Igual a CNN-LSTM 1, mas com 3 camadas Conv1D. \\ \midrule
+% CNN-LSTM 3 & Igual a CNN-LSTM 2, mas com 3 blocos de LSTM e Dropout após a camada Max Pooling 1D. \\ \midrule
+% CNN-LSTM 4 & Igual a CNN-LSTM 3, mas com os blocos LSTM sem camada Dropout. \\ \midrule
+% CNN-LSTM 5 &  2 blocos de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Max Pooling 1D com \textit{pool} \\ & de tamanho 2 e Batch Normalization, 1 bloco de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação \\ & Relu,  Global Avg Pool 1D e Batch Normalization, 3 blocos de 1 LSTM com 100 unidades, Batch \\ & Normalization e Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \midrule
+% CNN-LSTM 6 & 2 blocos de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Batch Normalization, e Spatial \\ &  Dropout em 0,15, 1 bloco de Conv1D com 128 filtros, \textit{kernel} de tamanho 3 e ativação Relu, Global Avg Pool \\& 1D, Batch Normalization e Dropout em 0,2, 3 blocos de LSTM com 100 unidades, Batch Normalization e \\ & Dropout em 0,3, 1 Dense com 3 unidades e ativação Softmax. \\ \bottomrule
+% \end{longtable}
+% \fonte{Desenvolvido pelo autor.}
+% \end{center}
+
+\begin{figure}[H]
   \centering
   \caption{Melhor modelo de LSTM-CNN para classificação do tipo de superfície de pista}
   \label{fig:best_cnn_lstm_tipo_superficie_1}
@@ -182,10 +260,11 @@ CNN-LSTM 6 & 2 blocos de 1 Conv1D com 128 filtros, \textit{kernel} de tamanho 3 
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
-\vspace{-1.0cm}
+Os demais hiperparâmetros das técnicas de \textit{Deep Learning} foram utilizados com seus valores padrões, disponíveis em \citeonline{tensorflow1} e \citeonline{tensorflow2}.
+
 \section{Análise de Resultados}
 
-Todos os modelos desenvolvidos neste estudo foram programados em Python 3. Os modelos Aprendizado de Máquina clássico usaram a biblioteca Scikit-Learn, enquanto os modelos \textit{Deep Learning} utilizaram o \textit{framework} Keras com o \textit{backend} Tensorflow. Os experimentos foram realizados no Google \textit{Collaboratory} (Google Colab), com uma GPU NVIDIA Tesla P100 com 12 GB e 25 GB de RAM. Em todas as técnicas, exceto KNN, os experimentos foram executados 3 vezes a fim de minimizar a aleatoriedade dos parâmetros iniciais, recuperando apenas o melhor entre os três. Cada experimento consiste de um elemento do produto cartesiano entre \emph{experimentos por tamanho de janela de dados} e \emph{experimentos por contexto}. Os resultados obtidos na aplicação do Aprendizado de Máquina clássico são detalhados nas Tabelas \ref{table:kmc_results_tipo_superficie_1}, \ref{table:svm_results_tipo_superficie_1} e \ref{table:knn_results_tipo_superficie_1}. O valor detalhado corresponde à média de acurácia em  validação dos três \textit{experimentos por contexto} para um determinado \emph{experimento por tamanho de janela de dados} e configuração dos hiperparâmetros da técnica.
+Todos os modelos desenvolvidos neste estudo foram programados em Python 3. Os modelos Aprendizado de Máquina clássico usaram a biblioteca Scikit-Learn, enquanto os modelos \textit{Deep Learning} utilizaram o \textit{framework} Keras com o \textit{backend} Tensorflow. Os experimentos foram realizados no Google \textit{Collaboratory} (Google Colab), com uma GPU NVIDIA Tesla P100 com 12 GB e 25 GB de RAM. Todas as configurações de treinamento estão detalhadas nos códigos-fonte documentados disponíveis na página do projeto no Github. Em todas as técnicas, exceto KNN que foi até a estabilidade, os experimentos foram executados 3 vezes a fim de minimizar a aleatoriedade dos parâmetros iniciais, recuperando apenas o melhor entre os três. Os resultados obtidos na aplicação do Aprendizado de Máquina clássico são detalhados nas Tabelas \ref{table:kmc_results_tipo_superficie_1}, \ref{table:svm_results_tipo_superficie_1} e \ref{table:knn_results_tipo_superficie_1}. O valor detalhado corresponde à média de acurácia em  validação dos três \textit{experimentos por contexto} para um determinado \emph{experimento por tamanho de janela de dados} e configuração dos hiperparâmetros da técnica.
 
 \begin{table}[H]
 \scriptsize
@@ -358,7 +437,7 @@ CNN-LSTM 6 & 90,27\% & 91,50\% & 92,10\% & 92,48\% &\cellcolor[HTML]{34FF34}\tex
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Todos os modelos de DNN propostos, mesmo nos piores resultados, apresentaram valores de acurácia em treinamento e validação maiores do que os obtidos pelo melhor modelo baseado em Aprendizado de Máquina clássico. Isso evidencia a capacidade do \textit{Deep Learning} de aprender relações mais complexas entre os dados, em comparação às técnicas clássicas. Em todos os experimentos, o impacto na acurácia dado o tamanho da janela das amostras é praticamente insignificante, enquanto que as técnicas clássicas possuem grande variação. Em todas as abordagens de \textit{Deep Learning} experimentadas, o uso da camada de \textit{Bacth Normalization}, além de acelerar o treinamento, melhorou os resultados em todas as execuções. O uso da camada \textit{Dropout} também se mostrou importante para a generalização do modelo. Nos modelos baseados em LSTM, a utilização de camadas bidirecionais praticamente não alterou os resultados, tendo aumento de acurácia para algumas janelas, e diminuição para outras, sempre em valores praticamente irrelevantes e, na média, menores que 1\%. O uso de vetores de sequências retornados pela LSTM conectados diretamente nas camadas totalmente conectadas \textit{Dense} piorou os resultados em todos os experimentos, diminuindo o valor de acurácia em até 4\%. Sendo assim, o modelo baseado em LSTM com os melhores resultados é o LSTM 7, em uma janela de 300 amostras, onde atingiu um valor de acurácia em treinamento de 96,67\% e 92,73\% em validação.
+Todos os modelos de DNN propostos, mesmo nos piores resultados, apresentaram valores de acurácia em treinamento e validação maiores do que os obtidos pelo melhor modelo baseado em Aprendizado de Máquina clássico. Isso evidencia a capacidade do \textit{Deep Learning} de aprender relações mais complexas entre os dados, em comparação às técnicas clássicas. Em todos os experimentos, o impacto na acurácia dado o tamanho da janela das amostras é muito pequeno, enquanto que as técnicas clássicas possuem grande variação. Em todas as abordagens de \textit{Deep Learning} experimentadas, o uso da camada de \textit{Bacth Normalization}, além de acelerar o treinamento, melhorou os resultados em todas as execuções. O uso da camada \textit{Dropout} também se mostrou importante para a generalização do modelo. Nos modelos baseados em LSTM, a utilização de camadas bidirecionais praticamente não alterou os resultados, tendo aumento de acurácia para algumas janelas, e diminuição para outras, sempre em valores praticamente irrelevantes e, na média, menores que 1\%. O uso de vetores de sequências retornados pela LSTM conectados diretamente nas camadas totalmente conectadas \textit{Dense} piorou os resultados em todos os experimentos, diminuindo o valor de acurácia em até 4\%. Sendo assim, o modelo baseado em LSTM com os melhores resultados é o LSTM 7, em uma janela de 300 amostras, onde atingiu um valor de acurácia em treinamento de 96,67\% e 92,73\% em validação.
 
 Nas redes baseadas em CNN, a utilização de duas a quatro camadas de convolução se mostrou essencial para extração das características. Na saída final dos blocos de convolução para conexão com o bloco de camadas totalmente conectadas, a utilização de \textit{pooling} melhorou os resultados quando comparado ao uso de apenas \textit{flattening}. Tanto a camada \textit{Max Pooling 1D} quanto a \textit{Global Average Pooling 1D} melhoraram os resultados, com a segunda sendo significativamente melhor. Sendo assim, todos os experimentos nos quais a média de acurácia das janelas foi maior que 90\%, houve a utilização do \textit{Global Average Pooling 1D}. O modelo baseado em CNN com os melhores resultados foi o CNN 8, com uma janela de 300 amostras, atingindo uma acurácia em treinamento de 95,56\% e 93,17\% em validação. Por fim, nas redes híbridas CNN-LSTM as mesmas considerações das baseadas em LSTM e CNN se aplicam, com o melhor modelo sendo a CNN-LSTM 6 com janela de 300 amostras, obtendo acurácia em treinamento de 94,9\% e de 92,77\% em validação. Os melhores modelos para cada abordagem de \textit{Deep Learning} são detalhados na \autoref{table:deep_ml_results_tipo_superficie_1}.
 

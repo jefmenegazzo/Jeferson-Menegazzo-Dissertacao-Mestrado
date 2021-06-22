@@ -70,7 +70,7 @@ Exp. por Contexto 3 & 42,51\% & 1:1,4 & 40,64\% & 1:1,5 & 16,85\% & 1:4,9 \\ \bo
 \fonte{Desenvolvido pelo autor.}
 \end{table}
 
-Analisando a \autoref{table:distribuicao_classes_qualidade_superficie}, observamos que a distribuição das classes de qualidade de superfície de pista situa-se entre 10,58\% e 47,73\%, dependendo do experimento. A proporção varia entre 1:1,1 a 1:8,5, onde para 1 amostra de uma determinada classe de dados, existem de 1,1 a 8,5 amostras nas outras classes. O desbalanceamento de classes pode ser considerado leve ou severo, onde as proporções de distribuição que variam de 1:4 até 1:100 (presença de 20\% - 1\%) são consideradas desbalanceamento leve e proporções de distribuição que variam de 1:100 ou mais (<1\% de presença) são consideradas desbalanceamentos severos \cite{Krawczyk2016,Brownlee2020}. Como podemos observar, as proporções de distribuição das classes de dados neste estudo em sua maioria não são classificadas sequer como desbalanceamento leve, e os poucos que são desbalanceamento leve, não há tendência a desbalanceamento severo. Sendo assim, este estudo não necessita de aplicação de técnica para balanceamento de classes.
+Analisando a \autoref{table:distribuicao_classes_qualidade_superficie}, observamos que a distribuição das classes de qualidade de superfície de pista situa-se entre 10,58\% e 47,73\%, dependendo do experimento. A proporção varia entre 1:1,1 a 1:8,5, onde para 1 amostra de uma determinada classe de dados, existem de 1,1 a 8,5 amostras nas outras classes. O desbalanceamento de classes pode ser considerado leve ou severo, onde as proporções de distribuição que variam de 1:4 até 1:100 (presença de 20\% - 1\%) são consideradas desbalanceamento leve e proporções de distribuição que variam de 1:100 ou mais (<1\% de presença) são consideradas desbalanceamentos severos \cite{Krawczyk2016,Brownlee2020}. Como podemos observar, as proporções de distribuição das classes de dados neste estudo em sua maioria não são classificadas sequer como desbalanceamento leve, e os poucos que são desbalanceamento leve, não há tendência a desbalanceamento severo. Sendo assim, este estudo não necessita de aplicação de técnica para balanceamento de classes. Com a definição dos experimentos, convêm ressaltar a diferença entre o modelo de GT de anotação automatizada por máquina e o modelo que se busca obter com estes experimentos. No primeiro, os três modelos de KMC gerados estão cada um deles em função de um dos veículos. Já neste estudo, os experimentos buscam por um único modelo que se adapte aos três veículos.
 
 \section{Processamento}
 
@@ -82,7 +82,7 @@ O melhor modelo baseado em LSTM obtido através do ajuste de hiperparâmetros é
   \centering
   \caption{Modelo LSTM para classificação de qualidade de superfície de pista}
   \label{fig:best_lstm_qualidade_superficie}
-  \includegraphics[width=0.8\textwidth]{figuras/fig_46.png}
+  \includegraphics[width=0.7\textwidth]{figuras/fig_46.png}
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
@@ -92,7 +92,7 @@ O melhor modelo baseado em GRU obtido neste estudo é detalhado na \autoref{fig:
   \centering
   \caption{Modelo GRU para classificação de qualidade de superfície de pista}
   \label{fig:best_gru_qualidade_superficie}
-  \includegraphics[width=0.55\textwidth]{figuras/fig_47.png}
+  \includegraphics[width=0.5\textwidth]{figuras/fig_47.png}
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
@@ -102,7 +102,7 @@ O melhor modelo baseado em CNN obtido é detalhado na \autoref{fig:best_cnn_qual
   \centering
   \caption{Modelo CNN para classificação de qualidade de superfície de pista}
   \label{fig:best_cnn_qualidade_superficie}
-  \includegraphics[width=0.8\textwidth]{figuras/fig_48.png}
+  \includegraphics[width=0.7\textwidth]{figuras/fig_48.png}
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 
@@ -122,7 +122,7 @@ O melhor modelo baseado em ConvLSTM obtido é detalhado na Figura \autoref{fig:b
   \centering
   \caption{Modelo ConvLSTM para classificação de qualidade de superfície de pista}
   \label{fig:best_conv_lstm_qualidade_superficie}
-  \includegraphics[width=0.8\textwidth]{figuras/fig_50.png}
+  \includegraphics[width=0.7\textwidth]{figuras/fig_50.png}
  \fonte{Desenvolvido pelo autor.}
 \end{figure}
 

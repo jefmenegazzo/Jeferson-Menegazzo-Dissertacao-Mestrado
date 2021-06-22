@@ -57,7 +57,15 @@ Após definir os \emph{experimentos por domínio de análise}, os dados foram no
     
 \end{description}
 
-Finalmente, para analisar a influência do número de amostras na classificação, foram criados três \emph{experimentos por tamanho de janela de dados}, com janelas de 100, 200 e 300 amostras. A janela de dados utilizada foi fixa sem sobreposição, e cada amostra correspondeu a um vetor com os valores das características. Em resumo, cada experimento realizado neste estudo é um elemento do produto cartesiano entre \emph{experimentos por colocação}, \emph{experimentos por domínio de análise}, \emph{experimentos por contexto} e \emph{experimentos por tamanho de janela de dados}.
+Finalmente, para analisar a influência do número de amostras na classificação, foram criados três \emph{experimentos por tamanho de janela de dados}, com janelas de 100, 200 e 300 amostras. A janela de dados utilizada foi fixa sem sobreposição, e cada amostra correspondeu a um vetor com os valores das características. Em resumo, cada experimento realizado neste estudo é um elemento do produto cartesiano entre \emph{experimentos por colocação}, \emph{experimentos por domínio de análise}, \emph{experimentos por contexto} e \emph{experimentos por tamanho de janela de dados}, conforme ilustra a \autoref{fig:combinacao_experimentos_2}.
+
+\begin{figure}[h!]
+  \centering
+  \caption{Combinação de tipos de experimentos}
+  \label{fig:combinacao_experimentos_2}
+  \includegraphics[width=1\textwidth]{figuras/fig_36_1.png}
+ \fonte{Desenvolvido pelo autor.}
+\end{figure}
 
 \section{Processamento}
 
@@ -89,9 +97,11 @@ Após a etapa de pré-processamento, os dados foram aplicados em modelos de clas
 
 Por fim, o modelo desenvolvido baseado em CNN é ilustrado na \autoref{fig:best_cnn_tipo_superficie_2}, sendo composto por um bloco de camada de entrada, três blocos de camadas de convolução e regularização e um bloco de camadas totalmente conectadas para produção de saída. O bloco de entrada possui uma camada que recebe um tensor \emph{janelas x sequências x características}, similar aos modelos LSTM e GRU. Os dois primeiros blocos de convolução e regularização são compostos cada um por uma camada Conv 1D com 128 filtros de \textit{kernel} tamanho 5 para extração de características e ativação \textit{Relu}, seguida por regularização através de uma camada de \textit{Batch Normalization} e outra de \textit{Spatial Dropout 1D} em 15\%. O último bloco de convolução e regularização possui uma camada Conv 1D com as mesmas configurações das anteriores, uma camada de \textit{Global Average Pooling 1D}, e camadas de regularização por \textit{Batch Normalization} e \textit{Dropout} em 20\%. Finalmente, o bloco de totalmente conectadas consiste em duas camadas \textit{Dense}, uma com 32 neurônios e ativação \textit{Relu} e outra com 3 neurônios e ativação \textit{Softmax}. A saída esperada da rede são os rótulos mais presentes na janela de dados.
 
+Os demais hiperparâmetros das técnicas de \textit{Deep Learning} foram utilizados com seus valores padrões, disponíveis em \citeonline{tensorflow1}, \citeonline{tensorflow2} e \citeonline{tensorflow3}.
+
 \section{Análise de Resultados}
 
-Todos os modelos desenvolvidos neste estudo foram programados em Python 3, utilizando a biblioteca Keras do Tensorflow. Os experimentos foram realizados no Google \textit{Collaboratory}, em um ambiente com as mesmas configurações do estudo da seção anterior. Todos os experimentos foram executados três vezes, %a fim de minimizar a aleatoriedade dos parâmetros iniciais,
+Todos os modelos desenvolvidos neste estudo foram programados em Python 3, utilizando a biblioteca Keras do Tensorflow. Os experimentos foram realizados no Google \textit{Collaboratory}, em um ambiente com as mesmas configurações do estudo da seção anterior. Todas as configurações de treinamento estão detalhadas nos códigos-fonte documentados disponíveis na página do projeto no Github. Todos os experimentos foram executados três vezes, %a fim de minimizar a aleatoriedade dos parâmetros iniciais,
 recuperando apenas o melhor modelo entre as três execuções. O melhor modelo foi considerado aquele que apresentou o maior valor de acurácia durante a validação. Os resultados obtidos foram agrupados por ponto de coleta de dados no veículo, detalhados nas Tabelas \ref{table:below_suspension_results_tipo_superficie_2}, \ref{table:above_suspension_results_tipo_superficie_2} e \ref{table:dashboard_results_tipo_superficie_2}. Além do agrupamento por ponto de coleta, em cada tabela é detalhado o experimento por modelo de DNN, domínio de análise, características de entrada e janelas de dados. Cada valor exibido corresponde a média de acurácia na validação dos três \emph{experimentos por contexto}, os quais visam analisar a capacidade de aprendizado e generalização do modelo para cenários não conhecidos, onde há variações contextuais correspondentes aos fatores de dependência veicular, de condução e ambientais. Os valores destacados correspondem ao valor máximo de média de acurácia em validação para dado tipo de DNN.
 
 \begin{table}[h!]
